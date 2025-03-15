@@ -1,60 +1,64 @@
 ```Mermaid
 
 erDiagram
-    User ||--|{ Budget : "One to Many"
-    Budget ||--|{ Expenses : "One to Many"
-    User }|--|{ User_Exchange : "Many to Many"
-    User }|--|{ User_Stock : "Many to Many"
+    Users ||--|{ Budgets : "One to Many"
+    Budgets ||--|{ Expenses : "One to Many"
+    Users }|--|{ User_Exchange : "Many to Many"
+    Users }|--|{ User_Stock : "Many to Many"
+    Categories ||--|{ Expenses : "One to Many"
 
-    User {
-        int id PK
-        string username
+    Users {
+        string username PK
         string password
         string first_name
         string last_name
         string email
         string image_url
     }
-    Budget {
+    Categories {
         int id PK
         string name
-        enumeration category
+    }
+    Budgets {
+        int id PK
+        string name
+        enumeration type
         number amount
         text description
-        int userId "Foreign key (User table)"
+        int username "Foreign key (User table)"
 
     }
     Expenses {
         int id PK
         string name
-        enumeration category
         number amount
         text description
-        int budgetId "Foreign key (Budget table)"
+        datetime date
+        int category "Foreign key (Categories table)"
+        int budget_id "Foreign key (Budgets table)"
     }
-    Exchange {
+    Exchanges {
         int id PK
         string currency1
         string currency2
         number rate
-        datetime lasUpdate
+        datetime last_update
     }
 
     User_Exchange {
-        int userId PK "Foreign key (user table)"        
-        int exchangeId PK "Foreign key (Exchange table)"        
+        int username PK "Foreign key (Users table)"        
+        int exchange_id PK "Foreign key (Exchanges table)"        
     }
 
-    Stock {
-        int id PK
-        string reference
+    Stocks {
+        string reference PK
         text description
         number value
         datetime last_update
     }
 
     User_Stock {
-        int userId PK "Foreign key (user table)"        
-        int stockId PK "Foreign key (Stock table)"                         
+        int username PK "Foreign key (Users table)"        
+        string stock_ref PK "Foreign key (Stocks table)"                         
     }
 ```
