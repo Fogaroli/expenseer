@@ -1,3 +1,4 @@
+"use strict";
 /** Shared config for application; can be req'd many places. */
 
 require("dotenv").config();

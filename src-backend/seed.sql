@@ -1,7 +1,7 @@
 -- Insert data into users table
 INSERT INTO users (username, password, first_name, last_name, email, image_url) VALUES
-('john_doe', '', 'John', 'Doe', 'john@example.com', 'http://example.com/john.jpg'),
-('jane_smith', '', 'Jane', 'Smith', 'jane@example.com', 'http://example.com/jane.jpg');
+('john_doe', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpMiIsImlhdCI6MTc0MjMyMzgxNH0.1xejUuFb8jNOOiWOLYn7gq-jsefXzqZXFZIcfASCn9s', 'John', 'Doe', 'john@example.com', 'http://example.com/john.jpg'),
+('jane_smith', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpMiIsImlhdCI6MTc0MjMyMzgxNH0.1xejUuFb8jNOOiWOLYn7gq-jsefXzqZXFZIcfASCn9s', 'Jane', 'Smith', 'jane@example.com', 'http://example.com/jane.jpg');
 
 -- Insert data into budgets table
 INSERT INTO budgets (name, type, amount, description, username) VALUES

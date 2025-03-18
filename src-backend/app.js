@@ -1,13 +1,17 @@
+"use strict";
 const express = require("express");
 const app = express();
 const ExpressError = require("./helpers/expressError");
 const cors = require("cors");
 const morgan = require("morgan");
 
-
 app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
+
+const authRoutes = require("./routes/authRoutes");
+
+app.use("/auth", authRoutes);
 
 
 /** 404 handler */
