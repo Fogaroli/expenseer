@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const db = require("../db");
 const ExpressError = require("../helpers/expressError");
-const sqlForPartialUpdate = require("../helpers/partialUpdate.js");
+const { sqlForPartialUpdate}  = require("../helpers/partialUpdate.js");
 const { BCRYPT_WORK_FACTOR } = require("../config");
 
 const DEFAULT_IMAGE_URL =
@@ -16,7 +16,7 @@ class User {
     first_name,
     last_name,
     email,
-    image_url,
+    image_url
   }) {
     const duplicateCheck = await db.query(
       `SELECT username 
@@ -36,10 +36,18 @@ class User {
 
     const result = await db.query(
       `INSERT INTO users 
-          (username, password, first_name, last_name, email, image_url) 
-        VALUES ($1, $2, $3, $4, $5, $6) 
-        RETURNING username, password, first_name, last_name, email, image_url`,
-      [username, hashedPassword, first_name, last_name, email, image_url || DEFAULT_IMAGE_URL]
+          (username, password, first_name, last_name, email, image_url, last_logged) 
+        VALUES ($1, $2, $3, $4, $5, $6, $7) 
+        RETURNING username, password, first_name, last_name, email, image_url, last_logged`,
+      [
+        username,
+        hashedPassword,
+        first_name,
+        last_name,
+        email,
+        image_url || DEFAULT_IMAGE_URL,
+        new Date(),
+      ]
     );
 
     return result.rows[0];
@@ -58,7 +66,8 @@ class User {
                 first_name,
                 last_name,
                 email,
-                image_url
+                image_url,
+                last_logged
             FROM users 
             WHERE username = $1`,
       [username]
@@ -67,7 +76,13 @@ class User {
     const user = result.rows[0];
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      return user;
+      await db.query(
+        `UPDATE users
+          SET last_logged = $1
+          WHERE username = $2`,
+        [new Date(), username]
+      );
+      return {username:user.username, first_name:user.first_name, last_name: user.last_name, last_logged: user.last_logged};
     } else {
       throw new ExpressError("Cannot authenticate", 401);
     }
@@ -93,7 +108,8 @@ class User {
 
   /** Returns user info for given username
    * 
-   * return: {username, first_name, last_name, email, image_url}
+   * return: {username, first_name, last_name, email, image_url, last_logged}
+   * If user is admin, add is_admin: true to the return object.
    *
    * If user cannot be found, should raise a 404.
    *
@@ -105,7 +121,9 @@ class User {
                 first_name,
                 last_name,
                 email,
-                image_url
+                image_url,
+                last_logged,
+                is_admin
          FROM users
          WHERE username = $1`,
       [username]
@@ -114,9 +132,11 @@ class User {
     const user = result.rows[0];
 
     if (!user) {
-      new ExpressError("No such user", 404);
+      throw new ExpressError("No such user", 404);
     }
-    return user;
+
+    const { is_admin, ...returnData } = user;
+    return user.is_admin ? user : returnData;
   }
 
   /** Selectively updates user from given data
@@ -134,7 +154,7 @@ class User {
       "username",
       username
     );
-
+ 
     const result = await db.query(query, values);
     const user = result.rows[0];
 
@@ -142,7 +162,10 @@ class User {
       throw new ExpressError("No such user", 404);
     }
 
-    return user;
+    const { password, ...userWithoutPassword } = user;
+    const { is_admin, ...returnData } = userWithoutPassword;
+    return user.is_admin ? userWithoutPassword : returnData;
+
   }
 
   /** Delete user for given username. Returns true.

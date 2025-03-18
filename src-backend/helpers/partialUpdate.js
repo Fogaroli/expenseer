@@ -1,3 +1,5 @@
+const ExpressError = require("../helpers/expressError");
+
 /**
  * Generate a selective update query based on a request body:
  *
@@ -14,10 +16,13 @@
  *  Returns:
  *   {query: "UPDATE users SET first_name=$1, last_name=$2 WHERE username=$3 RETURNING *",
  *   values: ["Joe", "Smith", "jsmith"]}
- * 
+ *
  */
 
 function sqlForPartialUpdate(table, items, key, id) {
+  if (Object.keys(items).length === 0) {
+    throw new ExpressError("No data", 400);
+  }
   let idx = 1;
   let columns = [];
 
@@ -34,6 +39,6 @@ function sqlForPartialUpdate(table, items, key, id) {
   values.push(id);
 
   return { query, values };
-};
+}
 
-module.exports = sqlForPartialUpdate;
+module.exports = { sqlForPartialUpdate };
