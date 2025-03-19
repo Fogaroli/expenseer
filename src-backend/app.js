@@ -4,15 +4,21 @@ const app = express();
 const ExpressError = require("./helpers/expressError");
 const cors = require("cors");
 const morgan = require("morgan");
+const {authenticateJWT} = require("./middleware/authMiddleware");
+
+const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/usersRoutes");
 
 app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
 
-const authRoutes = require("./routes/authRoutes");
+// middleware to authenticate JWT
+app.use(authenticateJWT);
 
+// routes
 app.use("/auth", authRoutes);
-
+app.use("/users", userRoutes);
 
 /** 404 handler */
 

@@ -1,13 +1,13 @@
 -- Insert data into users table
 INSERT INTO users (username, password, first_name, last_name, email, image_url, last_logged, is_admin) VALUES
-('john_doe', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpMiIsImlhdCI6MTc0MjMyMzgxNH0.1xejUuFb8jNOOiWOLYn7gq-jsefXzqZXFZIcfASCn9s', 'John', 'Doe', 'john@example.com', 'http://example.com/john.jpg', '2025-01-01 12:00:00', TRUE),
-('jane_smith', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpMiIsImlhdCI6MTc0MjMyMzgxNH0.1xejUuFb8jNOOiWOLYn7gq-jsefXzqZXFZIcfASCn9s', 'Jane', 'Smith', 'jane@example.com', 'http://example.com/jane.jpg', '2025-01-01 12:00:00', FALSE);
+('fogaroli', '$2b$12$RmJhXxgx/m690jVv3kG9.uIOaj9VnLA4wzuleaECefslUFI0tP9vG', 'Fogaroli', 'Ribeiro', 'eu@eu.com', 'http://example.com/user1.jpg', '2025-01-01 12:00:00', FALSE),
+('admin', '$2b$12$IM5tCEup4jAt4CKpkyVb/e9Q.ttKlKLvWcmzzayI3PyMqaMQlmbFC', 'Admin', 'Superuser', 'admin@example.com', 'http://example.com/user2.jpg', '2025-01-01 12:00:00', TRUE);
 
 -- Insert data into budgets table
 INSERT INTO budgets (name, type, amount, description, username) VALUES
-('Groceries', 1, 500.00, 'Monthly groceries budget', 'john_doe'),
-('Entertainment', 1, 200.00, 'Monthly entertainment budget', 'jane_smith'),
-('Summer Vacation', 2, 1000.00, 'Summer vacation budget', 'john_doe');
+('Groceries', 1, 500.00, 'Monthly groceries budget', 'fogaroli'),
+('Entertainment', 1, 200.00, 'Monthly entertainment budget', 'admin'),
+('Summer Vacation', 2, 1000.00, 'Summer vacation budget', 'fogaroli');
 
 -- Insert data into categories table
 INSERT INTO categories (name) VALUES
@@ -31,10 +31,10 @@ INSERT INTO stocks (reference, description, value, last_update) VALUES
 
 -- Insert data into user_exchange table
 INSERT INTO user_exchange (username, exchange_id) VALUES
-('john_doe', 1),
-('jane_smith', 2);
+('fogaroli', 1),
+('admin', 2);
 
 -- Insert data into user_stock table
 INSERT INTO user_stock (username, stock_ref) VALUES
-('john_doe', 'AAPL'),
-('jane_smith', 'GOOGL');
+('fogaroli', 'AAPL'),
+('admin', 'GOOGL');

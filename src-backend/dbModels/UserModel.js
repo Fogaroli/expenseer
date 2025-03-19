@@ -10,47 +10,42 @@ const DEFAULT_IMAGE_URL =
 class User {
   /** Register user with data. Returns new user data. */
 
-  static async register({
-    username,
-    password,
-    first_name,
-    last_name,
-    email,
-    image_url
-  }) {
+  static async register(user) {
     const duplicateCheck = await db.query(
       `SELECT username 
         FROM users 
         WHERE username = $1`,
-      [username]
+      [user.username]
     );
     console.assert(duplicateCheck.rows[0], "Attempt to register already existing username");
 
     if (duplicateCheck.rows[0]) {
       throw new ExpressError(
-        `There already exists a user with username '${username}'`,
+        `There already exists a user with username '${user.username}'`,
         400
       );
     }
-    const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
+    const hashedPassword = await bcrypt.hash(user.password, BCRYPT_WORK_FACTOR);
 
     const result = await db.query(
       `INSERT INTO users 
-          (username, password, first_name, last_name, email, image_url, last_logged) 
-        VALUES ($1, $2, $3, $4, $5, $6, $7) 
-        RETURNING username, password, first_name, last_name, email, image_url, last_logged`,
+          (username, password, first_name, last_name, email, image_url, last_logged, is_admin) 
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
+        RETURNING username, first_name, last_name, email, image_url, last_logged, is_admin`,
       [
-        username,
+        user.username,
         hashedPassword,
-        first_name,
-        last_name,
-        email,
-        image_url || DEFAULT_IMAGE_URL,
+        user.first_name,
+        user.last_name,
+        user.email,
+        user.image_url || DEFAULT_IMAGE_URL,
         new Date(),
-      ]
-    );
+        user.is_admin || false,
+    ]);
 
-    return result.rows[0];
+    const userData = result.rows[0];
+    const { is_admin, ...returnData } = userData;
+    return user.is_admin ? userData : returnData;
   }
 
   /** Is this username + password combo correct?
@@ -67,7 +62,8 @@ class User {
                 last_name,
                 email,
                 image_url,
-                last_logged
+                last_logged,
+                is_admin
             FROM users 
             WHERE username = $1`,
       [username]
@@ -82,9 +78,12 @@ class User {
           WHERE username = $2`,
         [new Date(), username]
       );
-      return {username:user.username, first_name:user.first_name, last_name: user.last_name, last_logged: user.last_logged};
+
+      const { password, ...userWithoutPassword } = user;
+      const { is_admin, ...returnData } = userWithoutPassword;
+      return user.is_admin ? userWithoutPassword : returnData;
     } else {
-      throw new ExpressError("Cannot authenticate", 401);
+      throw new ExpressError("Authentication Failed", 401);
     }
   }
 
@@ -99,7 +98,8 @@ class User {
     const result = await db.query(
       `SELECT username,
                 first_name,
-                last_name
+                last_name,
+                email
             FROM users 
             ORDER BY username`
     );

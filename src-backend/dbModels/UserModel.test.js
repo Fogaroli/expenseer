@@ -35,7 +35,6 @@ describe("test function register", function () {
         first_name: "New",
         last_name: "User",
         email: "newuser@example.com",
-        password: expect.any(String),
         image_url:
             "https://images.freeimages.com/fic/images/icons/989/ivista_2/256/user.png",
         last_logged: expect.any(Date),
@@ -68,13 +67,28 @@ describe("test function register", function () {
 /************************************** authenticate */
 
 describe("test function authenticate", function () {
-  test("works", async function () {
+  test("works for non admin", async function () {
     const user = await User.authenticate("tuser1", "password1");
     expect(user).toEqual({
       username: "tuser1",
       first_name: "TUser 1 Name",
       last_name: "TUser 1 Last",
-      last_logged: expect.any(Date)
+      last_logged: expect.any(Date),
+      email: "u1@email.com",
+      image_url: null,
+    });
+  });
+
+  test("works for admin", async function () {
+    const user = await User.authenticate("tuser2", "password2");
+    expect(user).toEqual({
+      username: "tuser2",
+      first_name: "TUser 2 Name",
+      last_name: "TUser 2 Last",
+      last_logged: expect.any(Date),
+      email: "u2@email.com",
+      image_url: null,
+      is_admin: true
     });
   });
 
@@ -111,11 +125,13 @@ describe("test function getAll", function () {
         username: "tuser1",
         first_name: "TUser 1 Name",
         last_name: "TUser 1 Last",
+        email: "u1@email.com"
       },
       {
         username: "tuser2",
         first_name: "TUser 2 Name",
         last_name: "TUser 2 Last",
+        email: "u2@email.com"
       },
     ]);
   });
