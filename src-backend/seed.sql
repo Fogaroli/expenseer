@@ -10,9 +10,11 @@ INSERT INTO budgets (name, type, amount, description, username) VALUES
 ('Summer Vacation', 2, 1000.00, null, 'fogaroli');
 
 -- Insert data into categories table
-INSERT INTO categories (name) VALUES
-('Food'),
-('Entertainment');
+INSERT INTO categories (name, username) VALUES
+('Food', 'fogaroli'),
+('Entertainment', 'fogaroli'),
+('Food-admin', 'admin'),
+('Entertainment-admin', 'admin');
 
 -- Insert data into expenses table
 INSERT INTO expenses (name, category, amount, description, date, budget_id) VALUES

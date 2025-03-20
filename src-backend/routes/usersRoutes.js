@@ -15,7 +15,7 @@ const router = express.Router();
 
 /** Add new User Route 
  * 
- * POST / {data:{ user }, token: <adminToken> }  => { user, token }
+ * POST / {data:{ <user> }, token: <adminToken> }  => { user, token }
  *
  * """This is not the registration endpoint"""
  * 

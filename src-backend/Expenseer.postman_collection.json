@@ -338,6 +338,127 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Category",
+      "item": [
+        {
+          "name": "Get all categories (own user)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/categories",
+              "host": ["{{base_url}}"],
+              "path": ["categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get category details (own user)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/categories/Food",
+              "host": ["{{base_url}}"],
+              "path": ["categories", "Food"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Budget (own user)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\": {\r\n        \"name\": \"New Category\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/categories",
+              "host": ["{{base_url}}"],
+              "path": ["categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update budget (own user)",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\": {\r\n        \"name\": \"updated\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/categories/New%20Category",
+              "host": ["{{base_url}}"],
+              "path": ["categories", "New%20Category"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete budget (own user)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/categories/updated",
+              "host": ["{{base_url}}"],
+              "path": ["categories", "updated"]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "event": [

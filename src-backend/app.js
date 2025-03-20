@@ -9,6 +9,7 @@ const {authenticateJWT} = require("./middleware/authMiddleware");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/usersRoutes");
 const budgetRoutes = require("./routes/budgetRoutes");
+const categoriesRoutes = require("./routes/categoryRoutes");
 
 app.use(cors());
 app.use(express.json());
@@ -21,6 +22,7 @@ app.use(authenticateJWT);
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/budgets", budgetRoutes);
+app.use("/categories", categoriesRoutes);
 
 /** 404 handler */
 

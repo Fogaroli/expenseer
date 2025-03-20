@@ -1,6 +1,6 @@
 "use strict";
 
-/** Routes for users. */
+/** Routes for Budgets. */
 
 const jsonschema = require("jsonschema");
 const express = require("express");
@@ -15,7 +15,7 @@ const router = express.Router();
 
 /** Add new Budget Route
  *
- * POST / {data:{ budget }, token: <adminToken> }  => { budget }
+ * POST / {data:{ <budget> }, token: <adminToken> }  => { budget }
  *
  * This route only adds a budget to the logged in user.
  *

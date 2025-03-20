@@ -21,7 +21,9 @@ CREATE TABLE budgets (
 
 CREATE TABLE categories (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+    username VARCHAR(30)
+        REFERENCES users(username) ON DELETE CASCADE
 );
 
 CREATE TABLE expenses (

@@ -43,10 +43,10 @@ class Budget {
           username,
         ]
       );
-      const readBudget = result.rows[0];
+      const newBudget = result.rows[0];
       // Convert amount to a number before returning
-      readBudget.amount = parseFloat(readBudget.amount);
-      return readBudget
+      newBudget.amount = parseFloat(newBudget.amount);
+      return newBudget
     }
 
 
@@ -60,7 +60,7 @@ class Budget {
       `SELECT name, amount, type
             FROM budgets
             WHERE username = $1 
-            ORDER BY username`,
+            ORDER BY name`,
             [username]
     );
     return result.rows;
@@ -69,18 +69,17 @@ class Budget {
   /** Returns budget info for given budget and username
    *
    * return: {name, type, amount, description}
-   * If user is admin, add is_admin: true to the return object.
    *
-   * If user cannot be found, should raise a 404.
+   * If budget cannot be found, should raise a 404.
    *
    **/
 
-  static async get(username, budget) {
+  static async get(username, budgetName) {
     const result = await db.query(
       `SELECT name, type, amount, description
          FROM budgets
          WHERE username = $1 AND name = $2`,
-      [username, budget]
+      [username, budgetName]
     );
 
     const readBudget = result.rows[0];
@@ -96,20 +95,18 @@ class Budget {
 
   /** Selectively updates budget from given data
    * 
-   * If the target budget does not belong to given user, should raise a 401.
+   * If the target budget could not be found for given user, should raise a 404.
    *
-   * Returns all data about budget.
-   *
-   * If budget cannot be found, should raise a 404.
+   * Returns data from budget after update.
    *
    **/
 
-  static async update(username, budget, data) {
+  static async update(username, budgetName, data) {
     const result = await db.query(
       `SELECT name, type
          FROM budgets
          WHERE username = $1 AND name = $2`,
-      [username, budget]
+      [username, budgetName]
     );
     if (result.rows.length === 0) {
       throw new ExpressError("No such budget", 404);
@@ -119,9 +116,8 @@ class Budget {
       "budgets",
       data,
       "name",
-      budget
+      budgetName
     );
-
     const updated = await db.query(query, values);
     const readBudget = updated.rows[0];
     delete readBudget.id;
@@ -130,16 +126,16 @@ class Budget {
     return readBudget;
   }
 
-  /** Delete budget for given budget name. Returns true.
+  /** Delete budget by name. Returns true.
    *
    * If budget cannot be found, should raise a 404.
    *
    **/
 
-  static async delete(username, budget) {
+  static async delete(username, budgetName) {
     const result = await db.query(
       "DELETE FROM budgets WHERE username = $1 AND name = $2 RETURNING name",
-      [username, budget]
+      [username, budgetName]
     );
     const deletedBudget = result.rows[0];
 
