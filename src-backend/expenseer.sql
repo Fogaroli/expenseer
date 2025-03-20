@@ -14,7 +14,7 @@ CREATE TABLE budgets (
     name TEXT NOT NULL,
     type INTEGER NOT NULL,
     amount NUMERIC NOT NULL,
-    description TEXT NOT NULL,
+    description TEXT,
     username VARCHAR(30)
         REFERENCES users(username) ON DELETE CASCADE
 );

@@ -4,7 +4,7 @@
 
 const jsonschema = require("jsonschema");
 const express = require("express");
-const { ensureLoggedIn, ensureIsAdmin, ensureIsAuthorized } = require("../middleware/authMiddleware");
+const { ensureIsAdmin, ensureIsAuthorized } = require("../middleware/authMiddleware");
 const ExpressError = require("../helpers/expressError");
 const User = require("../dbModels/UserModel");
 const { createToken } = require("../helpers/tokens");

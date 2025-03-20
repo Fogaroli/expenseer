@@ -7,7 +7,7 @@ INSERT INTO users (username, password, first_name, last_name, email, image_url, 
 INSERT INTO budgets (name, type, amount, description, username) VALUES
 ('Groceries', 1, 500.00, 'Monthly groceries budget', 'fogaroli'),
 ('Entertainment', 1, 200.00, 'Monthly entertainment budget', 'admin'),
-('Summer Vacation', 2, 1000.00, 'Summer vacation budget', 'fogaroli');
+('Summer Vacation', 2, 1000.00, null, 'fogaroli');
 
 -- Insert data into categories table
 INSERT INTO categories (name) VALUES
