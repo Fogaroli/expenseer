@@ -63,6 +63,9 @@ class Budget {
             ORDER BY name`,
             [username]
     );
+    result.rows.forEach((budget) => {
+      budget.amount = parseFloat(budget.amount);
+    });
     return result.rows;
   }
 
