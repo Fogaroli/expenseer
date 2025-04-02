@@ -80,5 +80,5 @@ module.exports = {
   authenticateJWT,
   ensureLoggedIn,
   ensureIsAdmin,
-  ensureIsAuthorized,
+  ensureIsAuthorized
 };

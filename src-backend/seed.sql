@@ -7,17 +7,21 @@ INSERT INTO users (username, password, first_name, last_name, email, image_url, 
 INSERT INTO budgets (name, type, amount, description, username) VALUES
 ('Groceries', 1, 500.00, 'Monthly groceries budget', 'fogaroli'),
 ('Entertainment', 1, 200.00, 'Monthly entertainment budget', 'admin'),
-('Summer Vacation', 2, 1000.00, 'Summer vacation budget', 'fogaroli');
+('Summer Vacation', 2, 1000.00, null, 'fogaroli');
 
 -- Insert data into categories table
-INSERT INTO categories (name) VALUES
-('Food'),
-('Entertainment');
+INSERT INTO categories (name, username) VALUES
+('Food', 'fogaroli'),
+('Entertainment', 'fogaroli'),
+('Food-admin', 'admin'),
+('Entertainment-admin', 'admin');
 
 -- Insert data into expenses table
-INSERT INTO expenses (name, category, amount, description, date, budget_id) VALUES
-('Grocery Store', 1, 100.00, 'Weekly groceries', '2025-03-01', 1),
-('Movie Tickets', 2, 50.00, 'Movie night', '2025-03-05', 2);
+INSERT INTO expenses (name, category, amount, description, date, budget_id, username) VALUES
+('Grocery Store', 1, 100.00, 'Weekly groceries', '2025-03-01', 1,'fogaroli'),
+('Movie Tickets', 2, 50.00, 'Movie night', '2025-03-05', 2, 'fogaroli'),
+('Picnic', 1, 100.00, 'picnic', '2025-03-01', 1, 'admin'),
+('Travel', 2, 50.00, 'travel', '2025-03-05', 2, 'admin');
 
 -- Insert data into exchanges table
 INSERT INTO exchanges (currency1, currency2, rate, last_update) VALUES

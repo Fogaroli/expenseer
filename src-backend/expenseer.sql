@@ -14,26 +14,30 @@ CREATE TABLE budgets (
     name TEXT NOT NULL,
     type INTEGER NOT NULL,
     amount NUMERIC NOT NULL,
-    description TEXT NOT NULL,
+    description TEXT,
     username VARCHAR(30)
         REFERENCES users(username) ON DELETE CASCADE
 );
 
 CREATE TABLE categories (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+    username VARCHAR(30)
+        REFERENCES users(username) ON DELETE CASCADE
 );
 
 CREATE TABLE expenses (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     amount NUMERIC NOT NULL,
-    description TEXT NOT NULL,
+    description TEXT,
     date DATE NOT NULL,
     category INTEGER
         REFERENCES categories(id) ON DELETE SET NULL,
     budget_id INTEGER
-        REFERENCES budgets(id) ON DELETE SET NULL
+        REFERENCES budgets(id) ON DELETE SET NULL,
+    username VARCHAR(30)
+        REFERENCES users(username) ON DELETE CASCADE
 );
 
 CREATE TABLE exchanges (
