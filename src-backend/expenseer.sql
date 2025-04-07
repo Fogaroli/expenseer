@@ -42,10 +42,10 @@ CREATE TABLE expenses (
 
 CREATE TABLE exchanges (
     id SERIAL PRIMARY KEY,
-        currency1 TEXT NOT NULL,
-        currency2 TEXT NOT NULL,
-        rate NUMERIC NOT NULL CHECK (rate >= 0),
-        last_update TIMESTAMP NOT NULL
+    currency1 TEXT NOT NULL,
+    currency2 TEXT NOT NULL,
+    rate NUMERIC NOT NULL CHECK (rate >= 0),
+    last_update TIMESTAMP NOT NULL
 );
 
 CREATE TABLE stocks (

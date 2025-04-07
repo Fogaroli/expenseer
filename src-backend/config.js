@@ -14,9 +14,12 @@ const DB_URI =
     ? "postgresql:///expenseer_test"
     : process.env.DB_URI || "postgresql:///expenseer";
 
+const API_KEY = process.env.EXCHANGE_RATE_API_KEY;
+
 module.exports = {
   BCRYPT_WORK_FACTOR,
   SECRET_KEY,
   PORT,
   DB_URI,
+  API_KEY,
 };

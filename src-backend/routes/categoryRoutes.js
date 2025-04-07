@@ -58,7 +58,7 @@ router.get("/", ensureLoggedIn, async function (req, res, next) {
 
 /** Get details of a single category provided in params. 
  
- * GET /[category] {token: <Token> }=> { name }
+ * GET /[category] {token: <Token> }=> {category:{ name }}
  * Authorization required: logged in user
  **/
 

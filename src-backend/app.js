@@ -11,6 +11,7 @@ const userRoutes = require("./routes/usersRoutes");
 const budgetRoutes = require("./routes/budgetRoutes");
 const categoriesRoutes = require("./routes/categoryRoutes");
 const expenseRoutes = require("./routes/expensesRoutes");
+const exchangeRoutes = require("./routes/exchangeRoutes");
 
 app.use(cors());
 app.use(express.json());
@@ -25,6 +26,7 @@ app.use("/users", userRoutes);
 app.use("/budgets", budgetRoutes);
 app.use("/categories", categoriesRoutes);
 app.use("/expenses", expenseRoutes);
+app.use("/exchanges", exchangeRoutes);
 
 /** 404 handler */
 
