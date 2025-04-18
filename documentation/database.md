@@ -5,7 +5,11 @@ erDiagram
     Budgets ||--|{ Expenses : "One to Many"
     Users }|--|{ User_Exchange : "Many to Many"
     Users }|--|{ User_Stock : "Many to Many"
+    Users ||--|{ Categories : "One to Many"
+    Users ||--|{ Expenses : "One to Many"
     Categories ||--|{ Expenses : "One to Many"
+    Exchanges }|--|{ User_Exchange : "Many to Many"
+    Stocks }|--|{ User_Stock : "Many to Many"
 
     Users {
         string username PK
@@ -14,10 +18,13 @@ erDiagram
         string last_name
         string email
         string image_url
+        timestamp last_logged
+        boolean is_admin
     }
     Categories {
         int id PK
         string name
+        string username "Foreign key (User table)"
     }
     Budgets {
         int id PK
@@ -36,6 +43,7 @@ erDiagram
         datetime date
         int category "Foreign key (Categories table)"
         int budget_id "Foreign key (Budgets table)"
+        int username "Foreign key (User table)"
     }
     Exchanges {
         int id PK
@@ -51,9 +59,9 @@ erDiagram
     }
 
     Stocks {
-        string reference PK
-        text description
+        string symbol PK
         number value
+        number variation
         datetime last_update
     }
 
