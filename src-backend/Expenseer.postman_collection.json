@@ -489,6 +489,31 @@
           "response": []
         },
         {
+          "name": "Get filtered expenses (own user) Copy",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"filters\":{\r\n        \"start_date\": \"2025-04-03\",\r\n        \"end_date\": \"2025-04-12\",\r\n        \"limit\": 0\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/expenses",
+              "host": ["{{base_url}}"],
+              "path": ["expenses"]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Get expense details (own user)",
           "protocolProfileBehavior": {
             "disableBodyPruning": true

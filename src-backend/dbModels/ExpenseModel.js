@@ -70,21 +70,79 @@ class Expense {
   /** Returns list of expenses for a provided username:
    *
    * [{id, name, amount, date, budget}, ...]
+   * 
+   * Use filters to limit the results:
+   * - start_date: YYYY-MM-DD
+   * - end_date: YYYY-MM-DD
+   * - category: string
+   * - budget_name: string
+   * - limit: number (default 20)
+   * - offset: number (default 0)
    *
    * */
-  static async getAll(username) {
-    const result = await db.query(
-      `SELECT e.id, e.name, e.amount, e.date, b.name AS budget_name
+  static async getAll(username, filters) {
+    const {limit, offset, start_date, end_date, category, budget_name} = filters;
+    let query = `SELECT e.id, e.name, e.amount, e.date, b.name AS budget_name, c.name AS category
             FROM expenses AS e
             JOIN budgets AS b ON e.budget_id = b.id
-            WHERE e.username = $1 
-            ORDER BY e.name`,
-      [username]
-    );
-    result.rows.forEach((expense) => {
-      expense.amount = parseFloat(expense.amount);
-    });
-    return result.rows;
+            JOIN categories AS c ON e.category = c.id
+            WHERE e.username = $1`;
+    let values = [username];
+    if (start_date) {
+      query += ` AND e.date >= $${values.length + 1}`;
+      values.push(start_date);
+    };
+    if (end_date) {
+      query += ` AND e.date <= $${values.length + 1}`;
+      values.push(end_date);
+    }
+    if (category) {
+      const categoryResult = await db.query(
+        `SELECT id 
+            FROM categories 
+            WHERE username = $1 AND name = $2`,
+        [username, category]
+      );
+      if (!categoryResult.rows[0]) {
+        throw new ExpressError(
+          `Category not found to get expenses`,
+          400
+        );
+      }
+      query += ` AND e.category = $${values.length + 1}`;
+      values.push(categoryResult.rows[0].id);
+    }
+    if (budget_name) {
+      const budgetResult = await db.query(
+        `SELECT id
+            FROM budgets 
+            WHERE username = $1 AND name = $2`,
+        [username, budget_name]
+      );
+      if (!budgetResult.rows[0]) {
+        throw new ExpressError(
+          `Budget not found to get expenses`,
+          400
+        );
+      }
+      query += ` AND e.budget_id = $${values.length + 1}`;
+      values.push(budgetResult.rows[0].id);
+    }
+    query += ` ORDER BY e.date DESC`;
+    query += ` LIMIT $${values.length + 1}`;
+    values.push(parseInt(limit) || 20);
+    query += ` OFFSET $${values.length + 1}`;
+    values.push(parseInt(offset) || 0);
+    try{
+      const result = await db.query(query, values);
+      result.rows.forEach((expense) => {
+        expense.amount = parseFloat(expense.amount);
+      });
+      return result.rows;
+    } catch (err) {
+      console.error(err);
+      throw new ExpressError("Error fetching expenses", 500);
+    }
   }
 
   /** Returns expense info for given expense id and username
