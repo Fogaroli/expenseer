@@ -9,6 +9,7 @@ const ExpressError = require("../helpers/expressError");
 const Expense = require("../dbModels/ExpenseModel");
 const newExpenseSchema = require("../schemas/newExpenseSchema.json");
 const expenseUpdateSchema = require("../schemas/expenseUpdateSchema.json");
+const expenseSearchSchema = require("../schemas/expenseSearchSchema.json");
 
 const router = express.Router();
 
@@ -41,18 +42,30 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
   }
 });
 
-/** Get all expenses in the database for the logged in user
- *  *
- * GET / {token: <Token> }=> { expenses: [ {name}, ... ] }
+/** Get all expenses in the database for the logged in user.
+ * Optional filters can be applied to the request.
+ * 
+ * GET / {token: <Token>, filters: <filters> }=> { expenses: [ {name}, ... ] }
+ * 
+ * Filters can include:
+ *  { limit, offset, start_date, end_date, category, budget_name }
+ * 
+ * Data should be in format yyyy-mm-dd.
  *
- * Returns list of all expenses.
+ * Returns last 20 expenses from all user expenses.
+ * Only matching expenses are returned when filters are provided
  *
  * Authorization required: logged in user
  **/
 
 router.get("/", ensureLoggedIn, async function (req, res, next) {
   try {
-    const expenses = await Expense.getAll(res.locals.user.username);
+    const validator = jsonschema.validate(req.body.filters, expenseSearchSchema);
+    if (!validator.valid) {
+      const errs = validator.errors.map((e) => e.stack);
+      throw new ExpressError(errs, 400);
+    }
+    const expenses = await Expense.getAll(res.locals.user.username, req.body.filters || {});
     return res.json({ expenses });
   } catch (err) {
     return next(err);
