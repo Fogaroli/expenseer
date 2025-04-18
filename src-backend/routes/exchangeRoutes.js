@@ -81,8 +81,16 @@ router.get("/", ensureLoggedIn, async function (req, res, next) {
 
 router.delete("/", ensureLoggedIn, async function (req, res, next) {
   try {
-    const deletedData = await Exchange.delete(res.locals.user.username, req.body.data);
-    return res.json({ deleted: deletedData });
+    const givenData = req.body.data;
+    if (givenData){
+      const validator = jsonschema.validate(req.body.data, exchangeSchema);
+      if (!validator.valid) {
+        const errs = validator.errors.map((e) => e.stack);
+        throw new ExpressError(errs, 400);
+      }
+      const deletedData = await Exchange.delete(res.locals.user.username, req.body.data);
+      return res.json({ deleted: deletedData });
+    }
   } catch (err) {
     return next(err);
   }

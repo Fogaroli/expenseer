@@ -1,6 +1,5 @@
 const db = require("../db.js");
 const ExpressError = require("../helpers/expressError.js");
-const { sqlForPartialUpdate } = require("../helpers/partialUpdate.js");
 const { getExchangeRate } = require("../helpers/api.js");
 
 class Exchange {
