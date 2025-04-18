@@ -63,8 +63,8 @@ describe("getAll", function () {
   test("works", async function () {
     const budgets = await Budget.getAll("tuser1");
     expect(budgets).toEqual([
-      { name: "Entertainment", type: 2, amount: "200.00" },
-      { name: "Groceries", type: 1, amount: "500.00" },
+      { name: "Entertainment", type: 2, amount: 200 },
+      { name: "Groceries", type: 1, amount: 500.00 },
     ]);
   });
 
