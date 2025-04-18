@@ -679,6 +679,136 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Stock",
+      "item": [
+        {
+          "name": "Get all stocks (own user)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/stocks",
+              "host": ["{{base_url}}"],
+              "path": ["stocks"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get stock value (any user)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\":{\r\n        \"symbol\": \"AMZ.FRK\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/stocks",
+              "host": ["{{base_url}}"],
+              "path": ["stocks"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search stocks (any user)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/stocks/search?term=itron",
+              "host": ["{{base_url}}"],
+              "path": ["stocks", "search"],
+              "query": [
+                {
+                  "key": "term",
+                  "value": "itron"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Assign stock to user (own user)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\":{\r\n        \"symbol\": \"AMZN\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/stocks",
+              "host": ["{{base_url}}"],
+              "path": ["stocks"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete stock from user (own user)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\":{\r\n        \"symbol2\": \"ITRI\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/stocks",
+              "host": ["{{base_url}}"],
+              "path": ["stocks"]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "event": [

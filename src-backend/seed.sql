@@ -29,9 +29,9 @@ INSERT INTO exchanges (currency1, currency2, rate, last_update) VALUES
 ('USD', 'GBP', 0.75, '2025-03-01 12:00:00');
 
 -- Insert data into stocks table
-INSERT INTO stocks (reference, description, value, last_update) VALUES
-('AAPL', 'Apple Inc.', 150.00, '2025-03-01 12:00:00'),
-('GOOGL', 'Alphabet Inc.', 2800.00, '2025-03-01 12:00:00');
+INSERT INTO stocks (symbol, value, variation, last_update) VALUES
+('AAPL', 150.00, -3.52 ,'2025-03-01 12:00:00'),
+('GOOGL', 2800.00, 5.03, '2025-03-01 12:00:00');
 
 -- Insert data into user_exchange table
 INSERT INTO user_exchange (username, exchange_id) VALUES

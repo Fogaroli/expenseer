@@ -15,6 +15,7 @@ const DB_URI =
     : process.env.DB_URI || "postgresql:///expenseer";
 
 const API_KEY = process.env.EXCHANGE_RATE_API_KEY;
+const STOCK_API_KEY = process.env.STOCK_API_KEY;
 
 module.exports = {
   BCRYPT_WORK_FACTOR,
@@ -22,4 +23,5 @@ module.exports = {
   PORT,
   DB_URI,
   API_KEY,
+  STOCK_API_KEY
 };

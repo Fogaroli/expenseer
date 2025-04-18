@@ -49,9 +49,9 @@ CREATE TABLE exchanges (
 );
 
 CREATE TABLE stocks (
-    reference TEXT PRIMARY KEY,
-    description TEXT NOT NULL,
+    symbol TEXT PRIMARY KEY,
     value NUMERIC NOT NULL CHECK (value >= 0),
+    variation NUMERIC NOT NULL,
     last_update TIMESTAMP NOT NULL
 );
 
@@ -67,6 +67,6 @@ CREATE TABLE user_stock(
     username VARCHAR(30)
         REFERENCES users(username) ON DELETE CASCADE,
     stock_ref TEXT
-        REFERENCES stocks(reference) ON DELETE CASCADE,
+        REFERENCES stocks(symbol) ON DELETE CASCADE,
     PRIMARY KEY (username, stock_ref)
 );
