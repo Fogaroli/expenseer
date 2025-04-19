@@ -23,7 +23,6 @@ function authenticateJWT(req, res, next) {
     console.assert(res.locals.user, "Token verification failed, no user saved");
     return next();
   } catch (err) {
-    console.error(err);
     return next();
   }
 }
