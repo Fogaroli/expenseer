@@ -1,19 +1,30 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  register,
+  selectError,
+  selectUser,
+  selectLoading,
+} from "../store/authSlice";
 
 const Register = () => {
   const cleanForm = {
     username: "",
     password: "",
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     email: "",
   };
   const [formData, setFormData] = useState(cleanForm);
-
+  const dispatch = useDispatch();
+  const error = useSelector(selectError);
+  const loading = useSelector(selectLoading);
+  const user = useSelector(selectUser);
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-
+    dispatch(register(formData));
+    setFormData(cleanForm);
   };
 
   const handleChange = (evt) => {
@@ -21,18 +32,15 @@ const Register = () => {
     setFormData((old) => ({ ...old, [name]: value }));
   };
 
-
   return (
     <>
+      <div>
+        {user ? <p>Welcome, {user.first_name}!</p> : <p>Please register</p>}
+      </div>
       <p>Create your free account now</p>
-      <form
-        onSubmit={handleSubmit}
-        style={{ maxWidth: "600px" }}
-      >
+      <form onSubmit={handleSubmit} style={{ maxWidth: "600px" }}>
         <div>
-          <label htmlFor="username">
-            Username
-          </label>
+          <label htmlFor="username">Username</label>
           <input
             type="text"
             name="username"
@@ -43,9 +51,7 @@ const Register = () => {
           />
         </div>
         <div>
-          <label htmlFor="password">
-            Password
-          </label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             name="password"
@@ -56,35 +62,29 @@ const Register = () => {
           />
         </div>
         <div>
-          <label htmlFor="firstname" >
-            First Name
-          </label>
+          <label htmlFor="firstname">First Name</label>
           <input
             type="text"
-            name="firstName"
+            name="first_name"
             id="firstname"
             aria-describedby="First Name"
-            value={formData.firstname}
+            value={formData.first_name}
             onChange={handleChange}
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="lastname" >
-            Last Name
-          </label>
+          <label htmlFor="lastname">Last Name</label>
           <input
             type="text"
-            name="lastName"
+            name="last_name"
             id="lastname"
             aria-describedby="Last Name"
-            value={formData.lastname}
+            value={formData.last_name}
             onChange={handleChange}
           />
         </div>
         <div>
-          <label htmlFor="email">
-            E-mail
-          </label>
+          <label htmlFor="email">E-mail</label>
           <input
             type="email"
             name="email"
@@ -95,9 +95,9 @@ const Register = () => {
           />
         </div>
 
-        <button type="submit">
-          Register
-        </button>
+        <button type="submit">Register</button>
+        {loading && <p>Loading...</p>}
+        {error && <p className="text-danger">{error}</p>}
       </form>
     </>
   );

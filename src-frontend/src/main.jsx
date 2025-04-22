@@ -1,20 +1,21 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
-import AuthProvider from './context/AuthProvider.jsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import './main.css'
-import App from './App.jsx'
+import store from "./store/store.jsx";
+import "./main.css";
+import App from "./App.jsx";
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-    <AuthProvider>
+    <Provider store={store}>
       <StrictMode>
         <App />
       </StrictMode>
-    </AuthProvider>
-  </BrowserRouter>,
-)
+    </Provider>
+  </BrowserRouter>
+);
