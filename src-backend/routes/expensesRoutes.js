@@ -15,7 +15,7 @@ const router = express.Router();
 
 /** Add new expense Route
  *
- * POST / {data:{ <expense> }, token: <adminToken> }  => { expense }
+ * POST / {data:{ <expense> }}  => { expense }
  *
  * This route only adds an expense to the logged user.
  *
@@ -44,12 +44,12 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 
 /** Get all expenses in the database for the logged in user.
  * Optional filters can be applied to the request.
- * 
- * GET / {token: <Token>, filters: <filters> }=> { expenses: [ {name}, ... ] }
- * 
+ *
+ * GET / { filters: <filters> }=> { expenses: [ {name}, ... ] }
+ *
  * Filters can include:
  *  { limit, offset, start_date, end_date, category, budget_name }
- * 
+ *
  * Data should be in format yyyy-mm-dd.
  *
  * Returns last 20 expenses from all user expenses.
@@ -60,12 +60,18 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 
 router.get("/", ensureLoggedIn, async function (req, res, next) {
   try {
-    const validator = jsonschema.validate(req.body.filters, expenseSearchSchema);
+    const validator = jsonschema.validate(
+      req.body.filters,
+      expenseSearchSchema
+    );
     if (!validator.valid) {
       const errs = validator.errors.map((e) => e.stack);
       throw new ExpressError(errs, 400);
     }
-    const expenses = await Expense.getAll(res.locals.user.username, req.body.filters || {});
+    const expenses = await Expense.getAll(
+      res.locals.user.username,
+      req.body.filters || {}
+    );
     return res.json({ expenses });
   } catch (err) {
     return next(err);
@@ -74,7 +80,7 @@ router.get("/", ensureLoggedIn, async function (req, res, next) {
 
 /** Get details of a single expense provided in params. 
  
- * GET /[expense] {token: <Token> }=> { expense: {id, name, amount, description, date, budget, category} }
+ * GET /[expense] {}=> { expense: {id, name, amount, description, date, budget, category} }
  * Authorization required: logged in user
  **/
 
@@ -92,7 +98,7 @@ router.get("/:expenseId", ensureLoggedIn, async function (req, res, next) {
 
 /** Update expense data
  *
- * PATCH /[expenseId] {data:{ <expense> }, token: <adminToken> } => { expense: {id, name, amount, description, date, budget, category} }
+ * PATCH /[expenseId] {data:{ <expense> }} => { expense: {id, name, amount, description, date, budget, category} }
  *
  * Data can include:
  *   {  name, amount, description, date, category, budget_name }

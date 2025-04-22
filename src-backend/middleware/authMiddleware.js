@@ -7,7 +7,7 @@ const ExpressError = require("../helpers/expressError");
 /** Middleware: Authenticate user.
  *
  * This function should be executed for every request.
- * 
+ *
  * If a token was provided, verify it, and, if valid, store the token payload
  * on res.locals (this will include the username and is_admin field.)
  *
@@ -16,14 +16,13 @@ const ExpressError = require("../helpers/expressError");
 
 function authenticateJWT(req, res, next) {
   try {
-    const authToken = req.body.token
+    const authToken = req.headers.authorization;
     if (authToken) {
       res.locals.user = jwt.verify(authToken, SECRET_KEY);
     }
     console.assert(res.locals.user, "Token verification failed, no user saved");
     return next();
   } catch (err) {
-    console.error(err);
     return next();
   }
 }
@@ -80,5 +79,5 @@ module.exports = {
   authenticateJWT,
   ensureLoggedIn,
   ensureIsAdmin,
-  ensureIsAuthorized
+  ensureIsAuthorized,
 };

@@ -3,16 +3,19 @@
 
 require("dotenv").config();
 
-const SECRET_KEY = process.env.SECRET_KEY || "development-secret-key";
+const SECRET_KEY = process.env.SECRET_KEY;
 
-const PORT = +process.env.PORT || 3000;
+const PORT = +process.env.PORT;
 
-const BCRYPT_WORK_FACTOR = +process.env.BCRYPT_WORK_FACTOR || 10;
+const BCRYPT_WORK_FACTOR = 
+  process.env.NODE_ENV === "test"
+    ? 1
+    : +process.env.BCRYPT_WORK_FACTOR;
 
 const DB_URI =
   process.env.NODE_ENV === "test"
     ? "postgresql:///expenseer_test"
-    : process.env.DB_URI || "postgresql:///expenseer";
+    : process.env.DB_URI;
 
 const API_KEY = process.env.EXCHANGE_RATE_API_KEY;
 const STOCK_API_KEY = process.env.STOCK_API_KEY;

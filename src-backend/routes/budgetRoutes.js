@@ -10,12 +10,11 @@ const Budget = require("../dbModels/BudgetModel");
 const newBudgetSchema = require("../schemas/newBudgetSchema.json");
 const budgetUpdateSchema = require("../schemas/budgetUpdateSchema.json");
 
-
 const router = express.Router();
 
 /** Add new Budget Route
  *
- * POST / {data:{ <budget> }, token: <adminToken> }  => { budget }
+ * POST / {data:{ <budget> }}  => { budget }
  *
  * This route only adds a budget to the logged in user.
  *
@@ -41,7 +40,7 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 
 /** Get all budged in the database for the logged in user
  *  *
- * GET / {token: <Token> }=> { budgets: [ {name, amount, type}, ... ] }
+ * GET / {}=> { budgets: [ {name, amount, type}, ... ] }
  *
  * Returns list of all budgets.
  *
@@ -59,13 +58,16 @@ router.get("/", ensureLoggedIn, async function (req, res, next) {
 
 /** Get details of a single budget provided in params. 
  
- * GET /[budget] {token: <Token> }=> { name, type, amount, description }
+ * GET /[budget] {}=> { name, type, amount, description }
  * Authorization required: logged in user
  **/
 
 router.get("/:budget", ensureLoggedIn, async function (req, res, next) {
   try {
-    const budget = await Budget.get(res.locals.user.username, req.params.budget);
+    const budget = await Budget.get(
+      res.locals.user.username,
+      req.params.budget
+    );
     return res.json({ budget });
   } catch (err) {
     return next(err);
@@ -74,7 +76,7 @@ router.get("/:budget", ensureLoggedIn, async function (req, res, next) {
 
 /** Update budget data
  *
- * PATCH /[budget] {data:{ <budget> }, token: <adminToken> } => { name, type, amount, description}
+ * PATCH /[budget] {data:{ <budget> }} => { name, type, amount, description}
  *
  * Data can include:
  *   {  name, type, amount, description}
@@ -107,17 +109,13 @@ router.patch("/:budget", ensureLoggedIn, async function (req, res, next) {
  * Authorization required: Logged in user
  **/
 
-router.delete(
-  "/:budget",
-  ensureLoggedIn,
-  async function (req, res, next) {
-    try {
-      await Budget.delete(res.locals.user.username, req.params.budget);
-      return res.json({ deleted: req.params.budget });
-    } catch (err) {
-      return next(err);
-    }
+router.delete("/:budget", ensureLoggedIn, async function (req, res, next) {
+  try {
+    await Budget.delete(res.locals.user.username, req.params.budget);
+    return res.json({ deleted: req.params.budget });
+  } catch (err) {
+    return next(err);
   }
-);
+});
 
 module.exports = router;
