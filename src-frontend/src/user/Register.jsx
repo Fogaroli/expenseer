@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   register,
   selectError,
@@ -20,11 +21,17 @@ const Register = () => {
   const error = useSelector(selectError);
   const loading = useSelector(selectLoading);
   const user = useSelector(selectUser);
+  const navigate = useNavigate();
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    dispatch(register(formData));
-    setFormData(cleanForm);
+    try {
+      await dispatch(register(formData)).unwrap();
+      setFormData(cleanForm);
+      navigate("/");
+    } catch (err) {
+      console.error("Registration failed: ", err);
+    }
   };
 
   const handleChange = (evt) => {

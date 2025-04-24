@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ExpenseerAPI from "../helper/api";
+import Cookies from "js-cookie";
 
 /** Thunk to get user information
  * returns { username, first_name, last_name, email, last_logged, image_url, ?is_admin }
@@ -46,8 +47,8 @@ const register = createAsyncThunk(
 );
 
 const initialState = {
-  token: null,
-  user: null,
+  token: Cookies.get("token") || null,
+  user: Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null,
   loading: false,
   error: null,
 };
@@ -60,6 +61,8 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.error = null;
+      Cookies.remove("token");
+      Cookies.remove("user");
     },
   },
   extraReducers: (builder) => {
@@ -71,6 +74,7 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
         state.token = action.payload.token;
+        Cookies.set("token", action.payload.token);
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
@@ -83,6 +87,7 @@ const authSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.loading = false;
         state.token = action.payload.token;
+        Cookies.set("token", action.payload.token);
       })
       .addCase(register.rejected, (state, action) => {
         state.loading = false;
@@ -95,6 +100,7 @@ const authSlice = createSlice({
       .addCase(getUserData.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+        Cookies.set("user", JSON.stringify(action.payload));
       })
       .addCase(getUserData.rejected, (state, action) => {
         state.loading = false;
@@ -107,6 +113,7 @@ export const { logout } = authSlice.actions;
 export { getUserData, login, register };
 
 export const selectUser = (state) => state.auth.user;
+export const selectToken = (state) => state.auth.token;
 export const selectError = (state) => state.auth.error;
 export const selectLoading = (state) => state.auth.loading;
 
