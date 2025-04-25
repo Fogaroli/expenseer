@@ -6,8 +6,10 @@ import {
   selectCategories,
   selectLoading,
   selectError,
-} from "../store/expenseSlice";
+} from "../store/categorySlice";
 import { selectToken } from "../store/authSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 const Categories = () => {
   const dispatch = useDispatch();
@@ -33,7 +35,12 @@ const Categories = () => {
       {error && <p className="text-danger">{error}</p>}
       <ul>
         {categories.map((category, idx) => (
-          <li key={idx}>{category.name}</li>
+          <li key={idx}>
+            <Link to={`/categories/${category.name}`}>{category.name}</Link>
+            <Link to={`/categories/${category.name}/edit`}>
+              <FontAwesomeIcon icon={faPenToSquare} />
+            </Link>
+          </li>
         ))}
       </ul>
       <Link to="/add-category">Add Category</Link>

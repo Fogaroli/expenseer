@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { addCategory, selectError, selectLoading } from "../store/expenseSlice";
+import {
+  addCategory,
+  selectError,
+  selectLoading,
+} from "../store/categorySlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectToken } from "../store/authSlice";

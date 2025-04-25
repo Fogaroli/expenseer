@@ -53,9 +53,9 @@ class ExpenseerAPI {
     return res.categories;
   }
 
-  /** Get details fro a given category */
-  static async getCategory(categoryId) {
-    let res = await this.request(`categories/${categoryId}`);
+  /** Get details for a given category */
+  static async getCategory(name) {
+    let res = await this.request(`categories/${name}`);
     return res.category;
   }
 
@@ -63,6 +63,18 @@ class ExpenseerAPI {
   static async addCategory(data) {
     let res = await this.request(`categories`, { data }, {}, "POST");
     return res.category;
+  }
+
+  /** Edit existing Category */
+  static async editCategory(name, data) {
+    let res = await this.request(`categories/${name}`, { data }, {}, "PATCH");
+    return res.category;
+  }
+
+  /** Delete existing Category */
+  static async deleteCategory(name) {
+    let res = await this.request(`categories/${name}`, {}, {}, "DELETE");
+    return res.deleted;
   }
 
   /** Get all budgets */
