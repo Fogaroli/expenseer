@@ -84,9 +84,32 @@ class ExpenseerAPI {
   }
 
   /** Get details for a given budget */
-  static async getBudget(budgetId) {
-    let res = await this.request(`budgets/${budgetId}`);
+  static async getBudget(budgetName) {
+    let res = await this.request(`budgets/${budgetName}`);
     return res.budget;
+  }
+
+  /** Add new Budget */
+  static async addBudget(data) {
+    let res = await this.request(`budgets`, { data }, {}, "POST");
+    return res.budget;
+  }
+
+  /** Edit existing Budget */
+  static async editBudget(budgetName, data) {
+    let res = await this.request(
+      `budgets/${budgetName}`,
+      { data },
+      {},
+      "PATCH"
+    );
+    return res.budget;
+  }
+
+  /** Delete existing Budget */
+  static async deleteBudget(budgetName) {
+    let res = await this.request(`budgets/${budgetName}`, {}, {}, "DELETE");
+    return res.deleted;
   }
 }
 

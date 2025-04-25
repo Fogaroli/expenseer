@@ -22,6 +22,7 @@ const Navbar = () => {
           {user !== null ? (
             <>
               <NavLink to="/categories">Categories</NavLink>
+              <NavLink to="/budgets">Budgets</NavLink>
               <NavLink onClick={logoutHandler}>
                 Logout({user.first_name})
               </NavLink>

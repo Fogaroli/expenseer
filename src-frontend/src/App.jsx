@@ -8,6 +8,9 @@ import Categories from "./category/Categories";
 import Category from "./category/Category";
 import AddCategory from "./category/AddCategory";
 import EditCategory from "./category/EditCategory";
+import Budgets from "./budget/Budgets";
+import AddBudget from "./budget/AddBudget";
+import EditBudget from "./budget/EditBudget";
 
 function App() {
   return (
@@ -24,6 +27,9 @@ function App() {
           path="/categories/:categoryName/edit"
           element={<EditCategory />}
         />
+        <Route path="/budgets" element={<Budgets />} />
+        <Route path="/add-budget" element={<AddBudget />} />
+        <Route path="/budgets/:budgetName/edit" element={<EditBudget />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>
