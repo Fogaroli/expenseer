@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   login,
@@ -14,11 +15,17 @@ const Login = () => {
   const error = useSelector(selectError);
   const loading = useSelector(selectLoading);
   const user = useSelector(selectUser);
+  const navigate = useNavigate();
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    dispatch(login(formData));
-    setFormData(emptyForm);
+    try {
+      await dispatch(login(formData)).unwrap();
+      setFormData(emptyForm);
+      navigate("/");
+    } catch (err) {
+      console.error("Login failed: ", err);
+    }
   };
 
   const handleChange = (evt) => {

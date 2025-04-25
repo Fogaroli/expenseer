@@ -20,7 +20,13 @@ const Navbar = () => {
         <div>
           <NavLink to="/">Home</NavLink>
           {user !== null ? (
-            <NavLink onClick={logoutHandler}>Logout({user.first_name})</NavLink>
+            <>
+              <NavLink to="/categories">Categories</NavLink>
+              <NavLink to="/budgets">Budgets</NavLink>
+              <NavLink onClick={logoutHandler}>
+                Logout({user.first_name})
+              </NavLink>
+            </>
           ) : (
             <>
               <NavLink to="/login">Login</NavLink>
