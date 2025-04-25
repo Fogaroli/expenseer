@@ -4,10 +4,10 @@ import Navbar from "./Navbar";
 import Homepage from "./Homepage";
 import Login from "./user/Login";
 import Register from "./user/Register";
-import Categories from "./expenses/Categories";
-import Category from "./expenses/Category";
-import AddCategory from "./expenses/AddCategory";
-import EditCategory from "./expenses/EditCategory";
+import Categories from "./category/Categories";
+import Category from "./category/Category";
+import AddCategory from "./category/AddCategory";
+import EditCategory from "./category/EditCategory";
 
 function App() {
   return (
