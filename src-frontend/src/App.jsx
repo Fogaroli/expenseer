@@ -11,6 +11,7 @@ import EditCategory from "./category/EditCategory";
 import Budgets from "./budget/Budgets";
 import AddBudget from "./budget/AddBudget";
 import EditBudget from "./budget/EditBudget";
+import Budget from "./budget/Budget";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/budgets" element={<Budgets />} />
         <Route path="/add-budget" element={<AddBudget />} />
         <Route path="/budgets/:budgetName/edit" element={<EditBudget />} />
+        <Route path="/budgets/:budgetName" element={<Budget />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>
