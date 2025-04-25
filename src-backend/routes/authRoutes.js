@@ -45,11 +45,20 @@ router.post("/login", async function (req, res, next) {
 
 router.post("/register", async function (req, res, next) {
   try {
-    console.assert(Object.keys(req.body).includes("username", "password", "first_name", "last_name", "email"), "Missing required fields");
+    console.assert(
+      Object.keys(req.body).includes(
+        "username",
+        "password",
+        "first_name",
+        "last_name",
+        "email"
+      ),
+      "Missing required fields"
+    );
     const validator = jsonschema.validate(req.body, userRegisterSchema);
     if (!validator.valid) {
       const errs = validator.errors.map((e) => e.stack);
-      throw new ExpressError(errs,400);
+      throw new ExpressError(errs, 400);
     }
 
     const newUser = await User.register(req.body);

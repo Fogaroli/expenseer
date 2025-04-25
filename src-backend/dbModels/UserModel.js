@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const db = require("../db");
 const ExpressError = require("../helpers/expressError");
-const { sqlForPartialUpdate}  = require("../helpers/partialUpdate.js");
+const { sqlForPartialUpdate } = require("../helpers/partialUpdate.js");
 const { BCRYPT_WORK_FACTOR } = require("../config");
 
 const DEFAULT_IMAGE_URL =
@@ -17,7 +17,10 @@ class User {
         WHERE username = $1`,
       [user.username]
     );
-    console.assert(duplicateCheck.rows[0], "Attempt to register already existing username");
+    console.assert(
+      duplicateCheck.rows[0],
+      "Attempt to register already existing username"
+    );
 
     if (duplicateCheck.rows[0]) {
       throw new ExpressError(
@@ -41,7 +44,8 @@ class User {
         user.image_url || DEFAULT_IMAGE_URL,
         new Date(),
         user.is_admin || false,
-    ]);
+      ]
+    );
 
     const userData = result.rows[0];
     const { is_admin, ...returnData } = userData;
@@ -94,7 +98,6 @@ class User {
    * */
 
   static async getAll() {
-
     const result = await db.query(
       `SELECT username,
                 first_name,
@@ -107,7 +110,7 @@ class User {
   }
 
   /** Returns user info for given username
-   * 
+   *
    * return: {username, first_name, last_name, email, image_url, last_logged}
    * If user is admin, add is_admin: true to the return object.
    *
@@ -154,7 +157,7 @@ class User {
       "username",
       username
     );
- 
+
     const result = await db.query(query, values);
     const user = result.rows[0];
 
@@ -165,7 +168,6 @@ class User {
     const { password, ...userWithoutPassword } = user;
     const { is_admin, ...returnData } = userWithoutPassword;
     return user.is_admin ? userWithoutPassword : returnData;
-
   }
 
   /** Delete user for given username. Returns true.

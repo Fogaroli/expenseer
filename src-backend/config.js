@@ -7,10 +7,8 @@ const SECRET_KEY = process.env.SECRET_KEY;
 
 const PORT = +process.env.PORT;
 
-const BCRYPT_WORK_FACTOR = 
-  process.env.NODE_ENV === "test"
-    ? 1
-    : +process.env.BCRYPT_WORK_FACTOR;
+const BCRYPT_WORK_FACTOR =
+  process.env.NODE_ENV === "test" ? 1 : +process.env.BCRYPT_WORK_FACTOR;
 
 const DB_URI =
   process.env.NODE_ENV === "test"
@@ -26,5 +24,5 @@ module.exports = {
   PORT,
   DB_URI,
   API_KEY,
-  STOCK_API_KEY
+  STOCK_API_KEY,
 };

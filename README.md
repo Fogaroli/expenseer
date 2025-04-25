@@ -9,7 +9,7 @@ Full description of the functionalities and how to use it will be provided once 
 
 The Expenseer application will be available on public domains, once deployed the URL will be added here!
 
-The Backend application behaves as an independent application, and can be used for testing the functionality with any  tool to create HTTP requests. A Postman collection file is included in the project to be used as a reference to the API routes.
+The Backend application behaves as an independent application, and can be used for testing the functionality with any tool to create HTTP requests. A Postman collection file is included in the project to be used as a reference to the API routes.
 A Backend User Guide document can be found in the documentation page and provides details of the routes available in teh backend.
 
 The backend development server linked to the code on the develop branch is deployed at https://dev-expenseer.onrender.com/

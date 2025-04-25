@@ -4,7 +4,7 @@ const app = express();
 const ExpressError = require("./helpers/expressError");
 const cors = require("cors");
 const morgan = require("morgan");
-const {authenticateJWT} = require("./middleware/authMiddleware");
+const { authenticateJWT } = require("./middleware/authMiddleware");
 
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/usersRoutes");

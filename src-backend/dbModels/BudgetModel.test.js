@@ -21,7 +21,7 @@ describe("create", function () {
   const newBudget = {
     name: "New Budget",
     type: 4,
-    amount: 300.00,
+    amount: 300.0,
     description: "New budget description",
   };
 
@@ -30,7 +30,7 @@ describe("create", function () {
     expect(budget).toEqual({
       name: "New Budget",
       type: 4,
-      amount: 300.00,
+      amount: 300.0,
       description: "New budget description",
     });
 
@@ -46,7 +46,7 @@ describe("create", function () {
       await Budget.create("tuser1", {
         name: "Groceries",
         type: 1,
-        amount: 500.00,
+        amount: 500.0,
         description: "Duplicate budget",
       });
       fail();
@@ -64,7 +64,7 @@ describe("getAll", function () {
     const budgets = await Budget.getAll("tuser1");
     expect(budgets).toEqual([
       { name: "Entertainment", type: 2, amount: 200 },
-      { name: "Groceries", type: 1, amount: 500.00 },
+      { name: "Groceries", type: 1, amount: 500.0 },
     ]);
   });
 
@@ -82,7 +82,7 @@ describe("get", function () {
     expect(budget).toEqual({
       name: "Groceries",
       type: 1,
-      amount: 500.00,
+      amount: 500.0,
       description: "Monthly groceries budget",
     });
   });
@@ -102,7 +102,7 @@ describe("get", function () {
 
 describe("update", function () {
   const updateData = {
-    amount: 600.00,
+    amount: 600.0,
     description: "Updated description",
   };
 
@@ -111,7 +111,7 @@ describe("update", function () {
     expect(budget).toEqual({
       name: "Groceries",
       type: 1,
-      amount: 600.00,
+      amount: 600.0,
       description: "Updated description",
     });
 

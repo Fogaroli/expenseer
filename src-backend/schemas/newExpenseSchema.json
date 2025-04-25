@@ -33,5 +33,12 @@
     }
   },
   "additionalProperties": false,
-  "required": ["name", "amount", "description", "date", "category", "budget_name"]
+  "required": [
+    "name",
+    "amount",
+    "description",
+    "date",
+    "category",
+    "budget_name"
+  ]
 }

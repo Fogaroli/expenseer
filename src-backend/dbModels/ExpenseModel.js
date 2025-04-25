@@ -4,7 +4,7 @@ const { sqlForPartialUpdate } = require("../helpers/partialUpdate.js");
 
 class Expense {
   /** Create a new expense
-   *expense object 
+   *expense object
    * [{name, amount, description, date, category, budget_name}]
    *
    * Returns new expense data.
@@ -17,16 +17,10 @@ class Expense {
             WHERE username = $1 AND name = $2`,
       [username, expenseData.category]
     );
-    console.assert(
-      category.rows[0],
-      "Category not found to create expense"
-    );
+    console.assert(category.rows[0], "Category not found to create expense");
 
     if (!category.rows[0]) {
-      throw new ExpressError(
-        `Category not found to create expense`,
-        400
-      );
+      throw new ExpressError(`Category not found to create expense`, 400);
     }
 
     const budget = await db.query(
@@ -35,16 +29,10 @@ class Expense {
             WHERE username = $1 AND name = $2`,
       [username, expenseData.budget_name]
     );
-    console.assert(
-      budget.rows[0],
-      "Budget not found to create expense"
-    );
+    console.assert(budget.rows[0], "Budget not found to create expense");
 
     if (!budget.rows[0]) {
-      throw new ExpressError(
-        `Budget not found to create expense`,
-        400
-      );
+      throw new ExpressError(`Budget not found to create expense`, 400);
     }
     const result = await db.query(
       `INSERT INTO expenses (name, amount, description, date, category, budget_id, username)
@@ -57,8 +45,8 @@ class Expense {
         expenseData.date,
         category.rows[0].id,
         budget.rows[0].id,
-        username
-    ]
+        username,
+      ]
     );
     const expense = result.rows[0];
     expense.category = expenseData.category;
@@ -70,7 +58,7 @@ class Expense {
   /** Returns list of expenses for a provided username:
    *
    * [{id, name, amount, date, budget}, ...]
-   * 
+   *
    * Use filters to limit the results:
    * - start_date: YYYY-MM-DD
    * - end_date: YYYY-MM-DD
@@ -81,7 +69,8 @@ class Expense {
    *
    * */
   static async getAll(username, filters) {
-    const {limit, offset, start_date, end_date, category, budget_name} = filters;
+    const { limit, offset, start_date, end_date, category, budget_name } =
+      filters;
     let query = `SELECT e.id, e.name, e.amount, e.date, b.name AS budget_name, c.name AS category
             FROM expenses AS e
             JOIN budgets AS b ON e.budget_id = b.id
@@ -91,7 +80,7 @@ class Expense {
     if (start_date) {
       query += ` AND e.date >= $${values.length + 1}`;
       values.push(start_date);
-    };
+    }
     if (end_date) {
       query += ` AND e.date <= $${values.length + 1}`;
       values.push(end_date);
@@ -104,10 +93,7 @@ class Expense {
         [username, category]
       );
       if (!categoryResult.rows[0]) {
-        throw new ExpressError(
-          `Category not found to get expenses`,
-          400
-        );
+        throw new ExpressError(`Category not found to get expenses`, 400);
       }
       query += ` AND e.category = $${values.length + 1}`;
       values.push(categoryResult.rows[0].id);
@@ -120,10 +106,7 @@ class Expense {
         [username, budget_name]
       );
       if (!budgetResult.rows[0]) {
-        throw new ExpressError(
-          `Budget not found to get expenses`,
-          400
-        );
+        throw new ExpressError(`Budget not found to get expenses`, 400);
       }
       query += ` AND e.budget_id = $${values.length + 1}`;
       values.push(budgetResult.rows[0].id);
@@ -133,7 +116,7 @@ class Expense {
     values.push(parseInt(limit) || 20);
     query += ` OFFSET $${values.length + 1}`;
     values.push(parseInt(offset) || 0);
-    try{
+    try {
       const result = await db.query(query, values);
       result.rows.forEach((expense) => {
         expense.amount = parseFloat(expense.amount);
@@ -199,51 +182,39 @@ class Expense {
             WHERE username = $1 AND name = $2`,
         [username, data.category]
       );
-      console.assert(
-        category.rows[0],
-        "Category not found to update expense"
-      );
+      console.assert(category.rows[0], "Category not found to update expense");
 
       if (!category.rows[0]) {
-        throw new ExpressError(
-          `Category not found to update expense`,
-          400
-        );
+        throw new ExpressError(`Category not found to update expense`, 400);
       }
       data.category = category.rows[0].id;
     }
 
     if (data.budget_name) {
-        const budget = await db.query(
-            `SELECT id 
+      const budget = await db.query(
+        `SELECT id 
                 FROM budgets 
                 WHERE username = $1 AND name = $2`,
-            [username, data.budget_name]
-        );
-        console.assert(
-            budget.rows[0],
-            "Budget not found to update expense"
-        );
-    
-        if (!budget.rows[0]) {
-            throw new ExpressError(
-            `Budget not found to update expense`,
-            400
-            );
-        }
-        data.budget_id = budget.rows[0].id;
-        delete data.budget_name;
-        }
+        [username, data.budget_name]
+      );
+      console.assert(budget.rows[0], "Budget not found to update expense");
+
+      if (!budget.rows[0]) {
+        throw new ExpressError(`Budget not found to update expense`, 400);
+      }
+      data.budget_id = budget.rows[0].id;
+      delete data.budget_name;
+    }
 
     let { query, values } = sqlForPartialUpdate(
       "expenses",
       data,
       "id",
-        expenseId
+      expenseId
     );
     await db.query(query, values);
     const updated = await this.get(username, expenseId);
-    return updated
+    return updated;
   }
 
   /** Delete expense by id. Returns true.

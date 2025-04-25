@@ -20,7 +20,7 @@ const router = express.Router();
  *
  * This returns the newly created budget:
  *  {budget: { name, type, amount, description }
- *
+ * Types are 0 - Not defined, 1- Monthly Expense, 2- Yearly-Expense, 3-Event, 4-Savings
  * Authorization required: logged in user
  **/
 

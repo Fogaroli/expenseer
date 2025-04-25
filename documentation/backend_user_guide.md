@@ -240,7 +240,7 @@ Routes that require JWT authetication, the token should be added to the request 
 ### 1. POST /budgets
 
 - **Description:** Adds a new budget for the logged-in user.
-- **Input:**
+- **Input:** Types are 0 - Not defined, 1- Monthly Expense, 2- Yearly-Expense, 3-Event, 4-Savings
 
   ```json
   {

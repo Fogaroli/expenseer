@@ -15,7 +15,6 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
-
 /************************************** register */
 
 describe("test function register", function () {
@@ -31,13 +30,13 @@ describe("test function register", function () {
   test("works", async function () {
     const user = await User.register(newUser);
     expect(user).toEqual({
-        username: "newuser",
-        first_name: "New",
-        last_name: "User",
-        email: "newuser@example.com",
-        image_url:
-            "https://images.freeimages.com/fic/images/icons/989/ivista_2/256/user.png",
-        last_logged: expect.any(Date),
+      username: "newuser",
+      first_name: "New",
+      last_name: "User",
+      email: "newuser@example.com",
+      image_url:
+        "https://images.freeimages.com/fic/images/icons/989/ivista_2/256/user.png",
+      last_logged: expect.any(Date),
     });
 
     const found = await db.query(
@@ -88,7 +87,7 @@ describe("test function authenticate", function () {
       last_logged: expect.any(Date),
       email: "u2@email.com",
       image_url: null,
-      is_admin: true
+      is_admin: true,
     });
   });
 
@@ -113,8 +112,6 @@ describe("test function authenticate", function () {
   });
 });
 
-
-
 /************************************** getAll */
 
 describe("test function getAll", function () {
@@ -125,13 +122,13 @@ describe("test function getAll", function () {
         username: "tuser1",
         first_name: "TUser 1 Name",
         last_name: "TUser 1 Last",
-        email: "u1@email.com"
+        email: "u1@email.com",
       },
       {
         username: "tuser2",
         first_name: "TUser 2 Name",
         last_name: "TUser 2 Last",
-        email: "u2@email.com"
+        email: "u2@email.com",
       },
     ]);
   });
@@ -148,7 +145,7 @@ describe("test function get", function () {
       last_name: "TUser 1 Last",
       email: "u1@email.com",
       image_url: null,
-      last_logged: expect.any(Date)
+      last_logged: expect.any(Date),
     });
   });
 
@@ -161,7 +158,7 @@ describe("test function get", function () {
       email: "u2@email.com",
       image_url: null,
       last_logged: expect.any(Date),
-      is_admin: true
+      is_admin: true,
     });
   });
 
@@ -193,12 +190,12 @@ describe("test function update", function () {
       last_name: "User",
       email: "updated@example.com",
       image_url: null,
-      last_logged: expect.any(Date)
+      last_logged: expect.any(Date),
     });
   });
 
   test("works to ser user admin", async function () {
-    const user = await User.update("tuser1", {...updateData, is_admin: true});
+    const user = await User.update("tuser1", { ...updateData, is_admin: true });
     expect(user).toEqual({
       username: "tuser1",
       first_name: "Updated",
@@ -206,7 +203,7 @@ describe("test function update", function () {
       email: "updated@example.com",
       image_url: null,
       last_logged: expect.any(Date),
-      is_admin: true
+      is_admin: true,
     });
   });
 
