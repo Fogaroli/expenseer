@@ -9,6 +9,18 @@ class Dashboard {
    * Returns the category name and the total amount spent in that category for the current month.
    */
   static async getByCategory(username, category) {
+    try {
+      const categoryRes = await db.query(
+        `SELECT id FROM categories WHERE name = $1 AND username = $2`,
+        [category, username]
+      );
+      if (!categoryRes.rows[0]) {
+        throw new ExpressError("Category not found", 404);
+      }
+    } catch (err) {
+      console.error("Error reading category", err);
+      throw new ExpressError("No such category", 500);
+    }
     let query = `
     SELECT 
       TO_CHAR(DATE_TRUNC('month', e.date), 'Mon YYYY') AS month,
@@ -28,10 +40,11 @@ class Dashboard {
     try {
       const result = await db.query(query, params);
 
-      return result.rows.map((row) => ({
+      const monthData = result.rows.map((row) => ({
         month: row.month,
         total_amount: +row.total_amount,
       }));
+      return monthData[0];
     } catch (err) {
       console.error("Error fetching category data:", err);
       throw new ExpressError("Error fetching category data", 500);
@@ -45,6 +58,19 @@ class Dashboard {
    * Returns the historical data for the specified category.
    */
   static async getHistoryByCategory(username, category) {
+    try {
+      const categoryRes = await db.query(
+        `SELECT id FROM categories WHERE name = $1 AND username = $2`,
+        [category, username]
+      );
+      if (!categoryRes.rows[0]) {
+        throw new ExpressError("Category not found", 404);
+      }
+    } catch (err) {
+      console.error("Error reading category", err);
+      throw new ExpressError("No such category", 500);
+    }
+
     let query = `
     SELECT 
       TO_CHAR(DATE_TRUNC('month', e.date), 'Mon YYYY') AS month,
@@ -110,8 +136,7 @@ class Dashboard {
     const params = [username, budget];
     try {
       const result = await db.query(query, params);
-
-      return result.rows.map((row) => ({
+      const monthData = result.rows.map((row) => ({
         month: row.month,
         total_amount: +row.total_amount,
         budget_amount: budgetAmount,
@@ -120,6 +145,7 @@ class Dashboard {
             ? Number(((row.total_amount / budgetAmount) * 100).toFixed(2))
             : null,
       }));
+      return monthData[0];
     } catch (err) {
       console.error("Error fetching budget data:", err);
       throw new ExpressError("Error fetching budget data", 500);

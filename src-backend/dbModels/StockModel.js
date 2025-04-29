@@ -176,7 +176,7 @@ class Stock {
     let readStock = await this.checkStock(symbol);
     if (!readStock) {
       await this.createStock(symbol);
-      readStock = await this.checkRate(symbol);
+      readStock = await this.checkStock(symbol);
     }
     try {
       await db.query(

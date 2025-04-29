@@ -12,14 +12,14 @@ const router = express.Router();
 /**
  * Get dashboard data for a specific category
  *
- * GET /category {category: <category_name>} =>
+ * GET /category?category=<category_name> =>
  *      { dashboard: { category, current_month : {month, total_amount}, history : {month, total_amount} } }
  *
  * This route returns the current month data and history for a specific category.
  */
 router.get("/category", ensureLoggedIn, async function (req, res, next) {
   try {
-    const category = req.body.category;
+    const category = req.query.category;
     const user = res.locals.user.username;
 
     if (!category) {
@@ -44,7 +44,7 @@ router.get("/category", ensureLoggedIn, async function (req, res, next) {
 /**
  * Get dashboard data for a specific budget
  *
- * GET /budget {budget: <budget_name>} =>
+ * GET /budget?budget=<budget_name> =>
  *      { dashboard: { budget, current_month : {month, total_amount, budget_amount, percentage_used},
  *          history : {month, total_amount, budget_amount, percentage_used} } }
  *
@@ -52,7 +52,7 @@ router.get("/category", ensureLoggedIn, async function (req, res, next) {
  */
 router.get("/budget", ensureLoggedIn, async function (req, res, next) {
   try {
-    const budget = req.body.budget;
+    const budget = req.query.budget;
     const user = res.locals.user.username;
 
     if (!budget) {

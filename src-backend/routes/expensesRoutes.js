@@ -45,7 +45,7 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 /** Get all expenses in the database for the logged in user.
  * Optional filters can be applied to the request.
  *
- * GET / { filters: <filters> }=> { expenses: [ {name}, ... ] }
+ * GET /expenses?<param=value> => { expenses: [ {name}, ... ] }
  *
  * Filters can include:
  *  { limit, offset, start_date, end_date, category, budget_name }
@@ -60,17 +60,14 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 
 router.get("/", ensureLoggedIn, async function (req, res, next) {
   try {
-    const validator = jsonschema.validate(
-      req.body.filters,
-      expenseSearchSchema
-    );
+    const validator = jsonschema.validate(req.query, expenseSearchSchema);
     if (!validator.valid) {
       const errs = validator.errors.map((e) => e.stack);
       throw new ExpressError(errs, 400);
     }
     const expenses = await Expense.getAll(
       res.locals.user.username,
-      req.body.filters || {}
+      req.query || {}
     );
     return res.json({ expenses });
   } catch (err) {

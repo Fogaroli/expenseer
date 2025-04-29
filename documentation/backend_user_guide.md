@@ -98,9 +98,6 @@ Routes that require JWT authetication, the token should be added to the request 
 
 - **Description:** Retrieves all users (Admin only).
 - **Input:**
-  ```json
-  {}
-  ```
 - **Output:**
 
   ```json
@@ -128,10 +125,6 @@ Routes that require JWT authetication, the token should be added to the request 
 
 - **Description:** Retrieves a specific user by username.
 - **Input:** Username in the URL (`/users/:username`)
-
-  ```json
-  {}
-  ```
 
 - **Output:**
 
@@ -220,11 +213,6 @@ Routes that require JWT authetication, the token should be added to the request 
 
 - **Description:** Deletes a user.
 - **Input:** Username in the URL (`/users/:username`)
-
-  ```json
-  {}
-  ```
-
 - **Output:**
 
   ```json
@@ -272,11 +260,6 @@ Routes that require JWT authetication, the token should be added to the request 
 
 - **Description:** Retrieves all budgets for the logged-in user.
 - **Input:**
-
-  ```json
-  {}
-  ```
-
 - **Output:**
 
   ```json
@@ -301,12 +284,7 @@ Routes that require JWT authetication, the token should be added to the request 
 ### 3. GET /budgets/:budget
 
 - **Description:** Retrieves a specific budget by name for the logged-in user.
-- **Input:** Budget name in the URL (`/budgets/:budget`)
-
-  ```json
-  {}
-  ```
-
+- **Input:** Budget name in the URL (`/budgets/:budget`)`
 - **Output:**
 
   ```json
@@ -357,11 +335,6 @@ Routes that require JWT authetication, the token should be added to the request 
 
 - **Description:** Deletes a budget for the logged-in user.
 - **Input:** Budget name in the URL (`/budgets/:budget`)
-
-  ```json
-  {}
-  ```
-
 - **Output:**
 
   ```json
@@ -403,11 +376,6 @@ Routes that require JWT authetication, the token should be added to the request 
 
 - **Description:** Retrieves all categories for the logged-in user.
 - **Input:**
-
-  ```json
-  {}
-  ```
-
 - **Output:**
 
   ```json
@@ -429,11 +397,6 @@ Routes that require JWT authetication, the token should be added to the request 
 
 - **Description:** Retrieves a specific category by name for the logged-in user.
 - **Input:** Category name in the URL (`/categories/:category`)
-
-  ```json
-  {}
-  ```
-
 - **Output:**
 
   ```json
@@ -475,11 +438,6 @@ Routes that require JWT authetication, the token should be added to the request 
 
 - **Description:** Deletes a category for the logged-in user.
 - **Input:** Category name in the URL (`/categories/:category`)
-
-  ```json
-  {}
-  ```
-
 - **Output:**
 
   ```json
@@ -531,20 +489,9 @@ Routes that require JWT authetication, the token should be added to the request 
 
 - **Description:** Retrieves all expenses for the logged-in user, with optional filters.
 - **Input:**
-
-  ```json
-  {
-    "filters": {
-      "limit": 20,
-      "offset": 0,
-      "start_date": "2023-01-01",
-      "end_date": "2024-01-01",
-      "category": "Category Name",
-      "budget_name": "Budget Name"
-    }
-  }
-  ```
-
+  Use query parameters for filters.  
+  Example:  
+  `/expenses?limit=20&offset=0&start_date=2023-01-01&end_date=2024-01-01&category=Food&budget_name=Groceries`
 - **Output:**
 
   ```json
@@ -566,11 +513,6 @@ Routes that require JWT authetication, the token should be added to the request 
 
 - **Description:** Retrieves a specific expense by ID for the logged-in user.
 - **Input:** Expense ID in the URL (`/expenses/:expenseId`)
-
-  ```json
-  {}
-  ```
-
 - **Output:**
 
   ```json
@@ -629,11 +571,6 @@ Routes that require JWT authetication, the token should be added to the request 
 
 - **Description:** Deletes an expense for the logged-in user.
 - **Input:** Expense ID in the URL (`/expenses/:expenseId`)
-
-  ```json
-  {}
-  ```
-
 - **Output:**
 
   ```json
@@ -679,21 +616,9 @@ Routes that require JWT authetication, the token should be added to the request 
 
 - **Description:** Retrieves exchange rates. If no data is provided, returns all exchange rates for the logged-in user. If a currency pair is provided, returns the exchange rate for that pair.
 - **Input (All exchange rates):**
-
-  ```json
-  {}
-  ```
-
 - **Input (Specific pair):**
-
-  ```json
-  {
-    "data": {
-      "currency1": "USD",
-      "currency2": "EUR"
-    }
-  }
-  ```
+  Use query parameters:  
+  `/exchanges?currency1=USD&currency2=EUR`
 
 - **Output (All exchange rates):**
 
@@ -792,20 +717,9 @@ Routes that require JWT authetication, the token should be added to the request 
 
 - **Description:** Retrieves stock prices. If no data is provided, returns all stock values and daily variation for the logged-in user. If a stock symbol is provided, returns the value and daily variation for that symbol.
 - **Input (All stocks):**
-
-  ```json
-  {}
-  ```
-
 - **Input (Specific stock):**
-
-  ```json
-  {
-    "data": {
-      "symbol": "AAPL"
-    }
-  }
-  ```
+  Use query parameter:  
+  `/stocks?symbol=AAPL`
 
 - **Output (All stocks):**
 
@@ -871,12 +785,8 @@ Routes that require JWT authetication, the token should be added to the request 
 ### 4. GET /stocks/search?term=\<searchTerm>
 
 - **Description:** Searches for a stock symbol based on a string input.
-- **Input:** Search term as a query parameter (`/stocks/search?term=appl`)
-
-  ```json
-  {}
-  ```
-
+- **Input:**
+  Search term as a query parameter (`/stocks/search?term=appl`)
 - **Output:**
 
   ```json
@@ -895,3 +805,250 @@ Routes that require JWT authetication, the token should be added to the request 
   ```
 
 - **Authentication:** JWT Token required
+
+## Dashboard Routes (`/dashboard`)
+
+### 1. GET /dashboard/category
+
+- **Description:** Retrieves dashboard data for a specific category, including current month and last 6 months history.
+- **Input:**
+  Use query parameters
+  `/dashboards/category?category=<category name>`
+- **Output:**
+
+  ```json
+  {
+    "dashboard": {
+      "category": "Category Name",
+      "current_month": [
+        {
+          "month": "Apr 2025",
+          "total_amount": 120
+        }
+      ],
+      "history": [
+        {
+          "month": "Apr 2025",
+          "total_amount": 120
+        },
+        {
+          "month": "Mar 2025",
+          "total_amount": 95
+        }
+        // ... up to 6 months
+      ]
+    }
+  }
+  ```
+
+- **Authentication:** JWT Token required
+
+---
+
+### 2. GET /dashboard/budget
+
+- **Description:** Retrieves dashboard data for a specific budget, including current month and last 6 months history, with budget amount and percent used.
+- **Input:**
+  Use query parameters
+  `/dashboards/budget?budget=<budget name>`
+
+- **Output:**
+
+  ```json
+  {
+    "dashboard": {
+      "budget": "Budget Name",
+      "current_month": [
+        {
+          "month": "Apr 2025",
+          "total_amount": 100,
+          "budget_amount": 200,
+          "percent_used": 50
+        }
+      ],
+      "history": [
+        {
+          "month": "Apr 2025",
+          "total_amount": 100,
+          "budget_amount": 200,
+          "percent_used": 50
+        },
+        {
+          "month": "Mar 2025",
+          "total_amount": 80,
+          "budget_amount": 200,
+          "percent_used": 40
+        }
+        // ... up to 6 months
+      ]
+    }
+  }
+  ```
+
+- **Authentication:** JWT Token required
+
+---
+
+### 3. GET /dashboard/monthly
+
+- **Description:** Retrieves dashboard data for all monthly budgets in the current month.
+- **Input:**
+- **Output:**
+
+  ```json
+  {
+    "dashboard": {
+      "monthly_budget": [
+        {
+          "name": "Budget Name 1",
+          "total_amount": 100,
+          "budget_amount": 200,
+          "percent_used": 50
+        },
+        {
+          "name": "Budget Name 2",
+          "total_amount": 150,
+          "budget_amount": 300,
+          "percent_used": 50
+        }
+      ]
+    }
+  }
+  ```
+
+- **Authentication:** JWT Token required
+
+---
+
+### 4. GET /dashboard/yearly
+
+- **Description:** Retrieves dashboard data for all yearly budgets in the current month.
+- **Input:**
+- **Output:**
+
+  ```json
+  {
+    "dashboard": {
+      "yearly_budget": [
+        {
+          "name": "Yearly Budget 1",
+          "total_amount": 500,
+          "budget_amount": 1200,
+          "percent_used": 41.67
+        }
+      ]
+    }
+  }
+  ```
+
+- **Authentication:** JWT Token required
+
+---
+
+### 5. GET /dashboard/event
+
+- **Description:** Retrieves dashboard data for all event budgets in the current month.
+- **Input:**
+- **Output:**
+
+  ```json
+  {
+    "dashboard": {
+      "event_budget": [
+        {
+          "name": "Event Budget 1",
+          "total_amount": 300,
+          "budget_amount": 500,
+          "percent_used": 60
+        }
+      ]
+    }
+  }
+  ```
+
+- **Authentication:** JWT Token required
+
+---
+
+### 6. GET /dashboard/savings
+
+- **Description:** Retrieves dashboard data for all savings budgets in the current month.
+- **Input:**
+- **Output:**
+
+  ```json
+  {
+    "dashboard": {
+      "saving_budget": [
+        {
+          "name": "Savings 1",
+          "total_amount": 200,
+          "budget_amount": 1000,
+          "percent_used": 20
+        }
+      ]
+    }
+  }
+  ```
+
+- **Authentication:** JWT Token required
+
+---
+
+### 7. GET /dashboard/expenses/category
+
+- **Description:** Retrieves total expenses for each category in the current month.
+- **Input:**
+- **Output:**
+
+  ```json
+  {
+    "dashboard": {
+      "expenses": [
+        {
+          "category": "Food",
+          "total_amount": 120
+        },
+        {
+          "category": "Transport",
+          "total_amount": 80
+        }
+      ]
+    }
+  }
+  ```
+
+- **Authentication:** JWT Token required
+
+---
+
+### 8. GET /dashboard/expenses/budget
+
+- **Description:** Retrieves total expenses for each budget in the current month, including budget amount and percent used.
+- **Input:**
+- **Output:**
+
+  ```json
+  {
+    "dashboard": {
+      "expenses": [
+        {
+          "budget": "Budget Name 1",
+          "total_amount": 100,
+          "budget_amount": 200,
+          "percent_used": 50
+        },
+        {
+          "budget": "Budget Name 2",
+          "total_amount": 150,
+          "budget_amount": 300,
+          "percent_used": 50
+        }
+      ]
+    }
+  }
+  ```
+
+- **Authentication:** JWT Token required
+
+---
