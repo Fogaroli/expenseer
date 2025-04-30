@@ -20,7 +20,7 @@ const router = express.Router();
  * This route only adds an expense to the logged user.
  *
  * This returns the newly created expense:
- *  {expense: { name, amount, description, date, category, budget_name }
+ *  {expense: { name, amount, description, date, category, budget }
  *
  * Authorization required: logged in user
  **/
@@ -48,7 +48,7 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
  * GET /expenses?<param=value> => { expenses: [ {name}, ... ] }
  *
  * Filters can include:
- *  { limit, offset, start_date, end_date, category, budget_name }
+ *  { limit, offset, start_date, end_date, category, budget }
  *
  * Data should be in format yyyy-mm-dd.
  *
@@ -98,7 +98,7 @@ router.get("/:expenseId", ensureLoggedIn, async function (req, res, next) {
  * PATCH /[expenseId] {data:{ <expense> }} => { expense: {id, name, amount, description, date, budget, category} }
  *
  * Data can include:
- *   {  name, amount, description, date, category, budget_name }
+ *   {  name, amount, description, date, category, budget }
  *
  * Authorization required: Logged in user
  **/

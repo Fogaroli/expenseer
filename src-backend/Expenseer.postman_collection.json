@@ -315,9 +315,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/budgets/Groceries",
+              "raw": "{{base_url}}/budgets/TestBudget",
               "host": ["{{base_url}}"],
-              "path": ["budgets", "Groceries"]
+              "path": ["budgets", "TestBudget"]
             }
           },
           "response": []
@@ -363,7 +363,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"Piecenew\",\r\n        \"type\": 3,\r\n        \"amount\": 50000,\r\n        \"description\": \"My Description2\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"TestBudget\",\r\n        \"type\": 1,\r\n        \"amount\": 50000,\r\n        \"description\": \"My Description2\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -371,9 +371,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/budgets/Piecenew",
+              "raw": "{{base_url}}/budgets/Test%20Budget",
               "host": ["{{base_url}}"],
-              "path": ["budgets", "Piecenew"]
+              "path": ["budgets", "Test%20Budget"]
             }
           },
           "response": []
@@ -617,13 +617,17 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/expenses?budget_name=Groceries",
+              "raw": "{{base_url}}/expenses?budget=Groceries&limit=500",
               "host": ["{{base_url}}"],
               "path": ["expenses"],
               "query": [
                 {
-                  "key": "budget_name",
+                  "key": "budget",
                   "value": "Groceries"
+                },
+                {
+                  "key": "limit",
+                  "value": "500"
                 }
               ]
             }
@@ -674,7 +678,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"Grocery Store 2\",\r\n        \"amount\": 100.00,\r\n        \"description\": \"Weekly groceries\",\r\n        \"date\": \"2025-03-05\",\r\n        \"budget_name\": \"Groceries\",\r\n        \"category\": \"Food\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"Grocery Store 3\",\r\n        \"amount\": 100.00,\r\n        \"description\": \"Weekly groceries\",\r\n        \"date\": \"2025-03-05\",\r\n        \"budget\": \"Groceries\",\r\n        \"category\": \"Food\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -702,7 +706,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"updated\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"budget\": \"Summer Vacation\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -710,9 +714,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/expenses/7",
+              "raw": "{{base_url}}/expenses/51",
               "host": ["{{base_url}}"],
-              "path": ["expenses", "7"]
+              "path": ["expenses", "51"]
             }
           },
           "response": []
@@ -738,9 +742,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/expenses/1",
+              "raw": "{{base_url}}/expenses/51",
               "host": ["{{base_url}}"],
-              "path": ["expenses", "1"]
+              "path": ["expenses", "51"]
             }
           },
           "response": []

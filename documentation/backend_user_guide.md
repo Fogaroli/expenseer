@@ -463,7 +463,7 @@ Routes that require JWT authetication, the token should be added to the request 
       "description": "Expense Description",
       "date": "2024-01-01",
       "category": "Category Name",
-      "budget_name": "Budget Name"
+      "budget": "Budget Name"
     }
   }
   ```
@@ -478,7 +478,7 @@ Routes that require JWT authetication, the token should be added to the request 
       "description": "Expense Description",
       "date": "2024-01-01",
       "category": "Category Name",
-      "budget_name": "Budget Name"
+      "budget": "Budget Name"
     }
   }
   ```
@@ -491,7 +491,7 @@ Routes that require JWT authetication, the token should be added to the request 
 - **Input:**
   Use query parameters for filters.  
   Example:  
-  `/expenses?limit=20&offset=0&start_date=2023-01-01&end_date=2024-01-01&category=Food&budget_name=Groceries`
+  `/expenses?limit=20&offset=0&start_date=2023-01-01&end_date=2024-01-01&category=Food&budget=Groceries`
 - **Output:**
 
   ```json
@@ -544,7 +544,7 @@ Routes that require JWT authetication, the token should be added to the request 
       "description": "New Expense Description",
       "date": "2024-02-01",
       "category": "New Category Name",
-      "budget_name": "New Budget Name"
+      "budget": "New Budget Name"
     }
   }
   ```

@@ -5,7 +5,7 @@ const { sqlForPartialUpdate } = require("../helpers/partialUpdate.js");
 class Expense {
   /** Create a new expense
    *expense object
-   * [{name, amount, description, date, category, budget_name}]
+   * [{name, amount, description, date, category, budget}]
    *
    * Returns new expense data.
    *
@@ -27,7 +27,7 @@ class Expense {
       `SELECT id 
             FROM budgets 
             WHERE username = $1 AND name = $2`,
-      [username, expenseData.budget_name]
+      [username, expenseData.budget]
     );
     console.assert(budget.rows[0], "Budget not found to create expense");
 
@@ -37,7 +37,7 @@ class Expense {
     const result = await db.query(
       `INSERT INTO expenses (name, amount, description, date, category, budget_id, username)
             VALUES ($1, $2, $3, $4, $5, $6, $7)
-            RETURNING id, name, amount, description, date, category, budget_id AS budget_name`,
+            RETURNING id, name, amount, description, date, category, budget_id AS budget`,
       [
         expenseData.name,
         expenseData.amount,
@@ -50,7 +50,7 @@ class Expense {
     );
     const expense = result.rows[0];
     expense.category = expenseData.category;
-    expense.budget_name = expenseData.budget_name;
+    expense.budget = expenseData.budget;
     expense.amount = parseFloat(expense.amount);
     return expense;
   }
@@ -63,18 +63,17 @@ class Expense {
    * - start_date: YYYY-MM-DD
    * - end_date: YYYY-MM-DD
    * - category: string
-   * - budget_name: string
+   * - budget: string
    * - limit: number (default 20)
    * - offset: number (default 0)
    *
    * */
   static async getAll(username, filters) {
-    const { limit, offset, start_date, end_date, category, budget_name } =
-      filters;
-    let query = `SELECT e.id, e.name, e.amount, e.date, b.name AS budget_name, c.name AS category
+    const { limit, offset, start_date, end_date, category, budget } = filters;
+    let query = `SELECT e.id, e.name, e.amount, e.date, b.name AS budget, c.name AS category
             FROM expenses AS e
-            JOIN budgets AS b ON e.budget_id = b.id
-            JOIN categories AS c ON e.category = c.id
+            LEFT JOIN budgets AS b ON e.budget_id = b.id
+            LEFT JOIN categories AS c ON e.category = c.id
             WHERE e.username = $1`;
     let values = [username];
     if (start_date) {
@@ -98,12 +97,12 @@ class Expense {
       query += ` AND e.category = $${values.length + 1}`;
       values.push(categoryResult.rows[0].id);
     }
-    if (budget_name) {
+    if (budget) {
       const budgetResult = await db.query(
         `SELECT id
             FROM budgets 
             WHERE username = $1 AND name = $2`,
-        [username, budget_name]
+        [username, budget]
       );
       if (!budgetResult.rows[0]) {
         throw new ExpressError(`Budget not found to get expenses`, 400);
@@ -117,6 +116,8 @@ class Expense {
     query += ` OFFSET $${values.length + 1}`;
     values.push(parseInt(offset) || 0);
     try {
+      console.log("query", query);
+      console.log("values", values);
       const result = await db.query(query, values);
       result.rows.forEach((expense) => {
         expense.amount = parseFloat(expense.amount);
@@ -138,7 +139,7 @@ class Expense {
 
   static async get(username, expenseId) {
     const result = await db.query(
-      `SELECT e.id, e.name, e.amount, e.description, e.date, b.name AS budget_name, c.name AS category
+      `SELECT e.id, e.name, e.amount, e.description, e.date, b.name AS budget, c.name AS category
         FROM expenses AS e
         JOIN budgets AS b ON e.budget_id = b.id
         JOIN categories AS c ON e.category = c.id
@@ -190,12 +191,12 @@ class Expense {
       data.category = category.rows[0].id;
     }
 
-    if (data.budget_name) {
+    if (data.budget) {
       const budget = await db.query(
         `SELECT id 
                 FROM budgets 
                 WHERE username = $1 AND name = $2`,
-        [username, data.budget_name]
+        [username, data.budget]
       );
       console.assert(budget.rows[0], "Budget not found to update expense");
 
@@ -203,7 +204,7 @@ class Expense {
         throw new ExpressError(`Budget not found to update expense`, 400);
       }
       data.budget_id = budget.rows[0].id;
-      delete data.budget_name;
+      delete data.budget;
     }
 
     let { query, values } = sqlForPartialUpdate(

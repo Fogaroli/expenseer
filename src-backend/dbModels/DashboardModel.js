@@ -27,7 +27,7 @@ class Dashboard {
       DATE_TRUNC('month', e.date) AS month_start,
       SUM(e.amount) AS total_amount
       FROM expenses e
-      JOIN categories c ON c.id = e.category
+      LEFT JOIN categories c ON c.id = e.category
       WHERE e.username = $1
       AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
       AND c.name = $2
@@ -77,7 +77,7 @@ class Dashboard {
       DATE_TRUNC('month', e.date) AS month_start,
       SUM(e.amount) AS total_amount
       FROM expenses e
-      JOIN categories c ON c.id = e.category
+      LEFT JOIN categories c ON c.id = e.category
       WHERE e.username = $1
       AND e.date >= (DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '5 months')
       AND c.name = $2  GROUP BY month, month_start
@@ -125,7 +125,7 @@ class Dashboard {
       DATE_TRUNC('month', e.date) AS month_start,
       SUM(e.amount) AS total_amount
       FROM expenses e
-      JOIN budgets b ON b.id = e.budget_id
+      LEFT JOIN budgets b ON b.id = e.budget_id
       WHERE e.username = $1
       AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
       AND b.name = $2
@@ -179,7 +179,7 @@ class Dashboard {
       DATE_TRUNC('month', e.date) AS month_start,
       SUM(e.amount) AS total_amount
       FROM expenses e
-      JOIN budgets b ON b.id = e.budget_id
+      LEFT JOIN budgets b ON b.id = e.budget_id
       WHERE e.username = $1
       AND e.date >= (DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '5 months')
       AND b.name = $2 
@@ -377,7 +377,7 @@ class Dashboard {
       c.name AS category,
       SUM(e.amount) AS total_amount
       FROM expenses e
-      JOIN categories c ON c.id = e.category
+      LEFT JOIN categories c ON c.id = e.category
       WHERE e.username = $1
       AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
       GROUP BY c.name
@@ -414,7 +414,7 @@ class Dashboard {
       b.amount,
       SUM(e.amount) AS total_amount
       FROM expenses AS e
-      JOIN budgets AS b ON b.id = e.budget_id
+      LEFT JOIN budgets AS b ON b.id = e.budget_id
       WHERE e.username = $1
       AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
       GROUP BY b.name, b.amount
