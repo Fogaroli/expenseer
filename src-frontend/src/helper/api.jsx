@@ -111,6 +111,28 @@ class ExpenseerAPI {
     let res = await this.request(`budgets/${budgetName}`, {}, {}, "DELETE");
     return res.deleted;
   }
+
+  /** Get Dashboard Data */
+  static async getDashboard(target, data) {
+    let res = await this.request(
+      `dashboards/${target}`,
+      {},
+      { [target]: data },
+      "GET"
+    );
+    return res.dashboard;
+  }
+
+  /** Get Expenses summary */
+  static async getExpensesSummary(target, data) {
+    let res = await this.request(
+      `expenses`,
+      {},
+      { [target]: data, limit: 5 },
+      "GET"
+    );
+    return res.expenses;
+  }
 }
 
 export default ExpenseerAPI;
