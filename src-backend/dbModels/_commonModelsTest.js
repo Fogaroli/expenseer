@@ -3,7 +3,6 @@ const db = require("../db.js");
 const { BCRYPT_WORK_FACTOR } = require("../config.js");
 
 async function commonBeforeAll() {
-
   await db.query("DELETE FROM users");
   await db.query("DELETE FROM budgets");
 }
@@ -52,4 +51,3 @@ module.exports = {
   commonAfterEach,
   commonAfterAll,
 };
-

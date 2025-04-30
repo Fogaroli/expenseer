@@ -1,3 +1,5 @@
+# Database Model
+
 ```Mermaid
 
 erDiagram
@@ -54,8 +56,8 @@ erDiagram
     }
 
     User_Exchange {
-        int username PK "Foreign key (Users table)"        
-        int exchange_id PK "Foreign key (Exchanges table)"        
+        int username PK "Foreign key (Users table)"
+        int exchange_id PK "Foreign key (Exchanges table)"
     }
 
     Stocks {
@@ -66,7 +68,7 @@ erDiagram
     }
 
     User_Stock {
-        int username PK "Foreign key (Users table)"        
-        string stock_ref PK "Foreign key (Stocks table)"                         
+        int username PK "Foreign key (Users table)"
+        string stock_ref PK "Foreign key (Stocks table)"
     }
 ```

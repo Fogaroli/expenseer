@@ -43,10 +43,10 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
  * If a no data ir provided, returns all exchange rates for the logged in user.
  * If a currency pair is provided, returns the exchange rate for that pair.
  *
- * GET / {} => { exchange_rates: [ {currency1, currency2, rate, last_updated}, ... ] }
+ * GET /exchanges {} => { exchange_rates: [ {currency1, currency2, rate, last_updated}, ... ] }
  * Returns list of all exchanges and latest rates.
  *
- * GET / { data : {currency1:<>, currency2:<>} }=> { exchange_rate: {currency1, currency2, rate, last_updated} }
+ * GET /exchanges?currency1=<>&currency2=<> => { exchange_rate: {currency1, currency2, rate, last_updated} }
  * Returns exchange rate for a given pair of currencies.
  *
  * Authorization required: logged in user
@@ -54,9 +54,9 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 
 router.get("/", ensureLoggedIn, async function (req, res, next) {
   try {
-    const givenData = req.body.data;
-    if (givenData) {
-      const validator = jsonschema.validate(req.body.data, exchangeSchema);
+    const givenData = req.query;
+    if (Object.keys(givenData).length > 0) {
+      const validator = jsonschema.validate(req.query, exchangeSchema);
       if (!validator.valid) {
         const errs = validator.errors.map((e) => e.stack);
         throw new ExpressError(errs, 400);

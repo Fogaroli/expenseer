@@ -16,7 +16,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"username\" : \"user1\",\r\n    \"password\" : \"password\",\r\n    \"first_name\" : \"User 1\",\r\n    \"last_name\" : \"My User\",\r\n    \"email\" : \"simpleUser@eu.com\"\r\n}",
+              "raw": "{\r\n    \"username\" : \"admin2\",\r\n    \"password\" : \"admin\",\r\n    \"first_name\" : \"Administrator\",\r\n    \"last_name\" : \"Expenseer\",\r\n    \"email\" : \"fogaroli@gmail.com\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -74,11 +74,20 @@
             "disableBodyPruning": true
           },
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNfYWRtaW4iOnRydWUsImlhdCI6MTc0MjQxMjMzOH0.sYrK0D87BDVTuIz2e9j__xFuER4srJWrdn9xotzdQio\"\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -110,10 +119,16 @@
           },
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDM5MzY2Nzl9.j-1rn8wlboKnaxW1nuBqo_EXFn-wvbXKNMr-UWiJSf8\"\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -121,9 +136,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/users/user1",
+              "raw": "{{base_url}}/users/fogaroli",
               "host": ["{{base_url}}"],
-              "path": ["users", "user1"]
+              "path": ["users", "fogaroli"]
             }
           },
           "response": []
@@ -132,10 +147,16 @@
           "name": "Create User (admin only)",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\": {\r\n        \"username\" : \"admin4\",\r\n        \"password\" : \"password\",\r\n        \"first_name\" : \"Admin3\",\r\n        \"last_name\" : \"Admin the third\",\r\n        \"email\" : \"admin@eu.com\",\r\n        \"is_admin\": true\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"username\" : \"admin4\",\r\n        \"password\" : \"password\",\r\n        \"first_name\" : \"Admin3\",\r\n        \"last_name\" : \"Admin the third\",\r\n        \"email\" : \"admin@eu.com\",\r\n        \"is_admin\": true\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -154,10 +175,16 @@
           "name": "Update User Information (admin | own)",
           "request": {
             "method": "PATCH",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNfYWRtaW4iOnRydWUsImlhdCI6MTc0MjQxMjMzOH0.sYrK0D87BDVTuIz2e9j__xFuER4srJWrdn9xotzdQio\",\r\n    \"data\": {\r\n        \"first_name\" : \"updated2\",\r\n        \"is_admin\": false\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"first_name\" : \"updated2\",\r\n        \"is_admin\": false\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -176,10 +203,16 @@
           "name": "Change User admin privilege  (admin only)",
           "request": {
             "method": "PATCH",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNfYWRtaW4iOnRydWUsImlhdCI6MTc0MjQxMjMzOH0.sYrK0D87BDVTuIz2e9j__xFuER4srJWrdn9xotzdQio\",\r\n    \"data\": {\r\n        \"is_admin\": false\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"is_admin\": false\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -198,10 +231,16 @@
           "name": "Delete User  (admin | own)",
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNfYWRtaW4iOnRydWUsImlhdCI6MTc0MjQxMjMzOH0.sYrK0D87BDVTuIz2e9j__xFuER4srJWrdn9xotzdQio\"\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -228,10 +267,16 @@
           },
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDM5MzY2Nzl9.j-1rn8wlboKnaxW1nuBqo_EXFn-wvbXKNMr-UWiJSf8\"\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -253,10 +298,16 @@
           },
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\"\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -264,9 +315,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/budgets/Groceries",
+              "raw": "{{base_url}}/budgets/TestBudget",
               "host": ["{{base_url}}"],
-              "path": ["budgets", "Groceries"]
+              "path": ["budgets", "TestBudget"]
             }
           },
           "response": []
@@ -275,10 +326,16 @@
           "name": "Create Budget (own user)",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\": {\r\n        \"name\": \"Piece2\",\r\n        \"type\": 2,\r\n        \"amount\": 10000,\r\n        \"description\": \"My Description\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"Piece2\",\r\n        \"type\": 2,\r\n        \"amount\": 10000,\r\n        \"description\": \"My Description\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -297,10 +354,16 @@
           "name": "Update budget (own user)",
           "request": {
             "method": "PATCH",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\": {\r\n        \"name\": \"Piecenew\",\r\n        \"type\": 3,\r\n        \"amount\": 50000,\r\n        \"description\": \"My Description2\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"TestBudget\",\r\n        \"type\": 1,\r\n        \"amount\": 50000,\r\n        \"description\": \"My Description2\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -308,9 +371,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/budgets/Piecenew",
+              "raw": "{{base_url}}/budgets/Test%20Budget",
               "host": ["{{base_url}}"],
-              "path": ["budgets", "Piecenew"]
+              "path": ["budgets", "Test%20Budget"]
             }
           },
           "response": []
@@ -319,10 +382,16 @@
           "name": "Delete budget (own user)",
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\"\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -349,10 +418,16 @@
           },
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\"\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -374,10 +449,16 @@
           },
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\"\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -396,10 +477,16 @@
           "name": "Create Budget (own user)",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\": {\r\n        \"name\": \"New Category\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"New Category\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -418,10 +505,16 @@
           "name": "Update budget (own user)",
           "request": {
             "method": "PATCH",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\": {\r\n        \"name\": \"updated\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"updated\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -440,10 +533,16 @@
           "name": "Delete budget (own user)",
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\"\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -451,9 +550,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/categories/updated",
+              "raw": "{{base_url}}/categories/test2",
               "host": ["{{base_url}}"],
-              "path": ["categories", "updated"]
+              "path": ["categories", "test2"]
             }
           },
           "response": []
@@ -470,10 +569,16 @@
           },
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\"\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -495,10 +600,16 @@
           },
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"filters\":{\r\n        \"start_date\": \"2025-04-03\",\r\n        \"end_date\": \"2025-04-12\",\r\n        \"limit\": 0\r\n    }\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -506,9 +617,19 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/expenses",
+              "raw": "{{base_url}}/expenses?budget=Groceries&limit=500",
               "host": ["{{base_url}}"],
-              "path": ["expenses"]
+              "path": ["expenses"],
+              "query": [
+                {
+                  "key": "budget",
+                  "value": "Groceries"
+                },
+                {
+                  "key": "limit",
+                  "value": "500"
+                }
+              ]
             }
           },
           "response": []
@@ -520,10 +641,16 @@
           },
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\"\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -542,10 +669,16 @@
           "name": "Create expense (own user)",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\": {\r\n        \"name\": \"Grocery Store 2\",\r\n        \"amount\": 100.00,\r\n        \"description\": \"Weekly groceries\",\r\n        \"date\": \"2025-03-05\",\r\n        \"budget_name\": \"Groceries\",\r\n        \"category\": \"Food\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"Grocery Store 3\",\r\n        \"amount\": 100.00,\r\n        \"description\": \"Weekly groceries\",\r\n        \"date\": \"2025-03-05\",\r\n        \"budget\": \"Groceries\",\r\n        \"category\": \"Food\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -564,10 +697,16 @@
           "name": "Update budget (own user)",
           "request": {
             "method": "PATCH",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\": {\r\n        \"name\": \"updated\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"budget\": \"Summer Vacation\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -575,9 +714,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/expenses/7",
+              "raw": "{{base_url}}/expenses/51",
               "host": ["{{base_url}}"],
-              "path": ["expenses", "7"]
+              "path": ["expenses", "51"]
             }
           },
           "response": []
@@ -586,10 +725,16 @@
           "name": "Delete budget (own user)",
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\"\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -597,9 +742,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/expenses/1",
+              "raw": "{{base_url}}/expenses/51",
               "host": ["{{base_url}}"],
-              "path": ["expenses", "1"]
+              "path": ["expenses", "51"]
             }
           },
           "response": []
@@ -616,10 +761,16 @@
           },
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\"\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -641,10 +792,16 @@
           },
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\":{\r\n        \"currency1\": \"USD\",\r\n        \"currency2\": \"EUR\"\r\n    }\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -652,9 +809,19 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/exchanges",
+              "raw": "{{base_url}}/exchanges?currency1=USD&currency2=GBP",
               "host": ["{{base_url}}"],
-              "path": ["exchanges"]
+              "path": ["exchanges"],
+              "query": [
+                {
+                  "key": "currency1",
+                  "value": "USD"
+                },
+                {
+                  "key": "currency2",
+                  "value": "GBP"
+                }
+              ]
             }
           },
           "response": []
@@ -663,10 +830,16 @@
           "name": "Assign exchange to user (own user)",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\":{\r\n        \"currency1\": \"BRL\",\r\n        \"currency2\": \"USD\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\":{\r\n        \"currency1\": \"BRL\",\r\n        \"currency2\": \"USD\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -685,10 +858,16 @@
           "name": "Delete exchange from user (own user)",
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\":{\r\n        \"currency1\": \"BRL\",\r\n        \"currency2\": \"USD\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\":{\r\n        \"currency1\": \"BRL\",\r\n        \"currency2\": \"USD\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -715,10 +894,16 @@
           },
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\"\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -740,10 +925,16 @@
           },
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\":{\r\n        \"symbol\": \"AMZ.FRK\"\r\n    }\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -751,9 +942,15 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/stocks",
+              "raw": "{{base_url}}/stocks?symbol=AMZ.FRK",
               "host": ["{{base_url}}"],
-              "path": ["stocks"]
+              "path": ["stocks"],
+              "query": [
+                {
+                  "key": "symbol",
+                  "value": "AMZ.FRK"
+                }
+              ]
             }
           },
           "response": []
@@ -765,10 +962,16 @@
           },
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\"\r\n}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -793,10 +996,16 @@
           "name": "Assign stock to user (own user)",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\":{\r\n        \"symbol\": \"AMZN\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\":{\r\n        \"symbol\": \"ITRI\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -815,10 +1024,16 @@
           "name": "Delete stock from user (own user)",
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDI0MTM0ODd9.U8-OYxCmPrJvhFwkNOsHFfH4TIzV-qa2QRnpcMtbL-I\",\r\n    \"data\":{\r\n        \"symbol2\": \"ITRI\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\":{\r\n        \"symbol2\": \"ITRI\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -829,6 +1044,271 @@
               "raw": "{{base_url}}/stocks",
               "host": ["{{base_url}}"],
               "path": ["stocks"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Dashboards",
+      "item": [
+        {
+          "name": "Category Dashboard",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/dashboards/category?category=Food",
+              "host": ["{{base_url}}"],
+              "path": ["dashboards", "category"],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "Food"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Budget Dashboard",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/dashboards/budget?budget=Groceries",
+              "host": ["{{base_url}}"],
+              "path": ["dashboards", "budget"],
+              "query": [
+                {
+                  "key": "budget",
+                  "value": "Groceries"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Monthly Budget Dashboard",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/dashboards/monthly",
+              "host": ["{{base_url}}"],
+              "path": ["dashboards", "monthly"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Yearly Budget Dashboard",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/dashboards/yearly",
+              "host": ["{{base_url}}"],
+              "path": ["dashboards", "yearly"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Event Budget Dashboard",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/dashboards/event",
+              "host": ["{{base_url}}"],
+              "path": ["dashboards", "event"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Savings Budget Dashboard",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/dashboards/savings",
+              "host": ["{{base_url}}"],
+              "path": ["dashboards", "savings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Expenses by category Dashboard",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/dashboards/expenses/category",
+              "host": ["{{base_url}}"],
+              "path": ["dashboards", "expenses", "category"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Expenses by budget Dashboard",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/dashboards/expenses/budget",
+              "host": ["{{base_url}}"],
+              "path": ["dashboards", "expenses", "budget"]
             }
           },
           "response": []
@@ -858,6 +1338,11 @@
     {
       "key": "base_url",
       "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNfYWRtaW4iOnRydWUsImlhdCI6MTc0NTEwMDc0Mn0.ZoKajSUNaqHwR7Or5Cg44al3_fhdG2Y9cOwqfh6l7aQ",
       "type": "string"
     }
   ]

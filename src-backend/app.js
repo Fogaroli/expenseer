@@ -4,7 +4,7 @@ const app = express();
 const ExpressError = require("./helpers/expressError");
 const cors = require("cors");
 const morgan = require("morgan");
-const {authenticateJWT} = require("./middleware/authMiddleware");
+const { authenticateJWT } = require("./middleware/authMiddleware");
 
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/usersRoutes");
@@ -13,6 +13,7 @@ const categoriesRoutes = require("./routes/categoryRoutes");
 const expenseRoutes = require("./routes/expensesRoutes");
 const exchangeRoutes = require("./routes/exchangeRoutes");
 const stockRoutes = require("./routes/stockRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
 
 app.use(cors());
 app.use(express.json());
@@ -29,6 +30,7 @@ app.use("/categories", categoriesRoutes);
 app.use("/expenses", expenseRoutes);
 app.use("/exchanges", exchangeRoutes);
 app.use("/stocks", stockRoutes);
+app.use("/dashboards", dashboardRoutes);
 
 /** 404 handler */
 

@@ -47,7 +47,7 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
  * GET / {} => { stocks: [ {symbol, value, variation, last_updated}, ... ] }
  * Returns list of all user stocks, current value and daily variation.
  *
- * GET / { data : {symbol:<>} }=> { stock: {symbol, value, variation, last_updated}}
+ * GET /?symbol=<> => { stock: {symbol, value, variation, last_updated}}
  * Returns current value and daily variation for the given stock.
  *
  * Authorization required: logged in user
@@ -55,9 +55,9 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 
 router.get("/", ensureLoggedIn, async function (req, res, next) {
   try {
-    const givenData = req.body.data;
+    const givenData = req.query;
     if (givenData) {
-      const validator = jsonschema.validate(req.body.data, stockSchema);
+      const validator = jsonschema.validate(req.query, stockSchema);
       if (!validator.valid) {
         const errs = validator.errors.map((e) => e.stack);
         throw new ExpressError(errs, 400);
