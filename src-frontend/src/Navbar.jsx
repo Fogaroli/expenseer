@@ -23,6 +23,7 @@ const Navbar = () => {
             <>
               <NavLink to="/categories">Categories</NavLink>
               <NavLink to="/budgets">Budgets</NavLink>
+              <NavLink to="/expenses">Expenses</NavLink>
               <NavLink onClick={logoutHandler}>
                 Logout({user.first_name})
               </NavLink>

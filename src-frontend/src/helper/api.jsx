@@ -133,6 +133,30 @@ class ExpenseerAPI {
     );
     return res.expenses;
   }
+
+  /** Get Expenses
+   * Filters can be provided to narrow down the results
+   * Filters can include category, budget, startdate, enddate
+   * Example: { category: "Food", budget: "Groceries", startdate: "2023-01-01", enddate: "2023-12-31" }
+   * Limit and offset can also be provided to paginate the results
+   * Example: { limit: 10, offset: 0 }
+   */
+  static async getExpenses(filters) {
+    let res = await this.request(`expenses`, {}, filters, "GET");
+    return res.expenses;
+  }
+
+  /** Get details for a given expense */
+  static async getExpense(id) {
+    let res = await this.request(`expenses/${id}`);
+    return res.expense;
+  }
+
+  /** Delete expense */
+  static async deleteExpense(id) {
+    let res = await this.request(`expenses/${id}`, {}, {}, "DELETE");
+    return res.deleted;
+  }
 }
 
 export default ExpenseerAPI;
