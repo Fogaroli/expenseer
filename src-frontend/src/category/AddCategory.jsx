@@ -1,8 +1,8 @@
 import { useState } from "react";
 import {
   addCategory,
-  selectError,
-  selectLoading,
+  selectCategoryError,
+  selectCategoryLoading,
 } from "../store/categorySlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -12,8 +12,8 @@ const AddCategory = () => {
   const [categoryName, setCategoryName] = useState("");
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
-  const error = useSelector(selectError);
-  const loading = useSelector(selectLoading);
+  const error = useSelector(selectCategoryError);
+  const loading = useSelector(selectCategoryLoading);
   const navigate = useNavigate();
 
   const handleSubmit = async (evt) => {

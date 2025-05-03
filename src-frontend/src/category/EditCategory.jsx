@@ -5,8 +5,8 @@ import {
   getCategory,
   editCategory,
   deleteCategory,
-  selectError,
-  selectLoading,
+  selectCategoryError,
+  selectCategoryLoading,
 } from "../store/categorySlice";
 import { selectToken } from "../store/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,8 +15,8 @@ import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 const EditCategory = () => {
   const { categoryName } = useParams();
   const [categoryData, setCategoryData] = useState({ name: "" });
-  const loading = useSelector(selectLoading);
-  const error = useSelector(selectError);
+  const loading = useSelector(selectCategoryLoading);
+  const error = useSelector(selectCategoryError);
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
   const navigate = useNavigate();

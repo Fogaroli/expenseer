@@ -137,7 +137,7 @@ export {
 };
 
 export const selectCategories = (state) => state.category.categories;
-export const selectLoading = (state) => state.category.loading;
-export const selectError = (state) => state.category.error;
+export const selectCategoryLoading = (state) => state.category.loading;
+export const selectCategoryError = (state) => state.category.error;
 
 export default categorySlice.reducer;

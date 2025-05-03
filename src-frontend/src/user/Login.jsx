@@ -3,17 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   login,
-  selectError,
+  selectUserError,
   selectUser,
-  selectLoading,
+  selectUserLoading,
 } from "../store/authSlice";
 
 const Login = () => {
   const emptyForm = { username: "", password: "" };
   const dispatch = useDispatch();
   const [formData, setFormData] = useState(emptyForm);
-  const error = useSelector(selectError);
-  const loading = useSelector(selectLoading);
+  const error = useSelector(selectUserError);
+  const loading = useSelector(selectUserLoading);
   const user = useSelector(selectUser);
   const navigate = useNavigate();
 

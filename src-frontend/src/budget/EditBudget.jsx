@@ -5,8 +5,8 @@ import {
   getBudget,
   editBudget,
   deleteBudget,
-  selectError,
-  selectLoading,
+  selectBudgetError,
+  selectBudgetLoading,
 } from "../store/budgetSlice";
 import { selectToken } from "../store/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,8 +21,8 @@ const Editbudget = () => {
   };
   const { budgetName } = useParams();
   const [budgetData, setBudgetData] = useState(initialState);
-  const loading = useSelector(selectLoading);
-  const error = useSelector(selectError);
+  const loading = useSelector(selectBudgetLoading);
+  const error = useSelector(selectBudgetError);
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
   const navigate = useNavigate();

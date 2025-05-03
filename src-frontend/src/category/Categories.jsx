@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Navigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCategories,
   selectCategories,
-  selectLoading,
-  selectError,
+  selectCategoryLoading,
+  selectCategoryError,
 } from "../store/categorySlice";
 import { selectToken } from "../store/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,8 +14,8 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 const Categories = () => {
   const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
-  const loading = useSelector(selectLoading);
-  const error = useSelector(selectError);
+  const loading = useSelector(selectCategoryLoading);
+  const error = useSelector(selectCategoryError);
   const token = useSelector(selectToken);
 
   useEffect(() => {

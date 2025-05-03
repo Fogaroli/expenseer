@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   register,
-  selectError,
+  selectUserError,
   selectUser,
-  selectLoading,
+  selectUserLoading,
 } from "../store/authSlice";
 
 const Register = () => {
@@ -18,8 +18,8 @@ const Register = () => {
   };
   const [formData, setFormData] = useState(cleanForm);
   const dispatch = useDispatch();
-  const error = useSelector(selectError);
-  const loading = useSelector(selectLoading);
+  const error = useSelector(selectUserError);
+  const loading = useSelector(selectUserLoading);
   const user = useSelector(selectUser);
   const navigate = useNavigate();
 

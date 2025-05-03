@@ -14,6 +14,7 @@ const useDashboard = (target = {}) => {
   useEffect(() => {
     const fetchData = async (type, item) => {
       setIsLoading(true);
+      setError(null);
       try {
         ExpenseerAPI.token = token;
         const response = await ExpenseerAPI.getDashboard(type, item);
