@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDashboard } from "../customHook/useDashboard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
@@ -8,6 +8,15 @@ const Category = () => {
   const [currentMonth, history, expenses, isLoading, error] = useDashboard({
     category: categoryName,
   });
+  const navigate = useNavigate();
+
+  const handleAddExpense = () => {
+    navigate("/add-expense", {
+      state: {
+        filters: { category: categoryName },
+      },
+    });
+  };
 
   return (
     <div>
@@ -37,6 +46,9 @@ const Category = () => {
           </div>
         );
       })}
+      <button type="button" onClick={handleAddExpense}>
+        Add new Expense
+      </button>
       <Link to="/categories">Go Back</Link>
       <Link to="/">See All</Link>
     </div>

@@ -21,8 +21,8 @@ import {
 const EditExpense = () => {
   const { id } = useParams();
   const [expense, setExpense] = useState(null);
-  const [error, setError] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const token = useSelector(selectToken);
   const categories = useSelector(selectCategories);
   const budgets = useSelector(selectBudgets);
@@ -79,7 +79,7 @@ const EditExpense = () => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     setLoading(true);
-    setError([]);
+    setError(null);
     try {
       ExpenseerAPI.token = token;
       const { id, ...expenseData } = expense;
@@ -198,6 +198,9 @@ const EditExpense = () => {
               onChange={handleChange}
             />
           </div>
+          <button type="button" onClick={() => window.history.back()}>
+            Back
+          </button>
           <button type="submit">Save</button>
         </form>
       )}

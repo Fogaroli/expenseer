@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import {
   getBudgets,
   selectBudgets,
@@ -43,6 +43,7 @@ const Espenses = () => {
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const observer = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setExpenses([]);
@@ -118,6 +119,14 @@ const Espenses = () => {
     return <Navigate to="/login" />;
   }
 
+  const handleAddExpense = () => {
+    navigate("/add-expense", {
+      state: {
+        filters: { category: fieldsData.category, budget: fieldsData.budget },
+      },
+    });
+  };
+
   return (
     <div>
       <h1>Expenses</h1>
@@ -190,7 +199,12 @@ const Espenses = () => {
       >
         Clear Filters
       </button>
+
       <h3>List of expenses</h3>
+
+      <button type="button" onClick={handleAddExpense}>
+        Add new Expense
+      </button>
       {loading && (
         <p>
           <FontAwesomeIcon icon={faCircleNotch} spin />
@@ -225,7 +239,6 @@ const Espenses = () => {
           })}
         </tbody>
       </table>
-
       {expenses.length === 0 && !loading && !error && <p>No expenses found</p>}
     </div>
   );
