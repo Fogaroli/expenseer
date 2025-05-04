@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { addBudget, selectError, selectLoading } from "../store/budgetSlice";
+import {
+  addBudget,
+  selectBudgetError,
+  selectBudgetLoading,
+} from "../store/budgetSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectToken } from "../store/authSlice";
@@ -14,8 +18,8 @@ const AddBudget = () => {
   const [budgetData, setBudgetData] = useState(initialState);
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
-  const error = useSelector(selectError);
-  const loading = useSelector(selectLoading);
+  const error = useSelector(selectBudgetError);
+  const loading = useSelector(selectBudgetLoading);
   const navigate = useNavigate();
 
   const handleSubmit = async (evt) => {

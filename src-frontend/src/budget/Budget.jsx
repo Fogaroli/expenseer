@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDashboard } from "../customHook/useDashboard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
@@ -8,6 +8,24 @@ const Budget = () => {
   const [currentMonth, history, expenses, isLoading, error] = useDashboard({
     budget: budgetName,
   });
+  const navigate = useNavigate();
+
+  const handleAddExpense = () => {
+    navigate("/add-expense", {
+      state: {
+        filters: { budget: budgetName },
+      },
+    });
+  };
+
+  const handleSeeAll = () => {
+    navigate("/expenses", {
+      state: {
+        filters: { budget: budgetName },
+      },
+    });
+  };
+
   return (
     <div>
       <h1> {budgetName}</h1>
@@ -32,12 +50,19 @@ const Budget = () => {
         return (
           <div key={idx}>
             {new Date(exp.date).toISOString().split("T")[0]} - {exp.name} -{" "}
-            {exp.amount} - {exp.budget_name}
+            {exp.amount} - {exp.category}
           </div>
         );
       })}
-      <Link to="/budgets">Go Back</Link>
-      <Link to="/">See All</Link>
+      <button type="button" onClick={() => window.history.back()}>
+        Back
+      </button>
+      <button type="button" onClick={handleAddExpense}>
+        Add new Expense
+      </button>
+      <button type="button" onClick={handleSeeAll}>
+        See All
+      </button>
     </div>
   );
 };

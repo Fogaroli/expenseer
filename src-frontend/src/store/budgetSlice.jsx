@@ -131,7 +131,7 @@ const budgetSlice = createSlice({
 export { getBudgets, getBudget, addBudget, editBudget, deleteBudget };
 
 export const selectBudgets = (state) => state.budget.budgets;
-export const selectLoading = (state) => state.budget.loading;
-export const selectError = (state) => state.budget.error;
+export const selectBudgetLoading = (state) => state.budget.loading;
+export const selectBudgetError = (state) => state.budget.error;
 
 export default budgetSlice.reducer;

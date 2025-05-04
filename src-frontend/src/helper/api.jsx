@@ -133,6 +133,53 @@ class ExpenseerAPI {
     );
     return res.expenses;
   }
+
+  /** Get Expenses
+   * Filters can be provided to narrow down the results
+   * Filters can include category, budget, start_date, end_date
+   * Example: { category: "Food", budget: "Groceries", start_date: "2023-01-01", end_date: "2023-12-31" }
+   * Limit and offset can also be provided to paginate the results
+   * Example: { limit: 10, offset: 0 }
+   */
+  static async getExpenses(filters) {
+    let res = await this.request(`expenses`, {}, filters, "GET");
+    return res.expenses;
+  }
+
+  /** Add new Expense */
+  static async addExpense(data) {
+    let res = await this.request(`expenses`, { data }, {}, "POST");
+    return res.expense;
+  }
+
+  /** Edit existing Expense */
+  static async editExpense(id, data) {
+    let res = await this.request(`expenses/${id}`, { data }, {}, "PATCH");
+    return res.expense;
+  }
+
+  /** Get details for a given expense */
+  static async getExpense(id) {
+    let res = await this.request(`expenses/${id}`);
+    return res.expense;
+  }
+
+  /** Delete expense */
+  static async deleteExpense(id) {
+    let res = await this.request(`expenses/${id}`, {}, {}, "DELETE");
+    return res.deleted;
+  }
+
+  /**Get Expense dashboards
+   * Dashboard can be by budget or by category
+   */
+  static async getExpenseDashboard(type) {
+    if (type !== "category" && type !== "budget") {
+      throw new Error("Incorrect dashboard type");
+    }
+    let res = await this.request(`dashboards/expenses/${type}`, {}, {}, "GET");
+    return res.dashboard.expenses;
+  }
 }
 
 export default ExpenseerAPI;

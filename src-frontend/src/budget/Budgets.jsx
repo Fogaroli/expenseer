@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getBudgets,
   selectBudgets,
-  selectLoading,
-  selectError,
+  selectBudgetLoading,
+  selectBudgetError,
 } from "../store/budgetSlice";
 import { selectToken } from "../store/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,8 +14,8 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 const Budgets = () => {
   const dispatch = useDispatch();
   const budgets = useSelector(selectBudgets);
-  const loading = useSelector(selectLoading);
-  const error = useSelector(selectError);
+  const loading = useSelector(selectBudgetLoading);
+  const error = useSelector(selectBudgetError);
   const token = useSelector(selectToken);
 
   useEffect(() => {

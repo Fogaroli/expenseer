@@ -1,4 +1,4 @@
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import ExpenseerAPI from "../helper/api";
 import { useSelector } from "react-redux";
 import { selectToken } from "../store/authSlice";
@@ -14,6 +14,7 @@ const useDashboard = (target = {}) => {
   useEffect(() => {
     const fetchData = async (type, item) => {
       setIsLoading(true);
+      setError(null);
       try {
         ExpenseerAPI.token = token;
         const response = await ExpenseerAPI.getDashboard(type, item);
