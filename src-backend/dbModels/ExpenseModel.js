@@ -63,6 +63,7 @@ class Expense {
     expense.category = expenseData.category || null;
     expense.budget = expenseData.budget || null;
     expense.amount = parseFloat(expense.amount);
+    expense.date = new Date(expense.date).toLocaleDateString("en-CA");
     return expense;
   }
 
