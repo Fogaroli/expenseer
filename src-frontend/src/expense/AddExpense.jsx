@@ -28,8 +28,8 @@ const AddExpense = () => {
     amount: 0,
     description: "",
     date: new Date().toLocaleDateString("en-CA"),
-    budget: filters.budget || "",
-    category: filters.category || "",
+    budget: filters?.budget || "",
+    category: filters?.category || "",
   };
   const [newExpense, setNewExpense] = useState(INITIALEXPANSEDATA);
   const [error, setError] = useState(null);

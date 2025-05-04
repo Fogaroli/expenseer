@@ -18,6 +18,14 @@ const Budget = () => {
     });
   };
 
+  const handleSeeAll = () => {
+    navigate("/expenses", {
+      state: {
+        filters: { budget: budgetName },
+      },
+    });
+  };
+
   return (
     <div>
       <h1> {budgetName}</h1>
@@ -46,11 +54,15 @@ const Budget = () => {
           </div>
         );
       })}
+      <button type="button" onClick={() => window.history.back()}>
+        Back
+      </button>
       <button type="button" onClick={handleAddExpense}>
         Add new Expense
       </button>
-      <Link to="/budgets">Go Back</Link>
-      <Link to="/">See All</Link>
+      <button type="button" onClick={handleSeeAll}>
+        See All
+      </button>
     </div>
   );
 };

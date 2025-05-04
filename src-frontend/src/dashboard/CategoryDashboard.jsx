@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectToken } from "../store/authSlice";
 import ExpenseerAPI from "../helper/api";
@@ -44,7 +45,10 @@ const CategoryDashboard = () => {
         dashboardData.map((category, idx) => {
           return (
             <div key={idx}>
-              {category.category} - {category.total_amount}
+              <Link to={`/categories/${category.category}`}>
+                {category.category}
+              </Link>{" "}
+              - {category.total_amount}
             </div>
           );
         })}

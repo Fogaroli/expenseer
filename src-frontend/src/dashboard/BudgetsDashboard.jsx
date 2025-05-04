@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectToken } from "../store/authSlice";
 import ExpenseerAPI from "../helper/api";
@@ -44,7 +45,8 @@ const BudgetDashboard = () => {
         dashboardData.map((budget, idx) => {
           return (
             <div key={idx}>
-              {budget.budget} - {budget.total_amount} - {budget.budget_amount} -{" "}
+              <Link to={`/budgets/${budget.budget}`}>{budget.budget}</Link> -{" "}
+              {budget.total_amount} - {budget.budget_amount} -{" "}
               {budget.percentage_used}
             </div>
           );

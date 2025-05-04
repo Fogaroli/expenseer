@@ -18,6 +18,14 @@ const Category = () => {
     });
   };
 
+  const handleSeeAll = () => {
+    navigate("/expenses", {
+      state: {
+        filters: { category: categoryName },
+      },
+    });
+  };
+
   return (
     <div>
       <h1> {categoryName}</h1>
@@ -46,11 +54,15 @@ const Category = () => {
           </div>
         );
       })}
+      <button type="button" onClick={() => window.history.back()}>
+        Back
+      </button>
       <button type="button" onClick={handleAddExpense}>
         Add new Expense
       </button>
-      <Link to="/categories">Go Back</Link>
-      <Link to="/">See All</Link>
+      <button type="button" onClick={handleSeeAll}>
+        See All
+      </button>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import {
   getBudgets,
   selectBudgets,
@@ -22,9 +22,11 @@ import ExpenseItem from "./ExpenseItem";
 const LIMIT = 20;
 
 const Espenses = () => {
+  const location = useLocation();
+  const filters = location.state?.filters;
   const INITIALFILTERS = {
-    category: "",
-    budget: "",
+    category: filters?.category || "",
+    budget: filters?.budget || "",
     startdate: "",
     enddate: "",
   };
