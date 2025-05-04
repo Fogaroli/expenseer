@@ -453,7 +453,7 @@ Routes that require JWT authetication, the token should be added to the request 
 ### 1. POST /expenses
 
 - **Description:** Adds a new expense for the logged-in user.
-- **Input:**
+- **Input:** Category, Budget and description are optional, missing key or if set to "" will be translated to null.
 
   ```json
   {
@@ -498,10 +498,20 @@ Routes that require JWT authetication, the token should be added to the request 
   {
     "expenses": [
       {
-        "name": "Expense Name 1"
+        "id": 1,
+        "name": "Expense Name",
+        "amount": 50,
+        "date": "2024-01-01",
+        "budget": "Budget Name",
+        "category": "Category Name"
       },
       {
-        "name": "Expense Name 2"
+        "id": 2,
+        "name": "Expense Name 2",
+        "amount": 100,
+        "date": "2024-01-02",
+        "budget": "Budget Name",
+        "category": "Category Name"
       }
     ]
   }
@@ -534,7 +544,7 @@ Routes that require JWT authetication, the token should be added to the request 
 ### 4. PATCH /expenses/:expenseId
 
 - **Description:** Updates an expense's information for the logged-in user.
-- **Input:**
+- **Input:** Category, Budget and description are optional, if set to "" will be translated to null.
 
   ```json
   {
@@ -1034,12 +1044,14 @@ Routes that require JWT authetication, the token should be added to the request 
       "expenses": [
         {
           "budget": "Budget Name 1",
+          "type": 1,
           "total_amount": 100,
           "budget_amount": 200,
           "percent_used": 50
         },
         {
           "budget": "Budget Name 2",
+          "type": 2,
           "total_amount": 150,
           "budget_amount": 300,
           "percent_used": 50

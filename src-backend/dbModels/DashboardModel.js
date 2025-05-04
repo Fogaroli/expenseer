@@ -27,7 +27,7 @@ class Dashboard {
       DATE_TRUNC('month', e.date) AS month_start,
       SUM(e.amount) AS total_amount
       FROM expenses e
-      LEFT JOIN categories c ON c.id = e.category
+      LEFT JOIN categories c ON c.id = e.category_id
       WHERE e.username = $1
       AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
       AND c.name = $2
@@ -77,7 +77,7 @@ class Dashboard {
       DATE_TRUNC('month', e.date) AS month_start,
       SUM(e.amount) AS total_amount
       FROM expenses e
-      LEFT JOIN categories c ON c.id = e.category
+      LEFT JOIN categories c ON c.id = e.category_id
       WHERE e.username = $1
       AND e.date >= (DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '5 months')
       AND c.name = $2  GROUP BY month, month_start
@@ -377,7 +377,7 @@ class Dashboard {
       c.name AS category,
       SUM(e.amount) AS total_amount
       FROM expenses e
-      LEFT JOIN categories c ON c.id = e.category
+      RIGHT JOIN categories c ON c.id = e.category_id
       WHERE e.username = $1
       AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
       GROUP BY c.name
@@ -411,13 +411,14 @@ class Dashboard {
     let query = `
     SELECT 
       b.name AS budget,
+      b.type,
       b.amount,
       SUM(e.amount) AS total_amount
       FROM expenses AS e
-      LEFT JOIN budgets AS b ON b.id = e.budget_id
+      RIGHT JOIN budgets AS b ON b.id = e.budget_id
       WHERE e.username = $1
       AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
-      GROUP BY b.name, b.amount
+      GROUP BY b.name, b.type, b.amount
       ORDER BY b.name
     `;
     const params = [username];
@@ -426,6 +427,7 @@ class Dashboard {
       const result = await db.query(query, params);
       return result.rows.map((row) => ({
         budget: row.budget,
+        type: row.type,
         total_amount: +row.total_amount,
         budget_amount: +row.amount,
         percent_used:
