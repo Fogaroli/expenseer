@@ -42,7 +42,7 @@ const Category = () => {
         return (
           <div key={idx}>
             {new Date(exp.date).toISOString().split("T")[0]} - {exp.name} -{" "}
-            {exp.amount} - {exp.budget_name}
+            {exp.amount} - {exp.budget}
           </div>
         );
       })}
