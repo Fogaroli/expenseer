@@ -1044,12 +1044,14 @@ Routes that require JWT authetication, the token should be added to the request 
       "expenses": [
         {
           "budget": "Budget Name 1",
+          "type": 1,
           "total_amount": 100,
           "budget_amount": 200,
           "percent_used": 50
         },
         {
           "budget": "Budget Name 2",
+          "type": 2,
           "total_amount": 150,
           "budget_amount": 300,
           "percent_used": 50
