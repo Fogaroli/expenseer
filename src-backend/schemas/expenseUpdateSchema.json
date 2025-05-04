@@ -13,8 +13,7 @@
       "minimum": 0
     },
     "description": {
-      "type": "string",
-      "minLength": 1,
+      "type": ["string", "null"],
       "maxLength": 200
     },
     "date": {
@@ -22,13 +21,11 @@
       "format": "date"
     },
     "category": {
-      "type": "string",
-      "minLength": 1,
+      "type": ["string", "null"],
       "maxLength": 50
     },
     "budget": {
-      "type": "string",
-      "minLength": 1,
+      "type": ["string", "null"],
       "maxLength": 50
     }
   },

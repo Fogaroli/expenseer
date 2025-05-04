@@ -11,46 +11,57 @@ class Expense {
    *
    * */
   static async create(username, expenseData) {
-    const category = await db.query(
-      `SELECT id 
-            FROM categories
-            WHERE username = $1 AND name = $2`,
-      [username, expenseData.category]
-    );
-    console.assert(category.rows[0], "Category not found to create expense");
+    if (expenseData.category) {
+      const category = await db.query(
+        `SELECT id 
+              FROM categories
+              WHERE username = $1 AND name = $2`,
+        [username, expenseData.category]
+      );
+      console.assert(category.rows[0], "Category not found to create expense");
 
-    if (!category.rows[0]) {
-      throw new ExpressError(`Category not found to create expense`, 400);
+      if (!category.rows[0]) {
+        throw new ExpressError(`Category not found to create expense`, 400);
+      }
+      expenseData.categoryId = category.rows[0].id;
     }
 
-    const budget = await db.query(
-      `SELECT id 
-            FROM budgets 
-            WHERE username = $1 AND name = $2`,
-      [username, expenseData.budget]
-    );
-    console.assert(budget.rows[0], "Budget not found to create expense");
+    if (expenseData.budget) {
+      const budget = await db.query(
+        `SELECT id 
+              FROM budgets 
+              WHERE username = $1 AND name = $2`,
+        [username, expenseData.budget]
+      );
+      console.assert(budget.rows[0], "Budget not found to create expense");
 
-    if (!budget.rows[0]) {
-      throw new ExpressError(`Budget not found to create expense`, 400);
+      if (!budget.rows[0]) {
+        throw new ExpressError(`Budget not found to create expense`, 400);
+      }
+      expenseData.budgetId = budget.rows[0].id;
     }
+
+    if (expenseData.description === "") {
+      expenseData.description = null;
+    }
+
     const result = await db.query(
-      `INSERT INTO expenses (name, amount, description, date, category, budget_id, username)
+      `INSERT INTO expenses (name, amount, description, date, category_id, budget_id, username)
             VALUES ($1, $2, $3, $4, $5, $6, $7)
-            RETURNING id, name, amount, description, date, category, budget_id AS budget`,
+            RETURNING id, name, amount, description, date`,
       [
         expenseData.name,
         expenseData.amount,
         expenseData.description || null,
         expenseData.date,
-        category.rows[0].id,
-        budget.rows[0].id,
+        expenseData.categoryId || null,
+        expenseData.budgetId || null,
         username,
       ]
     );
     const expense = result.rows[0];
-    expense.category = expenseData.category;
-    expense.budget = expenseData.budget;
+    expense.category = expenseData.category || null;
+    expense.budget = expenseData.budget || null;
     expense.amount = parseFloat(expense.amount);
     return expense;
   }
@@ -73,7 +84,7 @@ class Expense {
     let query = `SELECT e.id, e.name, e.amount, e.date, b.name AS budget, c.name AS category
             FROM expenses AS e
             LEFT JOIN budgets AS b ON e.budget_id = b.id
-            LEFT JOIN categories AS c ON e.category = c.id
+            LEFT JOIN categories AS c ON e.category_id = c.id
             WHERE e.username = $1`;
     let values = [username];
     if (start_date) {
@@ -94,7 +105,7 @@ class Expense {
       if (!categoryResult.rows[0]) {
         throw new ExpressError(`Category not found to get expenses`, 400);
       }
-      query += ` AND e.category = $${values.length + 1}`;
+      query += ` AND e.category_id = $${values.length + 1}`;
       values.push(categoryResult.rows[0].id);
     }
     if (budget) {
@@ -116,11 +127,10 @@ class Expense {
     query += ` OFFSET $${values.length + 1}`;
     values.push(parseInt(offset) || 0);
     try {
-      console.log("query", query);
-      console.log("values", values);
       const result = await db.query(query, values);
       result.rows.forEach((expense) => {
         expense.amount = parseFloat(expense.amount);
+        expense.date = new Date(expense.date).toLocaleDateString("en-CA");
       });
       return result.rows;
     } catch (err) {
@@ -141,8 +151,8 @@ class Expense {
     const result = await db.query(
       `SELECT e.id, e.name, e.amount, e.description, e.date, b.name AS budget, c.name AS category
         FROM expenses AS e
-        JOIN budgets AS b ON e.budget_id = b.id
-        JOIN categories AS c ON e.category = c.id
+        LEFT JOIN budgets AS b ON e.budget_id = b.id
+        LEFT JOIN categories AS c ON e.category_id = c.id
         WHERE e.username = $1 AND e.id = $2`,
       [username, expenseId]
     );
@@ -153,6 +163,7 @@ class Expense {
       throw new ExpressError("No such expense", 404);
     }
     expense.amount = parseFloat(expense.amount);
+    expense.date = new Date(expense.date).toLocaleDateString("en-CA");
     return expense;
   }
 
@@ -188,7 +199,9 @@ class Expense {
       if (!category.rows[0]) {
         throw new ExpressError(`Category not found to update expense`, 400);
       }
-      data.category = category.rows[0].id;
+      data.category_id = category.rows[0].id;
+    } else if (data.category === "" || data.category === null) {
+      data.category_id = null;
     }
 
     if (data.budget) {
@@ -204,7 +217,14 @@ class Expense {
         throw new ExpressError(`Budget not found to update expense`, 400);
       }
       data.budget_id = budget.rows[0].id;
-      delete data.budget;
+    } else if (data.budget === "" || data.budget === null) {
+      data.budget_id = null;
+    }
+
+    delete data.budget;
+    delete data.category;
+    if (data.description === "") {
+      data.description = null;
     }
 
     let { query, values } = sqlForPartialUpdate(

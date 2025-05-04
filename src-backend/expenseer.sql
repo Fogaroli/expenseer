@@ -32,7 +32,7 @@ CREATE TABLE expenses (
     amount NUMERIC NOT NULL,
     description TEXT,
     date DATE NOT NULL,
-    category INTEGER
+    category_id INTEGER
         REFERENCES categories(id) ON DELETE SET NULL,
     budget_id INTEGER
         REFERENCES budgets(id) ON DELETE SET NULL,
