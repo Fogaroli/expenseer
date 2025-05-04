@@ -142,7 +142,7 @@ const Espenses = () => {
           <FontAwesomeIcon icon={faCircleNotch} spin />
         </p>
       )}
-      {categoryError && <p className="text-danger">{categoryError}</p>}
+      {categoryError && <p style={{ color: "red" }}>{categoryError}</p>}
       <label htmlFor="budget">by budget</label>
       <select
         name="budget"
@@ -163,7 +163,7 @@ const Espenses = () => {
           <FontAwesomeIcon icon={faCircleNotch} spin />
         </p>
       )}
-      {budgetError && <p className="text-danger">{budgetError}</p>}
+      {budgetError && <p style={{ color: "red" }}>{budgetError}</p>}
       <label htmlFor="startdate">Start Date</label>
       <input
         type="date"
@@ -196,7 +196,7 @@ const Espenses = () => {
           <FontAwesomeIcon icon={faCircleNotch} spin />
         </p>
       )}
-      {error && <p>{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
       <table>
         <thead>

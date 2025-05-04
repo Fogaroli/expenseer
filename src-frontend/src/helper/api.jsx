@@ -136,14 +136,26 @@ class ExpenseerAPI {
 
   /** Get Expenses
    * Filters can be provided to narrow down the results
-   * Filters can include category, budget, startdate, enddate
-   * Example: { category: "Food", budget: "Groceries", startdate: "2023-01-01", enddate: "2023-12-31" }
+   * Filters can include category, budget, start_date, end_date
+   * Example: { category: "Food", budget: "Groceries", start_date: "2023-01-01", end_date: "2023-12-31" }
    * Limit and offset can also be provided to paginate the results
    * Example: { limit: 10, offset: 0 }
    */
   static async getExpenses(filters) {
     let res = await this.request(`expenses`, {}, filters, "GET");
     return res.expenses;
+  }
+
+  /** Add new Expense */
+  static async addExpense(data) {
+    let res = await this.request(`expenses`, { data }, {}, "POST");
+    return res.expense;
+  }
+
+  /** Edit existing Expense */
+  static async editExpense(id, data) {
+    let res = await this.request(`expenses/${id}`, { data }, {}, "PATCH");
+    return res.expense;
   }
 
   /** Get details for a given expense */
