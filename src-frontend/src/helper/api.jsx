@@ -169,6 +169,17 @@ class ExpenseerAPI {
     let res = await this.request(`expenses/${id}`, {}, {}, "DELETE");
     return res.deleted;
   }
+
+  /**Get Expense dashboards
+   * Dashboard can be by budget or by category
+   */
+  static async getExpenseDashboard(type) {
+    if (type !== "category" && type !== "budget") {
+      throw new Error("Incorrect dashboard type");
+    }
+    let res = await this.request(`dashboards/expenses/${type}`, {}, {}, "GET");
+    return res.dashboard.expenses;
+  }
 }
 
 export default ExpenseerAPI;
