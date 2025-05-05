@@ -38,7 +38,7 @@ const Login = () => {
       <div>
         {user ? <p>Welcome, {user.first_name}!</p> : <p>Please log in.</p>}
       </div>
-      <p className="h3 m-4">Enter your credentials in the form below</p>
+      <p>Enter your credentials in the form below</p>
       <form onSubmit={handleSubmit} style={{ maxWidth: "600px" }}>
         <div>
           <label htmlFor="username">Username</label>
@@ -64,7 +64,7 @@ const Login = () => {
         </div>
         <button type="submit">Submit</button>
         {loading && <p>Loading...</p>}
-        {error && <p className="text-danger">{error}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <p>
           Don't have an account? <a href="/register">Sign Up</a>
         </p>

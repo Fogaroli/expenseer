@@ -34,7 +34,7 @@ const Category = () => {
           <FontAwesomeIcon icon={faCircleNotch} spin />
         </p>
       )}
-      {error && <p className="text-danger">{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <p>Status</p>
       {currentMonth?.month || ""} - {currentMonth?.total_amount || ""}
       <p>History</p>

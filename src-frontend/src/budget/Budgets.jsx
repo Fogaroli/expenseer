@@ -30,9 +30,9 @@ const Budgets = () => {
 
   return (
     <>
-      <h1 className="h3 m-4">Budgets</h1>
+      <h1>Budgets</h1>
       {loading && <p>Loading...</p>}
-      {error && <p className="text-danger">{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <ul>
         {budgets.map((budget, idx) => (
           <li key={idx}>

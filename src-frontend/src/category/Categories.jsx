@@ -30,9 +30,9 @@ const Categories = () => {
 
   return (
     <>
-      <h1 className="h3 m-4">Categories</h1>
+      <h1>Categories</h1>
       {loading && <p>Loading...</p>}
-      {error && <p className="text-danger">{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <ul>
         {categories.map((category, idx) => (
           <li key={idx}>

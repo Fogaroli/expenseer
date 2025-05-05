@@ -88,7 +88,7 @@ const EditCategory = () => {
           Delete Category
         </button>
       </form>
-      {error && <p className="text-danger">{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 };
