@@ -92,6 +92,24 @@ class Category {
    **/
 
   static async update(username, categoryName, data) {
+    const duplicateCheck = await db.query(
+      `SELECT name 
+            FROM categories 
+            WHERE username = $1 AND name = $2`,
+      [username, data.name]
+    );
+    console.assert(
+      !duplicateCheck.rows[0],
+      "Attempt to create already existing category"
+    );
+
+    if (duplicateCheck.rows[0]) {
+      throw new ExpressError(
+        `User already have a category with this name`,
+        400
+      );
+    }
+
     const result = await db.query(
       `SELECT name
          FROM categories
