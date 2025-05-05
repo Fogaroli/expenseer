@@ -180,6 +180,18 @@ class ExpenseerAPI {
     let res = await this.request(`dashboards/expenses/${type}`, {}, {}, "GET");
     return res.dashboard.expenses;
   }
+
+  /** Get updated stocks information already registered by the user */
+  static async getStocks() {
+    let res = await this.request(`stocks`, {}, {}, "GET");
+    return res.stocks;
+  }
+
+  /** Get updated currency exchange rate already registered by the user */
+  static async getExchanges() {
+    let res = await this.request(`exchanges`, {}, {}, "GET");
+    return res.exchange_rates;
+  }
 }
 
 export default ExpenseerAPI;

@@ -17,6 +17,7 @@ import Expense from "./expense/Expense";
 import EditExpense from "./expense/EditExpense";
 import AddExpense from "./expense/AddExpense";
 import Dashboards from "./dashboard/Dashboards";
+import Indexes from "./Indexes/Indexes";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
         <Route path="/expenses/:id" element={<Expense />} />
         <Route path="/expenses/:id/edit" element={<EditExpense />} />
         <Route path="/dashboards" element={<Dashboards />} />
+        <Route path="/indexes" element={<Indexes />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>
