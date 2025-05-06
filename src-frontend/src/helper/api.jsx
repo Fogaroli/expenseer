@@ -187,6 +187,24 @@ class ExpenseerAPI {
     return res.stocks;
   }
 
+  /** Delete a stock linked to the user in teh database */
+  static async deleteStock(symbol) {
+    let res = await this.request(`stocks`, { data: { symbol } }, {}, "DELETE");
+    return res.deleted;
+  }
+
+  /** Add this stock to the user list in the database */
+  static async addStock(symbol) {
+    let res = await this.request(`stocks`, { data: { symbol } }, {}, "POST");
+    return res.stock;
+  }
+
+  /** Search for stocks */
+  static async searchStocks(term) {
+    let res = await this.request(`stocks/search`, {}, { term: term }, "GET");
+    return res.stocks;
+  }
+
   /** Get updated currency exchange rate already registered by the user */
   static async getExchanges() {
     let res = await this.request(`exchanges`, {}, {}, "GET");

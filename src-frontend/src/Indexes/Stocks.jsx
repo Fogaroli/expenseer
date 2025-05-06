@@ -1,35 +1,47 @@
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { selectToken } from "../store/authSlice";
-import ExpenseerAPI from "../helper/api";
+import { useState } from "react";
+import { useStocks } from "../customHook/useStocks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleNotch,
+  faThumbtackSlash,
+  faThumbtack,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Stocks = () => {
-  const [stocksData, setStocksData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const token = useSelector(selectToken);
+  const [searchInput, setSeachInput] = useState("");
+  const {
+    stocksData,
+    searchResults,
+    loading,
+    error,
+    addStock,
+    deleteStock,
+    searchStocks,
+    clearResults,
+  } = useStocks();
 
-  useEffect(() => {
-    const getStocksData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        ExpenseerAPI.token = token;
-        const response = await ExpenseerAPI.getStocks();
-        if (!response) {
-          throw new Error("Error retrieving stocks");
-        }
-        setStocksData(response);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getStocksData();
-  }, [token]);
+  const handleDelete = async (evt) => {
+    const symbol = evt.currentTarget.dataset.name;
+    deleteStock(symbol);
+  };
+
+  const handleAdd = async (evt) => {
+    const symbol = evt.currentTarget.dataset.name;
+    addStock(symbol);
+    clearResults();
+  };
+
+  const handleChange = (evt) => {
+    const { value } = evt.target;
+    setSeachInput(value);
+    clearResults();
+  };
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    searchStocks(searchInput);
+    setSeachInput("");
+  };
 
   return (
     <>
@@ -45,6 +57,36 @@ const Stocks = () => {
           return (
             <div key={idx}>
               {stock.symbol} {stock.value} {stock.variation}%
+              <FontAwesomeIcon
+                data-name={stock.symbol}
+                onClick={handleDelete}
+                icon={faThumbtackSlash}
+              />
+            </div>
+          );
+        })}
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="search">Search Stock</label>
+        <input
+          type="text"
+          name="search"
+          id="search"
+          aria-describedby="Search Stocks"
+          value={searchInput}
+          onChange={handleChange}
+        />
+        <button type="submit">Search</button>
+      </form>
+      {searchResults &&
+        searchResults.map((result, idx) => {
+          return (
+            <div key={idx}>
+              {result.symbol} - {result.name} -
+              <FontAwesomeIcon
+                data-name={result.symbol}
+                onClick={handleAdd}
+                icon={faThumbtack}
+              />
             </div>
           );
         })}
@@ -53,3 +95,4 @@ const Stocks = () => {
 };
 
 export default Stocks;
+<FontAwesomeIcon icon={faThumbtackSlash} />;
