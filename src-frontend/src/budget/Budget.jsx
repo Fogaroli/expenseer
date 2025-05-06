@@ -5,7 +5,7 @@ import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
 const Budget = () => {
   const { budgetName } = useParams();
-  const [currentMonth, history, expenses, isLoading, error] = useDashboard({
+  const { currentMonth, history, expenses, isLoading, error } = useDashboard({
     budget: budgetName,
   });
   const navigate = useNavigate();
@@ -36,8 +36,8 @@ const Budget = () => {
       )}
       {error && <p style={{ color: "red" }}>{error}</p>}
       <p>Status</p>
-      {currentMonth?.month || ""} - {currentMonth?.total_amount || ""}
-      <p>History</p>
+      {currentMonth?.month || ""} - {currentMonth?.total_amount || ""} -{" "}
+      {currentMonth?.percent_used || ""}%<p>History</p>
       {history.map((hist, idx) => {
         return (
           <div key={idx}>

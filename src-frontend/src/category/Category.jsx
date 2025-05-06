@@ -5,7 +5,7 @@ import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
 const Category = () => {
   const { categoryName } = useParams();
-  const [currentMonth, history, expenses, isLoading, error] = useDashboard({
+  const { currentMonth, history, expenses, isLoading, error } = useDashboard({
     category: categoryName,
   });
   const navigate = useNavigate();
