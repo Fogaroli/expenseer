@@ -20,12 +20,12 @@ const Stocks = () => {
     clearResults,
   } = useStocks();
 
-  const handleDelete = async (evt) => {
+  const handleDelete = (evt) => {
     const symbol = evt.currentTarget.dataset.name;
     deleteStock(symbol);
   };
 
-  const handleAdd = async (evt) => {
+  const handleAdd = (evt) => {
     const symbol = evt.currentTarget.dataset.name;
     addStock(symbol);
     clearResults();

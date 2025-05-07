@@ -210,6 +210,39 @@ class ExpenseerAPI {
     let res = await this.request(`exchanges`, {}, {}, "GET");
     return res.exchange_rates;
   }
+
+  /** Get updated currency exchange rate already registered by the user */
+  static async getExchange(currency1, currency2) {
+    let res = await this.request(
+      `exchanges`,
+      {},
+      { currency1, currency2 },
+      "GET"
+    );
+    return res.exchange_rate;
+  }
+
+  /** Delete an exchange rate linked to the user in the database */
+  static async deleteExchange(currency1, currency2) {
+    let res = await this.request(
+      `exchanges`,
+      { data: { currency1, currency2 } },
+      {},
+      "DELETE"
+    );
+    return res.deleted;
+  }
+
+  /** Add this stock to the user list in the database */
+  static async addExchange(currency1, currency2) {
+    let res = await this.request(
+      `exchanges`,
+      { data: { currency1, currency2 } },
+      {},
+      "POST"
+    );
+    return res.exchange_rate;
+  }
 }
 
 export default ExpenseerAPI;

@@ -1,35 +1,51 @@
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { selectToken } from "../store/authSlice";
-import ExpenseerAPI from "../helper/api";
+import { useState } from "react";
+import { useExchange } from "../customHook/useExchange";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleNotch,
+  faThumbtackSlash,
+  faThumbtack,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Exchanges = () => {
-  const [exchangeData, setExchangeData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const token = useSelector(selectToken);
+  const INITIALDATA = {
+    currency1: "EUR",
+    currency2: "USD",
+  };
+  const [inputData, setInputData] = useState(INITIALDATA);
+  const {
+    exchangeData,
+    availableCurrency,
+    instantRate,
+    loading,
+    error,
+    addExchange,
+    deleteExchange,
+    getExchange,
+  } = useExchange();
 
-  useEffect(() => {
-    const getExchangesData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        ExpenseerAPI.token = token;
-        const response = await ExpenseerAPI.getExchanges();
-        if (!response) {
-          throw new Error("Error retrieving exchange rates");
-        }
-        setExchangeData(response);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getExchangesData();
-  }, [token]);
+  const handleDelete = (evt) => {
+    const currency1 = evt.currentTarget.dataset.currency1;
+    const currency2 = evt.currentTarget.dataset.currency2;
+    deleteExchange(currency1, currency2);
+  };
+
+  const handleAdd = (evt) => {
+    const currency1 = evt.currentTarget.dataset.currency1;
+    const currency2 = evt.currentTarget.dataset.currency2;
+    addExchange(currency1, currency2);
+  };
+
+  const handleChange = (evt) => {
+    let { name, value } = evt.target;
+    setInputData((oldData) => ({ ...oldData, [name]: value }));
+  };
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    getExchange(inputData.currency1, inputData.currency2);
+    setInputData(INITIALDATA);
+  };
 
   return (
     <>
@@ -45,9 +61,61 @@ const Exchanges = () => {
           return (
             <div key={idx}>
               {exchange.currency1} {exchange.currency2} {exchange.rate}
+              <FontAwesomeIcon
+                data-currency1={exchange.currency1}
+                data-currency2={exchange.currency2}
+                onClick={handleDelete}
+                icon={faThumbtackSlash}
+              />
             </div>
           );
         })}
+      <p>Choose an exchange</p>
+      <form onSubmit={handleSubmit}>
+        <select
+          name="currency1"
+          aria-description="First Currency"
+          value={inputData.currency1}
+          onChange={handleChange}
+        >
+          {availableCurrency &&
+            availableCurrency.map((currency, idx) => {
+              return (
+                <option key={idx} value={currency}>
+                  {currency}
+                </option>
+              );
+            })}
+        </select>
+        --
+        <select
+          name="currency2"
+          aria-description="Second Currency"
+          value={inputData.currency2}
+          onChange={handleChange}
+        >
+          {availableCurrency &&
+            availableCurrency.map((currency, idx) => {
+              return (
+                <option key={idx} value={currency}>
+                  {currency}
+                </option>
+              );
+            })}
+        </select>
+        <button type="submit">Check Rate</button>
+      </form>
+      {instantRate && (
+        <div>
+          {instantRate.currency1} -- {instantRate.currency2} {instantRate.rate}
+          <FontAwesomeIcon
+            data-currency1={instantRate.currency1}
+            data-currency2={instantRate.currency2}
+            onClick={handleAdd}
+            icon={faThumbtack}
+          />
+        </div>
+      )}
     </>
   );
 };
