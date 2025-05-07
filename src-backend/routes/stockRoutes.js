@@ -56,7 +56,7 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 router.get("/", ensureLoggedIn, async function (req, res, next) {
   try {
     const givenData = req.query;
-    if (givenData) {
+    if (givenData.length > 0) {
       const validator = jsonschema.validate(req.query, stockSchema);
       if (!validator.valid) {
         const errs = validator.errors.map((e) => e.stack);
