@@ -16,6 +16,9 @@ const useStocks = () => {
     try {
       ExpenseerAPI.token = token;
       const response = await ExpenseerAPI.getStocks();
+      if (!response) {
+        throw new Error("Error retrieving stocks");
+      }
       setStocksData(response);
     } catch (err) {
       setError(err.message);
@@ -29,7 +32,10 @@ const useStocks = () => {
     setError(null);
     try {
       ExpenseerAPI.token = token;
-      await ExpenseerAPI.deleteStock(symbol);
+      const response = await ExpenseerAPI.deleteStock(symbol);
+      if (!response) {
+        throw new Error("Error deleting stock");
+      }
       getStocks();
     } catch (err) {
       setError(err.message);
@@ -43,7 +49,10 @@ const useStocks = () => {
     setError(null);
     try {
       ExpenseerAPI.token = token;
-      await ExpenseerAPI.addStock(symbol);
+      const response = await ExpenseerAPI.addStock(symbol);
+      if (!response) {
+        throw new Error("Error adding stock");
+      }
       getStocks();
     } catch (err) {
       setError(err.message);
@@ -58,6 +67,9 @@ const useStocks = () => {
     try {
       ExpenseerAPI.token = token;
       const response = await ExpenseerAPI.searchStocks(term);
+      if (!response) {
+        throw new Error("Error during search");
+      }
       setSeachResults(response);
     } catch (err) {
       setError(err.message);
