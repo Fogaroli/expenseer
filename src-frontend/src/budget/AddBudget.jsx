@@ -47,7 +47,7 @@ const AddBudget = () => {
 
   return (
     <>
-      <h1 className="h3 m-4">Add Budget</h1>
+      <h1>Add Budget</h1>
       <form onSubmit={handleSubmit} style={{ maxWidth: "600px" }}>
         <div>
           <label htmlFor="budgetName">Name</label>
@@ -93,7 +93,7 @@ const AddBudget = () => {
         </div>
         <button type="submit">Add Budget</button>
         {loading && <p>Loading...</p>}
-        {error && <p className="text-danger">{error}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
     </>
   );

@@ -5,7 +5,7 @@ import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
 const Category = () => {
   const { categoryName } = useParams();
-  const [currentMonth, history, expenses, isLoading, error] = useDashboard({
+  const { currentMonth, history, expenses, isLoading, error } = useDashboard({
     category: categoryName,
   });
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const Category = () => {
           <FontAwesomeIcon icon={faCircleNotch} spin />
         </p>
       )}
-      {error && <p className="text-danger">{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <p>Status</p>
       {currentMonth?.month || ""} - {currentMonth?.total_amount || ""}
       <p>History</p>

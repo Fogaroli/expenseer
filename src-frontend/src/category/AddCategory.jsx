@@ -32,7 +32,7 @@ const AddCategory = () => {
   };
   return (
     <>
-      <h1 className="h3 m-4">Add Category</h1>
+      <h1>Add Category</h1>
       <form onSubmit={handleSubmit} style={{ maxWidth: "600px" }}>
         <div>
           <label htmlFor="categoryName">Category Name</label>
@@ -47,7 +47,7 @@ const AddCategory = () => {
         </div>
         <button type="submit">Add Category</button>
         {loading && <p>Loading...</p>}
-        {error && <p className="text-danger">{error}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
     </>
   );

@@ -68,7 +68,7 @@ const Expense = () => {
           <FontAwesomeIcon icon={faCircleNotch} spin />
         </p>
       )}
-      {error && <p className="text-danger">{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
       {expense && (
         <div>
           <h2>{expense.name}</h2>

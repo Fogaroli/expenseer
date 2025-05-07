@@ -40,7 +40,7 @@ const BudgetDashboard = () => {
           <FontAwesomeIcon icon={faCircleNotch} spin />
         </p>
       )}
-      {error && <p className="text-danger">{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
       {dashboardData &&
         dashboardData.map((budget, idx) => {
           return (

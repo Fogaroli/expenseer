@@ -79,7 +79,7 @@ const Register = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="mb-3">
+        <div>
           <label htmlFor="lastname">Last Name</label>
           <input
             type="text"
@@ -104,7 +104,7 @@ const Register = () => {
 
         <button type="submit">Register</button>
         {loading && <p>Loading...</p>}
-        {error && <p className="text-danger">{error}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
     </>
   );
