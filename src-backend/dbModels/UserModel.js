@@ -151,6 +151,9 @@ class User {
    **/
 
   static async update(username, data) {
+    if (data.password) {
+      data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
+    }
     let { query, values } = sqlForPartialUpdate(
       "users",
       data,
