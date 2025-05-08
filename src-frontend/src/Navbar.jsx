@@ -46,6 +46,7 @@ const Navbar = () => {
               <NavLink onClick={logoutHandler}>
                 Logout({user.first_name})
               </NavLink>
+              <NavLink to="/user">Edit User</NavLink>
             </>
           ) : (
             <>

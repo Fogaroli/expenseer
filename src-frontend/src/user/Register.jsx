@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import {
   register,
   selectUserError,
@@ -44,11 +44,12 @@ const Register = () => {
     setFormData((old) => ({ ...old, [name]: value }));
   };
 
+  if (user) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <>
-      <div>
-        {user ? <p>Welcome, {user.first_name}!</p> : <p>Please register</p>}
-      </div>
       <p>Create your free account now</p>
       <form onSubmit={handleSubmit} style={{ maxWidth: "600px" }}>
         <div>
