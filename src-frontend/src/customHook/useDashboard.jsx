@@ -3,6 +3,11 @@ import ExpenseerAPI from "../helper/api";
 import { useSelector } from "react-redux";
 import { selectToken } from "../store/authSlice";
 
+/** useDashboard custom hook
+ *
+ * React Hook created to centralize the functions to collect budget and category dashboards
+ *
+ */
 const useDashboard = (target = {}) => {
   const [currentMonth, setCurrentMonth] = useState({});
   const [history, setHistory] = useState([]);
@@ -11,6 +16,8 @@ const useDashboard = (target = {}) => {
   const [error, setError] = useState(null);
   const token = useSelector(selectToken);
 
+  // Function to get dashboard data.
+  // item variable defines if category or budget
   const getDashboard = useCallback(async () => {
     if (!token || Object.keys(target).length === 0) {
       setError("Target or token missing");
@@ -46,6 +53,7 @@ const useDashboard = (target = {}) => {
     }
   }, [token, target.category, target.budget]);
 
+  // Trigger dashboard data update on startup
   useEffect(() => {
     getDashboard();
   }, [getDashboard]);
@@ -60,4 +68,4 @@ const useDashboard = (target = {}) => {
   };
 };
 
-export { useDashboard };
+export default useDashboard;

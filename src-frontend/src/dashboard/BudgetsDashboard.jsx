@@ -6,12 +6,17 @@ import ExpenseerAPI from "../helper/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
+/** Budget Dashboard component
+ *
+ * Should indicate the total monthly expenses for each Budget.
+ */
 const BudgetDashboard = () => {
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const token = useSelector(selectToken);
 
+  // Load dashboard data on render
   useEffect(() => {
     const getBudgetDashboardData = async () => {
       setLoading(true);

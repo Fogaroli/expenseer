@@ -1,18 +1,28 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectToken } from "../store/authSlice";
 import BudgetDashboard from "./BudgetsDashboard";
 import CategoryDashboard from "./CategoryDashboard";
 
 const dashboards = [<BudgetDashboard />, <CategoryDashboard />];
 
+/** Dashboard component
+ * Should provide access to dashboards for categories or budgets in a carousel
+ */
 const Dashboards = () => {
   const [showing, setShowing] = useState(0);
   const navigate = useNavigate();
+  const token = useSelector(selectToken);
 
   const prev = () =>
     setShowing((c) => (c === 0 ? dashboards.length - 1 : c - 1));
   const next = () =>
     setShowing((c) => (c === dashboards.length - 1 ? 0 : c + 1));
+
+  if (!token) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <>

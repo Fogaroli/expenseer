@@ -12,6 +12,10 @@ import { selectToken } from "../store/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
+/** Edit budget Component
+ *
+ * Allow user to modify information for the budget
+ */
 const Editbudget = () => {
   const initialState = {
     name: "",
@@ -27,6 +31,7 @@ const Editbudget = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Load budget data on render
   useEffect(() => {
     const fetchData = async () => {
       const response = await dispatch(
@@ -37,6 +42,7 @@ const Editbudget = () => {
     fetchData();
   }, [budgetName, dispatch, token]);
 
+  // Form update handler
   const handleChange = (e) => {
     let { name, value } = e.target;
     // Convert amount to number if it's a number input
@@ -49,6 +55,7 @@ const Editbudget = () => {
     }));
   };
 
+  // Send update request to the server with the information from the form
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await dispatch(
@@ -59,6 +66,7 @@ const Editbudget = () => {
     }
   };
 
+  // Sends the delete request once the delete button is clicked
   const handleDelete = async (evt) => {
     evt.preventDefault();
     const response = await dispatch(
@@ -70,9 +78,8 @@ const Editbudget = () => {
   };
 
   if (!token) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
-
   return (
     <div>
       <h1>Edit Budget</h1>

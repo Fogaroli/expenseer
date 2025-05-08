@@ -10,6 +10,9 @@ import store from "./store/store.jsx";
 import "./main.css";
 import App from "./App.jsx";
 
+/** Main react component
+ * Loads Redux store
+ */
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <Provider store={store}>

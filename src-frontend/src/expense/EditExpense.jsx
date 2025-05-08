@@ -18,6 +18,10 @@ import {
   selectCategoryLoading,
 } from "../store/categorySlice";
 
+/** Edit expense component
+ *
+ * Should allow user to modify the information associated to each expense
+ */
 const EditExpense = () => {
   const { id } = useParams();
   const [expense, setExpense] = useState(null);
@@ -32,6 +36,7 @@ const EditExpense = () => {
   const budgetError = useSelector(selectBudgetError);
   const dispatch = useDispatch();
 
+  // Load expense information on first render to populate form
   useEffect(() => {
     const fetchExpense = async () => {
       setLoading(true);
@@ -55,6 +60,7 @@ const EditExpense = () => {
     fetchExpense();
   }, [id, token]);
 
+  // Read categories and budgets in case data not available in Redux store to populate filter input
   useEffect(() => {
     if (token && budgets.length === 0) {
       dispatch(getBudgets(token));
@@ -64,6 +70,7 @@ const EditExpense = () => {
     }
   }, [token, budgets.length, categories.length, dispatch]);
 
+  // Form update handler
   const handleChange = (evt) => {
     let { name, value } = evt.target;
     // Convert amount to number if it's a number input
@@ -76,6 +83,8 @@ const EditExpense = () => {
     }));
   };
 
+  // Handle form submission to save changes to the database
+  // Fields empty will be translated to null by the server during response
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     setLoading(true);
@@ -99,9 +108,8 @@ const EditExpense = () => {
   };
 
   if (!token) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
-
   return (
     <div>
       <h1>Edit Expense</h1>

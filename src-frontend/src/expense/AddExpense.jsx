@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { selectToken } from "../store/authSlice";
 import ExpenseerAPI from "../helper/api";
@@ -18,12 +18,18 @@ import {
   selectCategoryLoading,
 } from "../store/categorySlice";
 
+/** Add Expense Component
+ *
+ * Should allow user to add a new expense to the database.
+ * The page that redirects to this component might send pre-selected filters as
+ * location state, so enhance user experience.
+ */
 const AddExpense = () => {
   //recover data sent from previous rendered component
   const location = useLocation();
   const filters = location.state?.filters;
 
-  const INITIALEXPANSEDATA = {
+  const INITIALEXPENSEDATA = {
     name: "",
     amount: 0,
     description: "",
@@ -31,7 +37,7 @@ const AddExpense = () => {
     budget: filters?.budget || "",
     category: filters?.category || "",
   };
-  const [newExpense, setNewExpense] = useState(INITIALEXPANSEDATA);
+  const [newExpense, setNewExpense] = useState(INITIALEXPENSEDATA);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const token = useSelector(selectToken);
@@ -42,7 +48,9 @@ const AddExpense = () => {
   const budgetLoading = useSelector(selectBudgetLoading);
   const budgetError = useSelector(selectBudgetError);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  // Read categories and budgets in case data not available in Redux store to populate filter input
   useEffect(() => {
     if (token && budgets.length === 0) {
       dispatch(getBudgets(token));
@@ -52,6 +60,7 @@ const AddExpense = () => {
     }
   }, [token, budgets.length, categories.length, dispatch]);
 
+  // Form update handler
   const handleChange = (evt) => {
     let { name, value } = evt.target;
     if (name === "amount") {
@@ -63,6 +72,7 @@ const AddExpense = () => {
     }));
   };
 
+  // Send new expense data to the server
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     setLoading(true);
@@ -77,6 +87,7 @@ const AddExpense = () => {
         response[key] === null ? (response[key] = "") : response[key]
       );
       setNewExpense(response);
+      navigate("/expenses");
     } catch (error) {
       setError(error.message);
     } finally {
@@ -85,7 +96,7 @@ const AddExpense = () => {
   };
 
   if (!token) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 
   return (

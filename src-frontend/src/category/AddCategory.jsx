@@ -5,9 +5,13 @@ import {
   selectCategoryLoading,
 } from "../store/categorySlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { selectToken } from "../store/authSlice";
 
+/** Add category component
+ *
+ * Allows user to add a new expense category to its list
+ */
 const AddCategory = () => {
   const [categoryName, setCategoryName] = useState("");
   const dispatch = useDispatch();
@@ -16,6 +20,7 @@ const AddCategory = () => {
   const loading = useSelector(selectCategoryLoading);
   const navigate = useNavigate();
 
+  // Send new category data to the server once click submit
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     try {
@@ -26,10 +31,16 @@ const AddCategory = () => {
       console.error("Failed to add category: ", err);
     }
   };
+
+  // Form update handler
   const handleChange = (evt) => {
     const { value } = evt.target;
     setCategoryName(value);
   };
+
+  if (!token) {
+    return <Navigate to="/" />;
+  }
   return (
     <>
       <h1>Add Category</h1>

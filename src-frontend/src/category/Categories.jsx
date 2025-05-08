@@ -11,6 +11,11 @@ import { selectToken } from "../store/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
+/** Categories components
+ *
+ * Lists all categories created by the user
+ * Data extracted from Redux store
+ */
 const Categories = () => {
   const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
@@ -18,6 +23,7 @@ const Categories = () => {
   const error = useSelector(selectCategoryError);
   const token = useSelector(selectToken);
 
+  // Load categories on page render
   useEffect(() => {
     if (token && categories.length === 0) {
       dispatch(getCategories(token));
@@ -25,9 +31,8 @@ const Categories = () => {
   }, [token, categories.length, dispatch]);
 
   if (!token) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
-
   return (
     <>
       <h1>Categories</h1>

@@ -32,6 +32,10 @@ const login = createAsyncThunk(
   }
 );
 
+/** Thunk for user registration
+ *
+ * returns { token, last_logged }
+ */
 const register = createAsyncThunk(
   "auth/register",
   async (userData, thunkAPI) => {
@@ -46,6 +50,7 @@ const register = createAsyncThunk(
   }
 );
 
+// constant for starting point for the authentication slice
 const initialState = {
   token: Cookies.get("token") || null,
   user: Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null,
@@ -53,6 +58,10 @@ const initialState = {
   error: null,
 };
 
+/** Redux Authentication Slice
+ *
+ * Should store user information logout and thunk reducers
+ */
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -112,6 +121,7 @@ const authSlice = createSlice({
 export const { logout } = authSlice.actions;
 export { getUserData, login, register };
 
+// Define selectors for data easy access
 export const selectUser = (state) => state.auth.user;
 export const selectToken = (state) => state.auth.token;
 export const selectUserError = (state) => state.auth.error;

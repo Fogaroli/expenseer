@@ -1,8 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
-import ExpenseerAPI from "../helper/api";
 import { useSelector } from "react-redux";
 import { selectToken } from "../store/authSlice";
+import ExpenseerAPI from "../helper/api";
 
+/** useStocks  custom hook
+ *
+ * Hook created to handle backend interface and storage for Stocks information
+ */
 const useStocks = () => {
   const [stocksData, setStocksData] = useState(null);
   const [searchResults, setSeachResults] = useState(null);
@@ -10,6 +14,7 @@ const useStocks = () => {
   const [error, setError] = useState(null);
   const token = useSelector(selectToken);
 
+  // Function to get list of stocks registered to the user
   const getStocks = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -27,6 +32,7 @@ const useStocks = () => {
     }
   }, [token]);
 
+  // Remove stock from the user's list
   const deleteStock = async (symbol) => {
     setLoading(true);
     setError(null);
@@ -44,6 +50,7 @@ const useStocks = () => {
     }
   };
 
+  // Add new Stock to the user's list
   const addStock = async (symbol) => {
     setLoading(true);
     setError(null);
@@ -61,6 +68,7 @@ const useStocks = () => {
     }
   };
 
+  // Function to search for stocks based on the given term
   const searchStocks = async (term) => {
     setLoading(true);
     setError(null);
@@ -78,10 +86,12 @@ const useStocks = () => {
     }
   };
 
+  // Function to clear search results
   const clearResults = () => {
     setSeachResults(null);
   };
 
+  // Triggers reading user's stock lists upon load
   useEffect(() => {
     getStocks();
   }, [getStocks]);
@@ -99,4 +109,4 @@ const useStocks = () => {
   };
 };
 
-export { useStocks };
+export default useStocks;

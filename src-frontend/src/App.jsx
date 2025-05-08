@@ -19,6 +19,9 @@ import AddExpense from "./expense/AddExpense";
 import Dashboards from "./dashboard/Dashboards";
 import Indexes from "./Indexes/Indexes";
 
+/**Main component, holds the router logic for the multiple menus.
+ * In case of no match the navigation should fall back to the homepage.
+ */
 function App() {
   return (
     <>

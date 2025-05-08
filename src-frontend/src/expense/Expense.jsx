@@ -7,6 +7,13 @@ import { Navigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
+/** Expense component
+ *
+ * Shows de details of a given expense.
+ * Expense if provided as url parameter
+ *
+ * Should show buttons to editing or deleting the expense.
+ */
 const Expense = () => {
   const { id } = useParams();
   const [expense, setExpense] = useState(null);
@@ -15,6 +22,7 @@ const Expense = () => {
   const token = useSelector(selectToken);
   const navigate = useNavigate();
 
+  // Load expense data on render.
   useEffect(() => {
     const fetchExpense = async () => {
       setLoading(true);
@@ -35,7 +43,8 @@ const Expense = () => {
     fetchExpense();
   }, [id, token]);
 
-  const deleteExpense = async () => {
+  // Process button click to delete expense
+  const handleDelete = async () => {
     setLoading(true);
     setError(null);
     try {
@@ -53,7 +62,7 @@ const Expense = () => {
   };
 
   if (!token) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 
   if (!id) {
@@ -81,7 +90,7 @@ const Expense = () => {
       )}
       <button onClick={() => window.history.back()}>Back</button>
       <button onClick={() => navigate(`/expenses/${id}/edit`)}>Edit</button>
-      <button onClick={deleteExpense}>Delete</button>
+      <button onClick={handleDelete}>Delete</button>
     </>
   );
 };

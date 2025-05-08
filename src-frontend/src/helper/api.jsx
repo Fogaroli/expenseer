@@ -243,6 +243,12 @@ class ExpenseerAPI {
     );
     return res.exchange_rate;
   }
+
+  /**Get currency codes available for exchange rate */
+  static async getCurrencyCodes() {
+    let res = await this.request(`exchanges/codes`, {}, {}, "GET");
+    return res.supported_codes;
+  }
 }
 
 export default ExpenseerAPI;

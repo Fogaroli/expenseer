@@ -8,6 +8,9 @@ import {
   selectUserLoading,
 } from "../store/authSlice";
 
+/** Registration component
+ * Allow account creation
+ */
 const Register = () => {
   const cleanForm = {
     username: "",
@@ -17,12 +20,13 @@ const Register = () => {
     email: "",
   };
   const [formData, setFormData] = useState(cleanForm);
-  const dispatch = useDispatch();
   const error = useSelector(selectUserError);
   const loading = useSelector(selectUserLoading);
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Handles register button click, send credentials to redux store - auth slice
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     try {
@@ -34,6 +38,7 @@ const Register = () => {
     }
   };
 
+  // Form update handler
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     setFormData((old) => ({ ...old, [name]: value }));

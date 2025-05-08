@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useExchange } from "../customHook/useExchange";
+import useExchange from "../customHook/useExchange";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleNotch,
@@ -7,6 +7,11 @@ import {
   faThumbtack,
 } from "@fortawesome/free-solid-svg-icons";
 
+/** Exchange rates components
+ *
+ * Should provide updates exchange rates for the relations already pinned by the user.
+ * Should allow search for a new exchange rate and pin to the user account
+ */
 const Exchanges = () => {
   const INITIALDATA = {
     currency1: "EUR",
@@ -24,23 +29,27 @@ const Exchanges = () => {
     getExchange,
   } = useExchange();
 
+  // Delete a currency exchange registered to the user
   const handleDelete = (evt) => {
     const currency1 = evt.currentTarget.dataset.currency1;
     const currency2 = evt.currentTarget.dataset.currency2;
     deleteExchange(currency1, currency2);
   };
 
+  // Add a currency exchange to the user
   const handleAdd = (evt) => {
     const currency1 = evt.currentTarget.dataset.currency1;
     const currency2 = evt.currentTarget.dataset.currency2;
     addExchange(currency1, currency2);
   };
 
+  // Form update handler
   const handleChange = (evt) => {
     let { name, value } = evt.target;
     setInputData((oldData) => ({ ...oldData, [name]: value }));
   };
 
+  // Handle form submission, should trigger reading the selected exchange rate
   const handleSubmit = (evt) => {
     evt.preventDefault();
     getExchange(inputData.currency1, inputData.currency2);
