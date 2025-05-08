@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useStocks } from "../customHook/useStocks";
+import useStocks from "../customHook/useStocks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleNotch,
@@ -7,6 +7,11 @@ import {
   faThumbtack,
 } from "@fortawesome/free-solid-svg-icons";
 
+/** Stocks value components
+ *
+ * Should provide updates Stock values for stocks already pinned by the user.
+ * Should allow search for new stocks and pin to the user account
+ */
 const Stocks = () => {
   const [searchInput, setSeachInput] = useState("");
   const {
@@ -20,23 +25,27 @@ const Stocks = () => {
     clearResults,
   } = useStocks();
 
+  // Delete a stock registered to the user
   const handleDelete = (evt) => {
     const symbol = evt.currentTarget.dataset.name;
     deleteStock(symbol);
   };
 
+  // Add a stock to the user
   const handleAdd = (evt) => {
     const symbol = evt.currentTarget.dataset.name;
     addStock(symbol);
     clearResults();
   };
 
+  // Form update handler
   const handleChange = (evt) => {
     const { value } = evt.target;
     setSeachInput(value);
     clearResults();
   };
 
+  // Handle for submission, should trigger searching for stocks
   const handleSubmit = (evt) => {
     evt.preventDefault();
     searchStocks(searchInput);

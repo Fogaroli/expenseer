@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import {
   register,
   selectUserError,
@@ -8,6 +8,9 @@ import {
   selectUserLoading,
 } from "../store/authSlice";
 
+/** Registration component
+ * Allow account creation
+ */
 const Register = () => {
   const cleanForm = {
     username: "",
@@ -17,12 +20,13 @@ const Register = () => {
     email: "",
   };
   const [formData, setFormData] = useState(cleanForm);
-  const dispatch = useDispatch();
   const error = useSelector(selectUserError);
   const loading = useSelector(selectUserLoading);
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Handles register button click, send credentials to redux store - auth slice
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     try {
@@ -34,16 +38,18 @@ const Register = () => {
     }
   };
 
+  // Form update handler
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     setFormData((old) => ({ ...old, [name]: value }));
   };
 
+  if (user) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <>
-      <div>
-        {user ? <p>Welcome, {user.first_name}!</p> : <p>Please register</p>}
-      </div>
       <p>Create your free account now</p>
       <form onSubmit={handleSubmit} style={{ maxWidth: "600px" }}>
         <div>

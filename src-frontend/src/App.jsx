@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import Homepage from "./Homepage";
 import Login from "./user/Login";
 import Register from "./user/Register";
+import EditUser from "./user/EditUser";
 import Categories from "./category/Categories";
 import Category from "./category/Category";
 import AddCategory from "./category/AddCategory";
@@ -19,6 +20,9 @@ import AddExpense from "./expense/AddExpense";
 import Dashboards from "./dashboard/Dashboards";
 import Indexes from "./Indexes/Indexes";
 
+/**Main component, holds the router logic for the multiple menus.
+ * In case of no match the navigation should fall back to the homepage.
+ */
 function App() {
   return (
     <>
@@ -27,6 +31,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/user" element={<EditUser />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/add-category" element={<AddCategory />} />
         <Route path="/categories/:categoryName" element={<Category />} />

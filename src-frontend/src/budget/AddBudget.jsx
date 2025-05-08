@@ -5,9 +5,13 @@ import {
   selectBudgetLoading,
 } from "../store/budgetSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { selectToken } from "../store/authSlice";
 
+/** Add Budget component
+ *
+ * Allows user to add a new expense budget to its list
+ */
 const AddBudget = () => {
   const initialState = {
     name: "",
@@ -22,6 +26,7 @@ const AddBudget = () => {
   const loading = useSelector(selectBudgetLoading);
   const navigate = useNavigate();
 
+  // Send new budget data to the server once click submit
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     try {
@@ -33,6 +38,7 @@ const AddBudget = () => {
     }
   };
 
+  // Form update handler
   const handleChange = (evt) => {
     let { name, value } = evt.target;
     // Convert amount to number if it's a number input
@@ -45,6 +51,9 @@ const AddBudget = () => {
     }));
   };
 
+  if (!token) {
+    return <Navigate to="/" />;
+  }
   return (
     <>
       <h1>Add Budget</h1>

@@ -8,15 +8,19 @@ import {
   selectUserLoading,
 } from "../store/authSlice";
 
+/** Login component
+ * For registered users
+ */
 const Login = () => {
   const emptyForm = { username: "", password: "" };
-  const dispatch = useDispatch();
   const [formData, setFormData] = useState(emptyForm);
   const error = useSelector(selectUserError);
   const loading = useSelector(selectUserLoading);
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Handles login button click, send credentials to redux store - auth slice
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     try {
@@ -28,6 +32,7 @@ const Login = () => {
     }
   };
 
+  // Form update handler
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     setFormData((old) => ({ ...old, [name]: value }));

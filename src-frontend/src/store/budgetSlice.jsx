@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ExpenseerAPI from "../helper/api";
 
+// Thunk to get all budgets created for the logged user
 const getBudgets = createAsyncThunk(
   "budget/getBudgets",
   async (token, thunkAPI) => {
@@ -11,6 +12,7 @@ const getBudgets = createAsyncThunk(
   }
 );
 
+// Thunk to get detail of one specific budget provided as argument
 const getBudget = createAsyncThunk(
   "budget/getBudget",
   async ({ token, name }, thunkAPI) => {
@@ -21,6 +23,7 @@ const getBudget = createAsyncThunk(
   }
 );
 
+// Thunk to regster a new budget for the user
 const addBudget = createAsyncThunk(
   "budget/addBudget",
   async ({ token, data }, thunkAPI) => {
@@ -32,6 +35,8 @@ const addBudget = createAsyncThunk(
   }
 );
 
+// Thunk to update budget information, budget name and data
+//  provided as argument
 const editBudget = createAsyncThunk(
   "budget/editBudget",
   async ({ token, name, data }, thunkAPI) => {
@@ -43,6 +48,7 @@ const editBudget = createAsyncThunk(
   }
 );
 
+// Thunk to delete budget data, budget provided as argument
 const deleteBudget = createAsyncThunk(
   "budget/deleteBudget",
   async ({ token, name }, thunkAPI) => {
@@ -54,12 +60,17 @@ const deleteBudget = createAsyncThunk(
   }
 );
 
+// constant for starting point for the budget slice
 const initialState = {
   budgets: [],
   loading: false,
   error: null,
 };
 
+/** Redux Budget Slice
+ *
+ * Should store budget information and thunk reducers
+ */
 const budgetSlice = createSlice({
   name: "budget",
   initialState,
@@ -130,6 +141,7 @@ const budgetSlice = createSlice({
 
 export { getBudgets, getBudget, addBudget, editBudget, deleteBudget };
 
+// Define selectors for data easy access
 export const selectBudgets = (state) => state.budget.budgets;
 export const selectBudgetLoading = (state) => state.budget.loading;
 export const selectBudgetError = (state) => state.budget.error;

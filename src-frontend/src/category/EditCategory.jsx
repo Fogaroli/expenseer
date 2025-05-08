@@ -12,6 +12,10 @@ import { selectToken } from "../store/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
+/** Edit Category Component
+ *
+ * Allow user to modify information for the category
+ */
 const EditCategory = () => {
   const { categoryName } = useParams();
   const [categoryData, setCategoryData] = useState({ name: "" });
@@ -21,6 +25,7 @@ const EditCategory = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Load category data on render
   useEffect(() => {
     const fetchData = async () => {
       const response = await dispatch(
@@ -31,6 +36,7 @@ const EditCategory = () => {
     fetchData();
   }, [categoryName, dispatch, token]);
 
+  // Form update handler
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCategoryData((oldData) => ({
@@ -39,6 +45,7 @@ const EditCategory = () => {
     }));
   };
 
+  // Send update request to the server with the information from the form
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await dispatch(
@@ -49,6 +56,7 @@ const EditCategory = () => {
     }
   };
 
+  // Sends the delete request once the delete button is clicked
   const handleDelete = async (evt) => {
     evt.preventDefault();
     const response = await dispatch(
@@ -60,9 +68,8 @@ const EditCategory = () => {
   };
 
   if (!token) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
-
   return (
     <div>
       <h1>Edit Category</h1>
@@ -82,7 +89,9 @@ const EditCategory = () => {
             onChange={handleChange}
           />
         </div>
-        <Link to={`/categories`}>Return</Link>
+        <button type="button" onClick={() => window.history.back()}>
+          Back
+        </button>
         <button type="submit">Update Category</button>
         <button type="button" onClick={handleDelete}>
           Delete Category

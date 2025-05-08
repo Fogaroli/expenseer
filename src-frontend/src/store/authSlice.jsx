@@ -32,6 +32,25 @@ const login = createAsyncThunk(
   }
 );
 
+/** Thunk to update user information
+ *
+ * returns updated { username, first_name, last_name, email, last_logged, image_url, ?is_admin }
+ */
+const editUser = createAsyncThunk(
+  "auth/editUser",
+  async ({ token, username, data }, thunkAPI) => {
+    ExpenseerAPI.token = token;
+    const response = await ExpenseerAPI.editUser(username, data);
+    if (!response) throw new Error("Error updating user information");
+    console.log("response", response);
+    return response;
+  }
+);
+
+/** Thunk for user registration
+ *
+ * returns { token, last_logged }
+ */
 const register = createAsyncThunk(
   "auth/register",
   async (userData, thunkAPI) => {
@@ -46,6 +65,7 @@ const register = createAsyncThunk(
   }
 );
 
+// constant for starting point for the authentication slice
 const initialState = {
   token: Cookies.get("token") || null,
   user: Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null,
@@ -53,6 +73,10 @@ const initialState = {
   error: null,
 };
 
+/** Redux Authentication Slice
+ *
+ * Should store user information logout and thunk reducers
+ */
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -105,13 +129,27 @@ const authSlice = createSlice({
       .addCase(getUserData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+      .addCase(editUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        Cookies.set("user", JSON.stringify(action.payload));
+      })
+      .addCase(editUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       });
   },
 });
 
 export const { logout } = authSlice.actions;
-export { getUserData, login, register };
+export { getUserData, login, register, editUser };
 
+// Define selectors for data easy access
 export const selectUser = (state) => state.auth.user;
 export const selectToken = (state) => state.auth.token;
 export const selectUserError = (state) => state.auth.error;

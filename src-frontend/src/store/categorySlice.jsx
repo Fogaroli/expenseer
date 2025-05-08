@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ExpenseerAPI from "../helper/api";
 
+// Thunk to get all categories registered for the logged user
 const getCategories = createAsyncThunk(
   "category/getCategories",
   async (token, thunkAPI) => {
@@ -11,6 +12,7 @@ const getCategories = createAsyncThunk(
   }
 );
 
+// Thunk to get details for one specific category provided as argument
 const getCategory = createAsyncThunk(
   "category/getCategory",
   async ({ token, name }, thunkAPI) => {
@@ -21,6 +23,7 @@ const getCategory = createAsyncThunk(
   }
 );
 
+// Thunk to add a new category to the logged user
 const addCategory = createAsyncThunk(
   "category/addCategory",
   async ({ token, name }, thunkAPI) => {
@@ -32,6 +35,8 @@ const addCategory = createAsyncThunk(
   }
 );
 
+// Thunk to update category information, category name and updated
+//  data provided as argument
 const editCategory = createAsyncThunk(
   "category/editCategory",
   async ({ token, name, data }, thunkAPI) => {
@@ -43,6 +48,7 @@ const editCategory = createAsyncThunk(
   }
 );
 
+// Thunk to delete a category provided as argument
 const deleteCategory = createAsyncThunk(
   "category/deleteCategory",
   async ({ token, name }, thunkAPI) => {
@@ -54,12 +60,17 @@ const deleteCategory = createAsyncThunk(
   }
 );
 
+// constant for starting point for the category slice
 const initialState = {
   categories: [],
   loading: false,
   error: null,
 };
 
+/** Redux Category Slice
+ *
+ * Should store information for categories and thunk reducers.
+ */
 const categorySlice = createSlice({
   name: "category",
   initialState,
@@ -136,6 +147,7 @@ export {
   deleteCategory,
 };
 
+// Define selectors for data easy access
 export const selectCategories = (state) => state.category.categories;
 export const selectCategoryLoading = (state) => state.category.loading;
 export const selectCategoryError = (state) => state.category.error;

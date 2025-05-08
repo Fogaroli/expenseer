@@ -14,13 +14,20 @@ import {
   selectCategoryError,
   selectCategoryLoading,
 } from "../store/categorySlice";
-import ExpenseerAPI from "../helper/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import ExpenseerAPI from "../helper/api";
 import ExpenseItem from "./ExpenseItem";
 
 const LIMIT = 20;
 
+/** Expenses components
+ *
+ * Should show all user expenses with associated category and budget.
+ * It should be possible to filter hte results using the form inputs provided.
+ *
+ * Expenses list implements infinite scrolling
+ */
 const Espenses = () => {
   const location = useLocation();
   const filters = location.state?.filters;
@@ -34,6 +41,8 @@ const Espenses = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [fieldsData, setFieldData] = useState(INITIALFILTERS);
+  const [offset, setOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
   const categories = useSelector(selectCategories);
   const budgets = useSelector(selectBudgets);
   const categoryLoading = useSelector(selectCategoryLoading);
@@ -41,18 +50,18 @@ const Espenses = () => {
   const budgetLoading = useSelector(selectBudgetLoading);
   const budgetError = useSelector(selectBudgetError);
   const token = useSelector(selectToken);
-  const dispatch = useDispatch();
-  const [offset, setOffset] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
   const observer = useRef();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Resets expenses list on page refresh or when filters are updated
   useEffect(() => {
     setExpenses([]);
     setOffset(0);
     setHasMore(true);
   }, [fieldsData, token]);
 
+  // Triggers function to get expenses on first render and when filter data is modified
   useEffect(() => {
     const getExpenses = async (filters) => {
       setLoading(true);
@@ -86,6 +95,7 @@ const Espenses = () => {
     getExpenses(filters);
   }, [fieldsData, token, offset]);
 
+  // Updates what is the last refence in the list to control infinite scrolling
   const lastExpenseRef = useCallback(
     (last) => {
       if (loading) return;
@@ -100,6 +110,7 @@ const Espenses = () => {
     [loading, hasMore]
   );
 
+  // Read categories and budgets in case data not available in Redux store to populate filter input
   useEffect(() => {
     if (token && budgets.length === 0) {
       dispatch(getBudgets(token));
@@ -109,6 +120,7 @@ const Espenses = () => {
     }
   }, [token, budgets.length, categories.length, dispatch]);
 
+  // Form update handler
   const handleChange = (evt) => {
     let { name, value } = evt.target;
     setFieldData((oldData) => ({
@@ -117,10 +129,8 @@ const Espenses = () => {
     }));
   };
 
-  if (!token) {
-    return <Navigate to="/login" />;
-  }
-
+  // Handle button click to add a new expense
+  // Current filters are transfered to the new expense component
   const handleAddExpense = () => {
     navigate("/add-expense", {
       state: {
@@ -129,6 +139,9 @@ const Espenses = () => {
     });
   };
 
+  if (!token) {
+    return <Navigate to="/" />;
+  }
   return (
     <div>
       <h1>Expenses</h1>
@@ -207,11 +220,7 @@ const Espenses = () => {
       <button type="button" onClick={handleAddExpense}>
         Add new Expense
       </button>
-      {loading && (
-        <p>
-          <FontAwesomeIcon icon={faCircleNotch} spin />
-        </p>
-      )}
+
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       <table>
@@ -241,6 +250,11 @@ const Espenses = () => {
           })}
         </tbody>
       </table>
+      {loading && (
+        <p>
+          <FontAwesomeIcon icon={faCircleNotch} spin />
+        </p>
+      )}
       {expenses.length === 0 && !loading && !error && <p>No expenses found</p>}
     </div>
   );

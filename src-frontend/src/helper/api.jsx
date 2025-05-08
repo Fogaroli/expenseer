@@ -27,23 +27,26 @@ class ExpenseerAPI {
   }
 
   /** Post request to register new user */
-
   static async register(data) {
     let res = await this.request(`auth/register`, data, {}, "POST");
     return res;
   }
 
   /** Post request for user login */
-
   static async login(credentials) {
     let res = await this.request(`auth/login`, credentials, {}, "POST");
     return res;
   }
 
   /** Get User information for given valid JWT */
-
   static async getUser(username) {
     let res = await this.request(`users/${username}`);
+    return res.user;
+  }
+
+  /** Edit User information*/
+  static async editUser(username, data) {
+    let res = await this.request(`users/${username}`, { data }, {}, "PATCH");
     return res.user;
   }
 
@@ -242,6 +245,12 @@ class ExpenseerAPI {
       "POST"
     );
     return res.exchange_rate;
+  }
+
+  /**Get currency codes available for exchange rate */
+  static async getCurrencyCodes() {
+    let res = await this.request(`exchanges/codes`, {}, {}, "GET");
+    return res.supported_codes;
   }
 }
 
