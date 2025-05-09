@@ -1,23 +1,36 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import logo from "./assets/LOGO.svg";
 import { useEffect, useState } from "react";
-import logo from "./assets/expenseer_logo.svg";
 import { selectUser, logout } from "./store/authSlice";
 import { useSelector, useDispatch } from "react-redux";
+
+import AppBar from "@mui/material/AppBar";
+import Container from "@mui/material/Container";
+import Toolbar from "@mui/material/Toolbar";
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+
+const pages = ["Dashboard", "Categories", "Budgets", "Expenses", "Indexes"];
+const pagesNotLogged = ["Login", "Register"];
+const settings = ["Profile", "Logout"];
 
 /**Main navigation bar
  * Should provide access to main page links and allow user logout
  */
 const Navbar = () => {
   const [loggingOut, setLoggingOut] = useState(false);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  // Handle clicks to the logout button
-  const logoutHandler = () => {
-    dispatch(logout());
-    setLoggingOut(true);
-  };
 
   // Redirect users to homepage when logged out
   useEffect(() => {
@@ -27,36 +40,230 @@ const Navbar = () => {
     }
   }, [loggingOut, user, navigate]);
 
+  // Handle clicks to the logout button
+  const logoutHandler = () => {
+    dispatch(logout());
+    setLoggingOut(true);
+  };
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const handleNavigation = (path) => {
+    handleCloseNavMenu();
+    navigate(`/${path.toLowerCase()}`);
+  };
+
+  const handleSettingNavigation = (setting) => {
+    handleCloseUserMenu();
+    if (setting === "Logout") {
+      logoutHandler();
+    } else if (setting === "Profile") {
+      navigate("/user");
+    }
+  };
+
   return (
     <>
-      <nav>
-        <div>
-          <span>
-            <img src={logo} alt="Expenseer Logo" />
-          </span>
-        </div>
-        <div>
-          {user !== null ? (
-            <>
-              <NavLink to="/dashboards">Dashboards</NavLink>
-              <NavLink to="/categories">Categories</NavLink>
-              <NavLink to="/budgets">Budgets</NavLink>
-              <NavLink to="/expenses">Expenses</NavLink>
-              <NavLink to="/indexes">Indexes</NavLink>
-              <NavLink onClick={logoutHandler}>
-                Logout({user.first_name})
-              </NavLink>
-              <NavLink to="/user">Edit User</NavLink>
-            </>
-          ) : (
-            <>
-              <NavLink to="/">Home</NavLink>
-              <NavLink to="/login">Login</NavLink>
-              <NavLink to="/register">Register</NavLink>
-            </>
-          )}
-        </div>
-      </nav>
+      <AppBar position="fixed" sx={{ mb: 0 }}>
+        <Container maxWidth="xl">
+          <Toolbar
+            disableGutters
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+              minHeight: { xs: 56, sm: 64 },
+              px: 0,
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box
+                component="img"
+                onClick={() => navigate("/")}
+                sx={{
+                  display: { xs: "none", md: "flex" },
+                  mr: 1,
+                  width: 40,
+                  height: 40,
+                  objectFit: "contain",
+                  cursor: "pointer",
+                }}
+                alt="Expenseer"
+                src={logo}
+              />
+              <Typography
+                variant="h5"
+                noWrap
+                component="span"
+                sx={{
+                  mr: 2,
+                  display: { xs: "none", md: "flex" },
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  color: "inherit",
+                  textDecoration: "none",
+                }}
+              >
+                Expenseer
+              </Typography>
+            </Box>
+
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{ display: { xs: "block", md: "none" } }}
+              >
+                {user
+                  ? pages.map((page) => (
+                      <MenuItem
+                        key={page}
+                        onClick={() => handleNavigation(page)}
+                      >
+                        <Typography sx={{ textAlign: "center" }}>
+                          {page}
+                        </Typography>
+                      </MenuItem>
+                    ))
+                  : pagesNotLogged.map((page) => (
+                      <MenuItem
+                        key={page}
+                        onClick={() => handleNavigation(page)}
+                      >
+                        <Typography sx={{ textAlign: "center" }}>
+                          {page}
+                        </Typography>
+                      </MenuItem>
+                    ))}
+              </Menu>
+            </Box>
+
+            <Typography
+              variant="h5"
+              noWrap
+              component="span"
+              sx={{
+                mr: 2,
+                display: { xs: "flex", md: "none" },
+                flexGrow: 1,
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              Expenseer
+            </Typography>
+
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: { xs: "none", md: "flex" },
+                justifyContent: "flex-end",
+                alignItems: "center",
+                gap: 1,
+              }}
+            >
+              {user
+                ? pages.map((page) => (
+                    <Button
+                      key={page}
+                      onClick={() => handleNavigation(page)}
+                      sx={{ my: 2, color: "white", display: "block" }}
+                    >
+                      {page}
+                    </Button>
+                  ))
+                : pagesNotLogged.map((page) => (
+                    <Button
+                      key={page}
+                      onClick={() => handleNavigation(page)}
+                      sx={{ my: 2, color: "white", display: "block" }}
+                    >
+                      {page}
+                    </Button>
+                  ))}
+            </Box>
+
+            {user && (
+              <Box sx={{ flexGrow: 0, ml: 2 }}>
+                <Tooltip title={`${user.first_name} ${user.last_name}`}>
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar
+                      alt={`${user.first_name} ${user.last_name}`}
+                      src={user.image_url}
+                    />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => (
+                    <MenuItem
+                      key={setting}
+                      onClick={() => handleSettingNavigation(setting)}
+                    >
+                      <Typography sx={{ textAlign: "center" }}>
+                        {setting}
+                      </Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            )}
+          </Toolbar>
+        </Container>
+      </AppBar>
     </>
   );
 };

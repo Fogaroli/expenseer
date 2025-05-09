@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   login,
@@ -7,6 +7,7 @@ import {
   selectUser,
   selectUserLoading,
 } from "../store/authSlice";
+import { Box, TextField, Button, Typography, Paper } from "@mui/material";
 
 /** Login component
  * For registered users
@@ -39,42 +40,73 @@ const Login = () => {
   };
 
   return (
-    <>
-      <div>
-        {user ? <p>Welcome, {user.first_name}!</p> : <p>Please log in.</p>}
-      </div>
-      <p>Enter your credentials in the form below</p>
-      <form onSubmit={handleSubmit} style={{ maxWidth: "600px" }}>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            aria-describedby="username"
-            value={formData.username}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            aria-describedby="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit">Submit</button>
-        {loading && <p>Loading...</p>}
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <p>
-          Don't have an account? <a href="/register">Sign Up</a>
-        </p>
-      </form>
-    </>
+    <Paper
+      elevation={3}
+      sx={{
+        p: 4,
+        maxWidth: 600,
+        mt: 3,
+        mx: "auto",
+      }}
+    >
+      <Typography variant="h5" component="h1" gutterBottom>
+        {user ? `Welcome, ${user.first_name}!` : "Please log in."}
+      </Typography>
+
+      <Typography variant="body1" gutterBottom>
+        Enter your credentials in the form below
+      </Typography>
+
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          id="username"
+          label="Username"
+          name="username"
+          autoComplete="username"
+          value={formData.username}
+          onChange={handleChange}
+        />
+
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
+          Submit
+        </Button>
+
+        {loading && <Typography>Loading...</Typography>}
+        {error && (
+          <Typography color="error" sx={{ mt: 1 }}>
+            {error}
+          </Typography>
+        )}
+
+        <Typography sx={{ mt: 2 }}>
+          Don't have an account?{" "}
+          <Button component={Link} to="/register" variant="text">
+            Sign Up
+          </Button>
+        </Typography>
+      </Box>
+    </Paper>
   );
 };
 
