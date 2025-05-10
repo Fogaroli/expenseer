@@ -2,8 +2,7 @@ import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectToken } from "../store/authSlice";
 import useDashboard from "../customHook/useDashboard";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import { Paper, Typography, Button, Box, Stack, Divider } from "@mui/material";
 
 /** Category component
  *
@@ -44,43 +43,55 @@ const Category = () => {
   }
 
   return (
-    <div>
-      <h1> {categoryName}</h1>
-      {isLoading && (
-        <p>
-          <FontAwesomeIcon icon={faCircleNotch} spin />
-        </p>
-      )}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <p>Status</p>
-      {currentMonth?.month || ""} - {currentMonth?.total_amount || ""}
-      <p>History</p>
-      {history.map((hist, idx) => {
-        return (
-          <div key={idx}>
-            {hist.month} - {hist.total_amount}
-          </div>
-        );
-      })}
-      <p>Latest Expenses</p>
-      {expenses.map((exp, idx) => {
-        return (
-          <div key={idx}>
-            {new Date(exp.date).toISOString().split("T")[0]} - {exp.name} -{" "}
+    <Paper elevation={4} sx={{ p: 4, maxWidth: 800, mx: "auto", mt: 4 }}>
+      <Typography variant="h4" gutterBottom>
+        {categoryName}
+      </Typography>
+      {isLoading && <Typography>Loading...</Typography>}
+      {error && <Typography color="error">{error}</Typography>}
+
+      <Divider sx={{ my: 2 }} />
+
+      <Typography variant="h6">Status</Typography>
+      <Typography>
+        {currentMonth?.month || ""} - ${currentMonth?.total_amount || ""}
+      </Typography>
+
+      <Divider sx={{ my: 2 }} />
+
+      <Typography variant="h6">History (last 6 months)</Typography>
+      <Box sx={{ mb: 2 }}>
+        {history.map((hist, idx) => (
+          <Typography key={idx}>
+            {hist.month} - ${hist.total_amount}
+          </Typography>
+        ))}
+      </Box>
+
+      <Divider sx={{ my: 2 }} />
+
+      <Typography variant="h6">Latest Expenses</Typography>
+      <Box sx={{ mb: 2 }}>
+        {expenses.map((exp, idx) => (
+          <Typography key={idx}>
+            {new Date(exp.date).toISOString().split("T")[0]} - {exp.name} - $
             {exp.amount} - {exp.budget}
-          </div>
-        );
-      })}
-      <button type="button" onClick={() => window.history.back()}>
-        Back
-      </button>
-      <button type="button" onClick={handleAddExpense}>
-        Add new Expense
-      </button>
-      <button type="button" onClick={handleSeeAll}>
-        See All
-      </button>
-    </div>
+          </Typography>
+        ))}
+      </Box>
+
+      <Stack direction="row" spacing={2}>
+        <Button variant="outlined" onClick={() => navigate(-1)}>
+          Back
+        </Button>
+        <Button variant="contained" onClick={handleAddExpense}>
+          Add new Expense
+        </Button>
+        <Button variant="outlined" onClick={handleSeeAll}>
+          See All
+        </Button>
+      </Stack>
+    </Paper>
   );
 };
 

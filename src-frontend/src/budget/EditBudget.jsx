@@ -9,8 +9,15 @@ import {
   selectBudgetLoading,
 } from "../store/budgetSlice";
 import { selectToken } from "../store/authSlice";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import {
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Stack,
+  MenuItem,
+} from "@mui/material";
 
 /** Edit budget Component
  *
@@ -81,64 +88,85 @@ const Editbudget = () => {
     return <Navigate to="/" />;
   }
   return (
-    <div>
-      <h1>Edit Budget</h1>
-      {loading && (
-        <p>
-          Loading <FontAwesomeIcon icon={faCircleNotch} spin />
-        </p>
-      )}
-      <form onSubmit={handleSubmit} style={{ maxWidth: "600px" }}>
-        <div>
-          <label htmlFor="budgetName">Name</label>
-          <input
-            type="text"
-            name="name"
-            id="budgetName"
-            aria-describedby="Budget Name"
-            value={budgetData.name}
-            onChange={handleChange}
-          />
-          <label htmlFor="budgetAmount">Amount</label>
-          <input
-            type="number"
-            name="amount"
-            id="budgetAmount"
-            aria-describedby="Budget Amount"
-            value={budgetData.amount}
-            onChange={handleChange}
-          />
-          <label htmlFor="budgetType">Type</label>
-          <select
-            name="type"
-            id="budgetType"
-            aria-describedby="Budget Type"
-            value={budgetData.type}
-            onChange={handleChange}
+    <Paper elevation={4} sx={{ p: 4, maxWidth: 600, mx: "auto", mt: 4 }}>
+      <Typography variant="h4" gutterBottom>
+        Edit Budget
+      </Typography>
+      {loading && <Typography>Loading...</Typography>}
+      <Box component="form" onSubmit={handleSubmit}>
+        <TextField
+          label="Name"
+          name="name"
+          id="budgetName"
+          value={budgetData.name}
+          onChange={handleChange}
+          fullWidth
+          required
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          label="Amount"
+          name="amount"
+          id="budgetAmount"
+          type="number"
+          value={budgetData.amount}
+          onChange={handleChange}
+          fullWidth
+          required
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          label="Type"
+          name="type"
+          id="budgetType"
+          select
+          value={budgetData.type}
+          onChange={handleChange}
+          fullWidth
+          required
+          sx={{ mb: 2 }}
+        >
+          <MenuItem value={0}>Select a type</MenuItem>
+          <MenuItem value={1}>Monthly Expense</MenuItem>
+          <MenuItem value={2}>Yearly Expense</MenuItem>
+          <MenuItem value={3}>Event</MenuItem>
+          <MenuItem value={4}>Savings</MenuItem>
+        </TextField>
+        <TextField
+          label="Description"
+          name="description"
+          id="budgetDescription"
+          value={budgetData.description}
+          onChange={handleChange}
+          fullWidth
+          multiline
+          minRows={2}
+          sx={{ mb: 2 }}
+        />
+        <Stack direction="row" spacing={2}>
+          <Button variant="outlined" onClick={() => navigate(-1)}>
+            Back
+          </Button>
+          <Button type="submit" variant="contained" disabled={loading}>
+            Update Budget
+          </Button>
+          <Button
+            type="button"
+            variant="contained"
+            color="error"
+            onClick={handleDelete}
+            disabled={loading}
           >
-            <option value="0">Select a type</option>
-            <option value="1">Monthly Expense</option>
-            <option value="2">Yearly Expense</option>
-            <option value="3">Event</option>
-            <option value="4">Savings</option>
-          </select>
-          <label htmlFor="budgetDescription">Description</label>
-          <textarea
-            name="description"
-            id="budgetDescription"
-            aria-describedby="Budget Description"
-            value={budgetData.description || ""}
-            onChange={handleChange}
-          />
-        </div>
-        <Link to={`/budgets`}>Return</Link>
-        <button type="submit">Update budget</button>
-        <button type="button" onClick={handleDelete}>
-          Delete Budget
-        </button>
-      </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </div>
+            Delete Budget
+          </Button>
+        </Stack>
+      </Box>
+      {error && (
+        <Typography color="error" sx={{ mt: 2 }}>
+          {error}
+        </Typography>
+      )}
+    </Paper>
   );
 };
 export default Editbudget;

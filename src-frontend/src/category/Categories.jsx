@@ -10,6 +10,17 @@ import {
 import { selectToken } from "../store/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import {
+  Paper,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  IconButton,
+  Button,
+  Box,
+  Stack,
+} from "@mui/material";
 
 /** Categories components
  *
@@ -34,22 +45,53 @@ const Categories = () => {
     return <Navigate to="/" />;
   }
   return (
-    <>
-      <h1>Categories</h1>
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <ul>
+    <Paper elevation={4} sx={{ p: 4, maxWidth: 600, mx: "auto", mt: 4 }}>
+      <Typography variant="h4" gutterBottom>
+        Categories
+      </Typography>
+      {loading && <Typography>Loading...</Typography>}
+      {error && <Typography color="error">{error}</Typography>}
+      <List>
         {categories.map((category, idx) => (
-          <li key={idx}>
-            <Link to={`/categories/${category.name}`}>{category.name}</Link>
-            <Link to={`/categories/${category.name}/edit`}>
-              <FontAwesomeIcon icon={faPenToSquare} />
-            </Link>
-          </li>
+          <ListItem
+            key={idx}
+            secondaryAction={
+              <IconButton
+                component={Link}
+                to={`/categories/${category.name}/edit`}
+                edge="end"
+                aria-label="edit"
+              >
+                <FontAwesomeIcon icon={faPenToSquare} />
+              </IconButton>
+            }
+            disablePadding
+          >
+            <ListItemText
+              primary={
+                <Button
+                  component={Link}
+                  to={`/categories/${category.name}`}
+                  sx={{ textTransform: "none" }}
+                >
+                  {category.name}
+                </Button>
+              }
+            />
+          </ListItem>
         ))}
-      </ul>
-      <Link to="/add-category">Add Category</Link>
-    </>
+      </List>
+      <Stack direction="row" justifyContent="flex-end" sx={{ mt: 2 }}>
+        <Button
+          variant="contained"
+          component={Link}
+          to="/add-category"
+          color="primary"
+        >
+          Add Category
+        </Button>
+      </Stack>
+    </Paper>
   );
 };
 

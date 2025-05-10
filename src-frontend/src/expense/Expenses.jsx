@@ -14,10 +14,24 @@ import {
   selectCategoryError,
   selectCategoryLoading,
 } from "../store/categorySlice";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import ExpenseerAPI from "../helper/api";
 import ExpenseItem from "./ExpenseItem";
+import {
+  Paper,
+  Typography,
+  Box,
+  Stack,
+  Button,
+  TextField,
+  MenuItem,
+  CircularProgress,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 const LIMIT = 20;
 
@@ -143,120 +157,140 @@ const Espenses = () => {
     return <Navigate to="/" />;
   }
   return (
-    <div>
-      <h1>Expenses</h1>
-      <h3>Filters</h3>
-      <label htmlFor="category">by category</label>
-      <select
-        name="category"
-        id="category"
-        aria-describedby="Category"
-        value={fieldsData.category}
-        onChange={handleChange}
+    <Paper elevation={4} sx={{ p: 4, maxWidth: 1100, mx: "auto", mt: 4 }}>
+      <Typography variant="h5" component="h1" gutterBottom>
+        Expenses
+      </Typography>
+      <Box sx={{ mb: 3 }}>
+        <Typography variant="h6" gutterBottom>
+          Filters
+        </Typography>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={2}
+          sx={{ mb: 2 }}
+        >
+          <TextField
+            select
+            label="Category"
+            name="category"
+            value={fieldsData.category}
+            onChange={handleChange}
+            sx={{ minWidth: 180 }}
+            disabled={categoryLoading}
+          >
+            <MenuItem value="">Select Category</MenuItem>
+            {categories.map((cat, idx) => (
+              <MenuItem key={idx} value={cat.name}>
+                {cat.name}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            select
+            label="Budget"
+            name="budget"
+            value={fieldsData.budget}
+            onChange={handleChange}
+            sx={{ minWidth: 180 }}
+            disabled={budgetLoading}
+          >
+            <MenuItem value="">Select Budget</MenuItem>
+            {budgets.map((bud, idx) => (
+              <MenuItem key={idx} value={bud.name}>
+                {bud.name}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            label="Start Date"
+            name="startdate"
+            type="date"
+            value={fieldsData.startdate}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+            sx={{ minWidth: 160 }}
+          />
+          <TextField
+            label="End Date"
+            name="enddate"
+            type="date"
+            value={fieldsData.enddate}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+            sx={{ minWidth: 160 }}
+          />
+          <Button
+            variant="outlined"
+            onClick={() => setFieldData(INITIALFILTERS)}
+            sx={{ height: 56 }}
+          >
+            Clear Filters
+          </Button>
+        </Stack>
+        {categoryLoading && <CircularProgress size={20} sx={{ mr: 2 }} />}
+        {categoryError && (
+          <Typography color="error" sx={{ mr: 2 }}>
+            {categoryError}
+          </Typography>
+        )}
+        {budgetLoading && <CircularProgress size={20} sx={{ mr: 2 }} />}
+        {budgetError && (
+          <Typography color="error" sx={{ mr: 2 }}>
+            {budgetError}
+          </Typography>
+        )}
+      </Box>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ mb: 2 }}
       >
-        <option value="">Select Category</option>
-        {categories.map((cat, idx) => (
-          <option key={idx} value={cat.name}>
-            {cat.name}
-          </option>
-        ))}
-      </select>
-      {categoryLoading && (
-        <p>
-          <FontAwesomeIcon icon={faCircleNotch} spin />
-        </p>
+        <Typography variant="h6">List of expenses</Typography>
+        <Button variant="contained" onClick={handleAddExpense}>
+          Add new Expense
+        </Button>
+      </Stack>
+      {error && (
+        <Typography color="error" sx={{ mb: 2 }}>
+          {error}
+        </Typography>
       )}
-      {categoryError && <p style={{ color: "red" }}>{categoryError}</p>}
-      <label htmlFor="budget">by budget</label>
-      <select
-        name="budget"
-        id="budget"
-        aria-describedby="Budget"
-        value={fieldsData.budget}
-        onChange={handleChange}
-      >
-        <option value="">Select Budget</option>
-        {budgets.map((bud, idx) => (
-          <option key={idx} value={bud.name}>
-            {bud.name}
-          </option>
-        ))}
-      </select>
-      {budgetLoading && (
-        <p>
-          <FontAwesomeIcon icon={faCircleNotch} spin />
-        </p>
-      )}
-      {budgetError && <p style={{ color: "red" }}>{budgetError}</p>}
-      <label htmlFor="startdate">Start Date</label>
-      <input
-        type="date"
-        name="startdate"
-        id="startdate"
-        aria-describedby="Start Date"
-        value={fieldsData.start_date}
-        onChange={handleChange}
-      />
-      <label htmlFor="enddate">End Date</label>
-      <input
-        type="date"
-        name="enddate"
-        id="enddate"
-        aria-describedby="End Date"
-        value={fieldsData.end_date}
-        onChange={handleChange}
-      />
-      <button
-        type="button"
-        onClick={() => {
-          setFieldData(INITIALFILTERS);
-        }}
-      >
-        Clear Filters
-      </button>
-
-      <h3>List of expenses</h3>
-
-      <button type="button" onClick={handleAddExpense}>
-        Add new Expense
-      </button>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Name</th>
-            <th>Amount</th>
-            <th>Category</th>
-            <th>Budget</th>
-          </tr>
-        </thead>
-        <tbody>
-          {expenses.map((exp, idx) => {
-            if (idx === expenses.length - 1) {
-              return (
-                <tr ref={lastExpenseRef} key={idx}>
-                  <ExpenseItem expense={exp} />
-                </tr>
-              );
-            }
-            return (
-              <tr key={idx}>
-                <ExpenseItem expense={exp} />
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <TableContainer component={Paper} sx={{ mb: 2 }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Date</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Amount</TableCell>
+              <TableCell>Category</TableCell>
+              <TableCell>Budget</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {expenses.map((exp, idx) => {
+              if (idx === expenses.length - 1) {
+                return (
+                  <ExpenseItem
+                    key={exp.id || idx}
+                    expense={exp}
+                    ref={lastExpenseRef}
+                  />
+                );
+              }
+              return <ExpenseItem key={exp.id || idx} expense={exp} />;
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
       {loading && (
-        <p>
-          <FontAwesomeIcon icon={faCircleNotch} spin />
-        </p>
+        <CircularProgress sx={{ display: "block", mx: "auto", mb: 2 }} />
       )}
-      {expenses.length === 0 && !loading && !error && <p>No expenses found</p>}
-    </div>
+      {expenses.length === 0 && !loading && !error && (
+        <Typography>No expenses found</Typography>
+      )}
+    </Paper>
   );
 };
 export default Espenses;

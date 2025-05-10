@@ -9,8 +9,14 @@ import {
   selectCategoryLoading,
 } from "../store/categorySlice";
 import { selectToken } from "../store/authSlice";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import {
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Stack,
+} from "@mui/material";
 
 /** Edit Category Component
  *
@@ -71,34 +77,46 @@ const EditCategory = () => {
     return <Navigate to="/" />;
   }
   return (
-    <div>
-      <h1>Edit Category</h1>
-      {loading && (
-        <p>
-          Loading <FontAwesomeIcon icon={faCircleNotch} spin />
-        </p>
+    <Paper elevation={4} sx={{ p: 4, maxWidth: 600, mx: "auto", mt: 4 }}>
+      <Typography variant="h4" gutterBottom>
+        Edit Category
+      </Typography>
+      {loading && <Typography>Loading...</Typography>}
+      <Box component="form" onSubmit={handleSubmit}>
+        <TextField
+          label="Category Name"
+          name="name"
+          id="categoryName"
+          value={categoryData.name}
+          onChange={handleChange}
+          fullWidth
+          required
+          sx={{ mb: 2 }}
+        />
+        <Stack direction="row" spacing={2}>
+          <Button variant="outlined" onClick={() => navigate(-1)}>
+            Back
+          </Button>
+          <Button type="submit" variant="contained" disabled={loading}>
+            Update Category
+          </Button>
+          <Button
+            type="button"
+            variant="contained"
+            color="error"
+            onClick={handleDelete}
+            disabled={loading}
+          >
+            Delete Category
+          </Button>
+        </Stack>
+      </Box>
+      {error && (
+        <Typography color="error" sx={{ mt: 2 }}>
+          {error}
+        </Typography>
       )}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="categoryName">Category Name:</label>
-          <input
-            type="text"
-            id="categoryName"
-            name="name"
-            value={categoryData.name}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="button" onClick={() => window.history.back()}>
-          Back
-        </button>
-        <button type="submit">Update Category</button>
-        <button type="button" onClick={handleDelete}>
-          Delete Category
-        </button>
-      </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </div>
+    </Paper>
   );
 };
 export default EditCategory;

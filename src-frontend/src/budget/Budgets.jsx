@@ -10,6 +10,16 @@ import {
 import { selectToken } from "../store/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import {
+  Paper,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  IconButton,
+  Button,
+  Stack,
+} from "@mui/material";
 
 /** Budgets components
  *
@@ -34,24 +44,65 @@ const Budgets = () => {
     return <Navigate to="/" />;
   }
   return (
-    <>
-      <h1>Budgets</h1>
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <ul>
+    <Paper elevation={4} sx={{ p: 4, maxWidth: 800, mx: "auto", mt: 4 }}>
+      <Typography variant="h4" gutterBottom>
+        Budgets
+      </Typography>
+      {loading && <Typography>Loading...</Typography>}
+      {error && <Typography color="error">{error}</Typography>}
+      <List>
         {budgets.map((budget, idx) => (
-          <li key={idx}>
-            <span>Icon{budget.type}</span>
-            <Link to={`/budgets/${budget.name}`}>{budget.name}</Link>
-            <span> - ${budget.amount}</span>
-            <Link to={`/budgets/${budget.name}/edit`}>
-              <FontAwesomeIcon icon={faPenToSquare} />
-            </Link>
-          </li>
+          <ListItem key={idx} disablePadding>
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={2}
+              sx={{ width: "100%", px: 2, py: 1 }}
+            >
+              {/* Name: flex-grow to take available space */}
+              <Button
+                component={Link}
+                to={`/budgets/${budget.name}`}
+                sx={{
+                  textTransform: "none",
+                  flex: 1,
+                  justifyContent: "flex-start",
+                }}
+              >
+                {budget.name}
+              </Button>
+              {/* Amount: fixed width, right-aligned */}
+              <Typography
+                variant="body1"
+                color="text.secondary"
+                sx={{ minWidth: 90, textAlign: "right" }}
+              >
+                ${budget.amount}
+              </Typography>
+              {/* Edit icon */}
+              <IconButton
+                component={Link}
+                to={`/budgets/${budget.name}/edit`}
+                edge="end"
+                aria-label="edit"
+              >
+                <FontAwesomeIcon icon={faPenToSquare} />
+              </IconButton>
+            </Stack>
+          </ListItem>
         ))}
-      </ul>
-      <Link to="/add-budget">Create Budget</Link>
-    </>
+      </List>
+      <Stack direction="row" justifyContent="flex-end" sx={{ mt: 2 }}>
+        <Button
+          variant="contained"
+          component={Link}
+          to="/add-budget"
+          color="primary"
+        >
+          Add Budget
+        </Button>
+      </Stack>
+    </Paper>
   );
 };
 
