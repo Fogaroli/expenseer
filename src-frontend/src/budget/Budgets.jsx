@@ -44,7 +44,17 @@ const Budgets = () => {
     return <Navigate to="/" />;
   }
   return (
-    <Paper elevation={4} sx={{ p: 4, maxWidth: 800, mx: "auto", mt: 4 }}>
+    <Paper
+      elevation={4}
+      sx={{
+        p: { xs: 2, sm: 4 },
+        maxWidth: 800,
+        width: "100%",
+        mx: "auto",
+        mt: 4,
+        boxSizing: "border-box",
+      }}
+    >
       <Typography variant="h4" gutterBottom>
         Budgets
       </Typography>

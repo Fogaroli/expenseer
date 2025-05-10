@@ -15,7 +15,6 @@ const indexes = [<Stocks />, <Exchanges />];
  */
 const Indexes = () => {
   const [showing, setShowing] = useState(0);
-  const [hover, setHover] = useState(false);
   const token = useSelector(selectToken);
   if (!token) {
     return <Navigate to="/" />;
@@ -28,62 +27,48 @@ const Indexes = () => {
     <Box
       sx={{
         display: "flex",
-        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
         mt: 4,
+        width: "100%",
       }}
     >
       <Paper
         elevation={4}
         sx={{
-          p: 4,
-          minWidth: 350,
-          maxWidth: 500,
+          p: { xs: 2, sm: 4 },
+          width: "100%",
+          minWidth: 0,
+          maxWidth: { xs: "100%", sm: 500 },
           position: "relative",
           overflow: "hidden",
+          boxSizing: "border-box",
         }}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
       >
-        <Stack direction="row" alignItems="center" justifyContent="center">
-          {hover && (
-            <IconButton
-              onClick={prev}
-              sx={{
-                position: "absolute",
-                left: 8,
-                top: "50%",
-                transform: "translateY(-50%)",
-                zIndex: 2,
-                bgcolor: "background.paper",
-                ":hover": { bgcolor: "grey.200" },
-              }}
-              aria-label="Previous"
-            >
-              <ArrowBackIosIcon />
-            </IconButton>
-          )}
-          <Box sx={{ width: "100%", textAlign: "center" }}>
-            {indexes[showing]}
-          </Box>
-          {hover && (
-            <IconButton
-              onClick={next}
-              sx={{
-                position: "absolute",
-                right: 8,
-                top: "50%",
-                transform: "translateY(-50%)",
-                zIndex: 2,
-                bgcolor: "background.paper",
-                ":hover": { bgcolor: "grey.200" },
-              }}
-              aria-label="Next"
-            >
-              <ArrowForwardIosIcon />
-            </IconButton>
-          )}
-        </Stack>
+        <Box sx={{ width: "100%", textAlign: "center" }}>
+          {indexes[showing]}
+        </Box>
       </Paper>
+      <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+        <IconButton
+          onClick={prev}
+          sx={{
+            bgcolor: "background.paper",
+          }}
+          aria-label="Previous"
+        >
+          <ArrowBackIosIcon />
+        </IconButton>
+        <IconButton
+          onClick={next}
+          sx={{
+            bgcolor: "background.paper",
+          }}
+          aria-label="Next"
+        >
+          <ArrowForwardIosIcon />
+        </IconButton>
+      </Stack>
     </Box>
   );
 };

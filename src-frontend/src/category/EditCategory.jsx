@@ -93,14 +93,20 @@ const EditCategory = () => {
           required
           sx={{ mb: 2 }}
         />
-        <Stack direction="row" spacing={2}>
-          <Button variant="outlined" onClick={() => navigate(-1)}>
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+          <Button fullWidth variant="outlined" onClick={() => navigate(-1)}>
             Back
           </Button>
-          <Button type="submit" variant="contained" disabled={loading}>
+          <Button
+            fullWidth
+            type="submit"
+            variant="contained"
+            disabled={loading}
+          >
             Update Category
           </Button>
           <Button
+            fullWidth
             type="button"
             variant="contained"
             color="error"

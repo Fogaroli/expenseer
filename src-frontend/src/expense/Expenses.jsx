@@ -32,6 +32,8 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 const LIMIT = 20;
 
@@ -67,6 +69,8 @@ const Espenses = () => {
   const observer = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Resets expenses list on page refresh or when filters are updated
   useEffect(() => {
@@ -157,7 +161,17 @@ const Espenses = () => {
     return <Navigate to="/" />;
   }
   return (
-    <Paper elevation={4} sx={{ p: 4, maxWidth: 1100, mx: "auto", mt: 4 }}>
+    <Paper
+      elevation={4}
+      sx={{
+        p: { xs: 2, sm: 4 },
+        maxWidth: 1100,
+        width: "100%",
+        mx: "auto",
+        mt: 4,
+        boxSizing: "border-box",
+      }}
+    >
       <Typography variant="h5" component="h1" gutterBottom>
         Expenses
       </Typography>
@@ -176,7 +190,10 @@ const Espenses = () => {
             name="category"
             value={fieldsData.category}
             onChange={handleChange}
-            sx={{ minWidth: 180 }}
+            sx={{
+              minWidth: { xs: 0, sm: 160 },
+              width: { xs: "100%", sm: "auto" },
+            }}
             disabled={categoryLoading}
           >
             <MenuItem value="">Select Category</MenuItem>
@@ -192,7 +209,10 @@ const Espenses = () => {
             name="budget"
             value={fieldsData.budget}
             onChange={handleChange}
-            sx={{ minWidth: 180 }}
+            sx={{
+              minWidth: { xs: 0, sm: 160 },
+              width: { xs: "100%", sm: "auto" },
+            }}
             disabled={budgetLoading}
           >
             <MenuItem value="">Select Budget</MenuItem>
@@ -209,7 +229,10 @@ const Espenses = () => {
             value={fieldsData.startdate}
             onChange={handleChange}
             InputLabelProps={{ shrink: true }}
-            sx={{ minWidth: 160 }}
+            sx={{
+              minWidth: { xs: 0, sm: 140 },
+              width: { xs: "100%", sm: "auto" },
+            }}
           />
           <TextField
             label="End Date"
@@ -218,7 +241,10 @@ const Espenses = () => {
             value={fieldsData.enddate}
             onChange={handleChange}
             InputLabelProps={{ shrink: true }}
-            sx={{ minWidth: 160 }}
+            sx={{
+              minWidth: { xs: 0, sm: 140 },
+              width: { xs: "100%", sm: "auto" },
+            }}
           />
           <Button
             variant="outlined"
@@ -242,12 +268,12 @@ const Espenses = () => {
         )}
       </Box>
       <Stack
-        direction="row"
+        direction="column"
         justifyContent="space-between"
         alignItems="center"
         sx={{ mb: 2 }}
       >
-        <Typography variant="h6">List of expenses</Typography>
+        <Typography variant="h5">List of expenses</Typography>
         <Button variant="contained" onClick={handleAddExpense}>
           Add new Expense
         </Button>
@@ -257,33 +283,20 @@ const Espenses = () => {
           {error}
         </Typography>
       )}
-      <TableContainer component={Paper} sx={{ mb: 2 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Date</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Amount</TableCell>
-              <TableCell>Category</TableCell>
-              <TableCell>Budget</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {expenses.map((exp, idx) => {
-              if (idx === expenses.length - 1) {
-                return (
-                  <ExpenseItem
-                    key={exp.id || idx}
-                    expense={exp}
-                    ref={lastExpenseRef}
-                  />
-                );
-              }
-              return <ExpenseItem key={exp.id || idx} expense={exp} />;
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <Box>
+        {expenses.map((exp, idx) => {
+          if (idx === expenses.length - 1) {
+            return (
+              <ExpenseItem
+                key={exp.id || idx}
+                expense={exp}
+                ref={lastExpenseRef}
+              />
+            );
+          }
+          return <ExpenseItem key={exp.id || idx} expense={exp} />;
+        })}
+      </Box>
       {loading && (
         <CircularProgress sx={{ display: "block", mx: "auto", mb: 2 }} />
       )}

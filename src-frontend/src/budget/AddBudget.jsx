@@ -119,11 +119,11 @@ const AddBudget = () => {
           sx={{ mb: 2 }}
         />
         <Stack direction="row" spacing={2}>
-          <Button type="submit" variant="contained" disabled={loading}>
-            Add Budget
-          </Button>
           <Button variant="outlined" onClick={() => navigate(-1)}>
             Back
+          </Button>
+          <Button type="submit" variant="contained" disabled={loading}>
+            Add Budget
           </Button>
         </Stack>
         {loading && <Typography sx={{ mt: 2 }}>Loading...</Typography>}

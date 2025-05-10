@@ -65,8 +65,9 @@ const Editbudget = () => {
   // Send update request to the server with the information from the form
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { name, ...updateData } = budgetData;
     const response = await dispatch(
-      editBudget({ token, name: budgetName, data: budgetData })
+      editBudget({ token, name, data: updateData })
     ).unwrap();
     if (response) {
       setBudgetData(response);
@@ -143,15 +144,21 @@ const Editbudget = () => {
           minRows={2}
           sx={{ mb: 2 }}
         />
-        <Stack direction="row" spacing={2}>
-          <Button variant="outlined" onClick={() => navigate(-1)}>
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+          <Button fullWidth variant="outlined" onClick={() => navigate(-1)}>
             Back
           </Button>
-          <Button type="submit" variant="contained" disabled={loading}>
+          <Button
+            fullWidth
+            type="submit"
+            variant="contained"
+            disabled={loading}
+          >
             Update Budget
           </Button>
           <Button
             type="button"
+            fullWidth
             variant="contained"
             color="error"
             onClick={handleDelete}

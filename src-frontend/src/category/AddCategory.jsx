@@ -65,12 +65,17 @@ const AddCategory = () => {
           required
           sx={{ mb: 2 }}
         />
-        <Stack direction="row" spacing={2}>
-          <Button type="submit" variant="contained" disabled={loading}>
-            Add Category
-          </Button>
-          <Button variant="outlined" onClick={() => navigate(-1)}>
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+          <Button fullWidth variant="outlined" onClick={() => navigate(-1)}>
             Back
+          </Button>
+          <Button
+            fullWidth
+            type="submit"
+            variant="contained"
+            disabled={loading}
+          >
+            Add Category
           </Button>
         </Stack>
         {loading && <Typography sx={{ mt: 2 }}>Loading...</Typography>}

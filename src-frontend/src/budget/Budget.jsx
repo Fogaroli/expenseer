@@ -2,7 +2,24 @@ import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectToken } from "../store/authSlice";
 import useDashboard from "../customHook/useDashboard";
-import { Paper, Typography, Button, Box, Stack, Divider } from "@mui/material";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+} from "recharts";
+import {
+  Paper,
+  Typography,
+  Button,
+  Box,
+  Stack,
+  Divider,
+  LinearProgress,
+} from "@mui/material";
 
 /** Budget component
  *
@@ -38,6 +55,20 @@ const Budget = () => {
     });
   };
 
+  // Process the historical data to split among what is withing the budget and what is outside the budget.
+  // Note the usage of the current active budget as there is no budget threshold history
+  const processedHistory = history
+    ? history.map((item) => {
+        const budget = Number(item.budget_amount) || 0;
+        const total = Number(item.total_amount) || 0;
+        return {
+          ...item,
+          withinBudget: Math.min(total, budget),
+          overBudget: total > budget ? total - budget : 0,
+        };
+      })
+    : [];
+
   if (!token) {
     return <Navigate to="/" />;
   }
@@ -46,31 +77,74 @@ const Budget = () => {
       <Typography variant="h4" gutterBottom>
         {budgetName}
       </Typography>
+      <Typography>Budget Value ${currentMonth.budget_amount}</Typography>
       {isLoading && <Typography>Loading...</Typography>}
       {error && <Typography color="error">{error}</Typography>}
 
       <Divider sx={{ my: 2 }} />
 
       <Typography variant="h6">Status</Typography>
-      <Typography>
-        {currentMonth?.month || ""} - ${currentMonth?.total_amount || ""} -{" "}
-        {currentMonth?.percent_used || ""}%
-      </Typography>
+
+      <Box sx={{ mb: 2 }}>
+        <Typography>
+          {currentMonth?.month || ""} - ${currentMonth?.total_amount || ""}
+        </Typography>
+        <Box sx={{ width: "100%", mt: 1 }}>
+          <LinearProgress
+            variant="determinate"
+            value={Math.min(Number(currentMonth?.percent_used) || 0, 100)}
+            sx={{
+              height: 8,
+              borderRadius: 4,
+              backgroundColor: "#e0e0e0",
+              "& .MuiLinearProgress-bar": {
+                backgroundColor:
+                  Number(currentMonth?.percent_used) > 90
+                    ? "#d32f2f"
+                    : "#1976d2",
+              },
+            }}
+          />
+          <Typography variant="caption" color="text.secondary">
+            {currentMonth?.percent_used || 0}% used
+          </Typography>
+        </Box>
+      </Box>
 
       <Divider sx={{ my: 2 }} />
 
-      <Typography variant="h6">History (last 6 months)</Typography>
-      <Box sx={{ mb: 2 }}>
-        {history.map((hist, idx) => (
-          <Typography key={idx}>
-            {hist.month} - ${hist.total_amount}
-          </Typography>
-        ))}
+      <Typography variant="h6">Last 6 Months</Typography>
+      <Box sx={{ mb: 2, width: "100%", height: 250 }}>
+        {processedHistory.length > 0 ? (
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={processedHistory}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip />
+              <Bar
+                dataKey="withinBudget"
+                stackId="a"
+                fill="#1976d2"
+                name="Within Budget"
+              />
+              <Bar
+                dataKey="overBudget"
+                stackId="a"
+                fill="#d32f2f"
+                name="Over Budget"
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        ) : (
+          <Typography>No history data available.</Typography>
+        )}
       </Box>
 
       <Divider sx={{ my: 2 }} />
 
       <Typography variant="h6">Latest Expenses</Typography>
+
       <Box sx={{ mb: 2 }}>
         {expenses.map((exp, idx) => (
           <Typography key={idx}>
@@ -80,14 +154,14 @@ const Budget = () => {
         ))}
       </Box>
 
-      <Stack direction="row" spacing={2}>
-        <Button variant="outlined" onClick={() => navigate(-1)}>
+      <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+        <Button fullWidth variant="outlined" onClick={() => navigate(-1)}>
           Back
         </Button>
-        <Button variant="contained" onClick={handleAddExpense}>
+        <Button fullWidth variant="contained" onClick={handleAddExpense}>
           Add new Expense
         </Button>
-        <Button variant="outlined" onClick={handleSeeAll}>
+        <Button fullWidth variant="outlined" onClick={handleSeeAll}>
           See All
         </Button>
       </Stack>
