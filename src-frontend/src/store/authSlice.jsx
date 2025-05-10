@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ExpenseerAPI from "../helper/api";
 import Cookies from "js-cookie";
+import { clearCategories } from "./categorySlice";
+import { clearBudgets } from "./budgetSlice";
 
 /** Thunk to get user information
  * returns { username, first_name, last_name, email, last_logged, image_url, ?is_admin }
@@ -71,6 +73,13 @@ const initialState = {
   user: Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null,
   loading: false,
   error: null,
+};
+
+// Thunk to logout and clear all user-related state
+const logoutAll = () => (dispatch) => {
+  dispatch(authSlice.actions.logout());
+  dispatch(clearCategories());
+  dispatch(clearBudgets());
 };
 
 /** Redux Authentication Slice
@@ -147,7 +156,7 @@ const authSlice = createSlice({
 });
 
 export const { logout } = authSlice.actions;
-export { getUserData, login, register, editUser };
+export { getUserData, login, register, editUser, logoutAll };
 
 // Define selectors for data easy access
 export const selectUser = (state) => state.auth.user;

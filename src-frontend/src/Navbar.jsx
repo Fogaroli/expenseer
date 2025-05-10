@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import logo from "./assets/LOGO.svg";
 import { useEffect, useState } from "react";
-import { selectUser, logout } from "./store/authSlice";
+import { selectUser, logout, logoutAll } from "./store/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 import AppBar from "@mui/material/AppBar";
@@ -42,7 +42,7 @@ const Navbar = () => {
 
   // Handle clicks to the logout button
   const logoutHandler = () => {
-    dispatch(logout());
+    dispatch(logoutAll());
     setLoggingOut(true);
   };
 

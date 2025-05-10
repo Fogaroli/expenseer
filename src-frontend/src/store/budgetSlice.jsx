@@ -74,6 +74,11 @@ const initialState = {
 const budgetSlice = createSlice({
   name: "budget",
   initialState,
+  reducers: {
+    clearBudgets(state) {
+      state.budgets = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getBudgets.pending, (state) => {
@@ -139,6 +144,7 @@ const budgetSlice = createSlice({
   },
 });
 
+export const { clearBudgets } = budgetSlice.actions;
 export { getBudgets, getBudget, addBudget, editBudget, deleteBudget };
 
 // Define selectors for data easy access
