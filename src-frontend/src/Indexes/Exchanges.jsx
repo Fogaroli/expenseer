@@ -2,10 +2,20 @@ import { useState } from "react";
 import useExchange from "../customHook/useExchange";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCircleNotch,
   faThumbtackSlash,
   faThumbtack,
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  Typography,
+  Box,
+  Stack,
+  TextField,
+  MenuItem,
+  Button,
+  IconButton,
+  CircularProgress,
+  Paper,
+} from "@mui/material";
 
 /** Exchange rates components
  *
@@ -14,8 +24,8 @@ import {
  */
 const Exchanges = () => {
   const INITIALDATA = {
-    currency1: "EUR",
-    currency2: "USD",
+    currency1: "",
+    currency2: "",
   };
   const [inputData, setInputData] = useState(INITIALDATA);
   const {
@@ -57,75 +67,130 @@ const Exchanges = () => {
   };
 
   return (
-    <>
-      <p>Currency Exchange</p>
+    <Box>
+      <Typography variant="h6" gutterBottom>
+        Currency Exchange
+      </Typography>
       {loading && (
-        <p>
-          <FontAwesomeIcon icon={faCircleNotch} spin />
-        </p>
+        <Box sx={{ textAlign: "center", mb: 2 }}>
+          <CircularProgress size={24} />
+        </Box>
       )}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {exchangeData &&
-        exchangeData.map((exchange, idx) => {
-          return (
-            <div key={idx}>
-              {exchange.currency1} {exchange.currency2} {exchange.rate}
-              <FontAwesomeIcon
+      {error && (
+        <Typography color="error" sx={{ mb: 2 }}>
+          {error}
+        </Typography>
+      )}
+      <Box sx={{ mb: 2 }}>
+        {exchangeData &&
+          exchangeData.map((exchange, idx) => (
+            <Paper
+              key={idx}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                p: 1,
+                mb: 1,
+              }}
+              variant="outlined"
+            >
+              <span>
+                {exchange.currency1} / {exchange.currency2}: {exchange.rate}
+              </span>
+              <IconButton
                 data-currency1={exchange.currency1}
                 data-currency2={exchange.currency2}
                 onClick={handleDelete}
-                icon={faThumbtackSlash}
-              />
-            </div>
-          );
-        })}
-      <p>Choose an exchange</p>
-      <form onSubmit={handleSubmit}>
-        <select
-          name="currency1"
-          aria-description="First Currency"
-          value={inputData.currency1}
-          onChange={handleChange}
-        >
-          {availableCurrency &&
-            availableCurrency.map((currency, idx) => {
-              return (
-                <option key={idx} value={currency}>
+                size="small"
+                color="error"
+              >
+                <FontAwesomeIcon icon={faThumbtackSlash} />
+              </IconButton>
+            </Paper>
+          ))}
+      </Box>
+      <Typography variant="subtitle1" gutterBottom>
+        Choose an exchange
+      </Typography>
+      <Box component="form" onSubmit={handleSubmit} sx={{ mb: 2 }}>
+        <Stack direction="row" spacing={1} alignItems="center">
+          <TextField
+            select
+            name="currency1"
+            label="From"
+            value={inputData.currency1}
+            onChange={handleChange}
+            size="small"
+            sx={{ minWidth: 100 }}
+          >
+            <MenuItem value="" disabled>
+              {availableCurrency && availableCurrency.length > 0
+                ? "Select currency"
+                : ""}
+            </MenuItem>
+            {availableCurrency &&
+              availableCurrency.map((currency, idx) => (
+                <MenuItem key={idx} value={currency}>
                   {currency}
-                </option>
-              );
-            })}
-        </select>
-        --
-        <select
-          name="currency2"
-          aria-description="Second Currency"
-          value={inputData.currency2}
-          onChange={handleChange}
-        >
-          {availableCurrency &&
-            availableCurrency.map((currency, idx) => {
-              return (
-                <option key={idx} value={currency}>
+                </MenuItem>
+              ))}
+          </TextField>
+          <Typography variant="body1">→</Typography>
+          <TextField
+            select
+            name="currency2"
+            label="To"
+            value={inputData.currency2}
+            onChange={handleChange}
+            size="small"
+            sx={{ minWidth: 100 }}
+          >
+            <MenuItem value="" disabled>
+              {availableCurrency && availableCurrency.length > 0
+                ? "Select currency"
+                : ""}
+            </MenuItem>
+            {availableCurrency &&
+              availableCurrency.map((currency, idx) => (
+                <MenuItem key={idx} value={currency}>
                   {currency}
-                </option>
-              );
-            })}
-        </select>
-        <button type="submit">Check Rate</button>
-      </form>
+                </MenuItem>
+              ))}
+          </TextField>
+          <Button type="submit" variant="contained" size="small">
+            Check Rate
+          </Button>
+        </Stack>
+      </Box>
       {instantRate && (
-        <div>
-          {instantRate.currency1} -- {instantRate.currency2} {instantRate.rate}
-          <FontAwesomeIcon
+        <Paper
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            p: 1,
+            mb: 1,
+            bgcolor: "grey.100",
+          }}
+          variant="outlined"
+        >
+          <span>
+            {instantRate.currency1} / {instantRate.currency2}:{" "}
+            {instantRate.rate}
+          </span>
+          <IconButton
             data-currency1={instantRate.currency1}
             data-currency2={instantRate.currency2}
             onClick={handleAdd}
-            icon={faThumbtack}
-          />
-        </div>
+            size="small"
+            color="primary"
+          >
+            <FontAwesomeIcon icon={faThumbtack} />
+          </IconButton>
+        </Paper>
       )}
-    </>
+    </Box>
   );
 };
 

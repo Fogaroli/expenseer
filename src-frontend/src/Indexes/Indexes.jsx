@@ -4,6 +4,9 @@ import { useSelector } from "react-redux";
 import { selectToken } from "../store/authSlice";
 import Stocks from "./Stocks";
 import Exchanges from "./Exchanges";
+import { Paper, Box, IconButton, Stack } from "@mui/material";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const indexes = [<Stocks />, <Exchanges />];
 
@@ -12,6 +15,7 @@ const indexes = [<Stocks />, <Exchanges />];
  */
 const Indexes = () => {
   const [showing, setShowing] = useState(0);
+  const [hover, setHover] = useState(false);
   const token = useSelector(selectToken);
   if (!token) {
     return <Navigate to="/" />;
@@ -21,13 +25,66 @@ const Indexes = () => {
   const next = () => setShowing((c) => (c === indexes.length - 1 ? 0 : c + 1));
 
   return (
-    <>
-      <div style={{ textAlign: "center" }}>
-        <button onClick={prev}>&lt;</button>
-        <span style={{ margin: "0 2rem" }}>{indexes[showing]}</span>
-        <button onClick={next}>&gt;</button>
-      </div>
-    </>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        mt: 4,
+      }}
+    >
+      <Paper
+        elevation={4}
+        sx={{
+          p: 4,
+          minWidth: 350,
+          maxWidth: 500,
+          position: "relative",
+          overflow: "hidden",
+        }}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+      >
+        <Stack direction="row" alignItems="center" justifyContent="center">
+          {hover && (
+            <IconButton
+              onClick={prev}
+              sx={{
+                position: "absolute",
+                left: 8,
+                top: "50%",
+                transform: "translateY(-50%)",
+                zIndex: 2,
+                bgcolor: "background.paper",
+                ":hover": { bgcolor: "grey.200" },
+              }}
+              aria-label="Previous"
+            >
+              <ArrowBackIosIcon />
+            </IconButton>
+          )}
+          <Box sx={{ width: "100%", textAlign: "center" }}>
+            {indexes[showing]}
+          </Box>
+          {hover && (
+            <IconButton
+              onClick={next}
+              sx={{
+                position: "absolute",
+                right: 8,
+                top: "50%",
+                transform: "translateY(-50%)",
+                zIndex: 2,
+                bgcolor: "background.paper",
+                ":hover": { bgcolor: "grey.200" },
+              }}
+              aria-label="Next"
+            >
+              <ArrowForwardIosIcon />
+            </IconButton>
+          )}
+        </Stack>
+      </Paper>
+    </Box>
   );
 };
 
