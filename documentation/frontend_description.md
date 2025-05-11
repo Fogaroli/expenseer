@@ -11,7 +11,11 @@ Remainder information are stored in state variable within the component where it
 
 ## Custom Hooks
 
-Three custom hooks were created to avoid duplication and to isolate API asyn code from the react component code. This provides flexibility to re-use code int eh future as well as provide an easier maintenance scheme.
+Three custom hooks were created to avoid duplication and to isolate API async code from the react component code. This provides flexibility to re-use code int eh future as well as provide an easier maintenance scheme.
+
+## Style
+
+The application was completely designed using Material UI elements, with a focus to use on mobile devices.
 
 ## Missing Features
 

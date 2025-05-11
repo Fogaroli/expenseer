@@ -109,6 +109,7 @@ const Navbar = () => {
                 variant="h5"
                 noWrap
                 component="span"
+                onClick={() => navigate("/")}
                 sx={{
                   mr: 2,
                   display: { xs: "none", md: "flex" },
@@ -117,6 +118,7 @@ const Navbar = () => {
                   letterSpacing: ".3rem",
                   color: "inherit",
                   textDecoration: "none",
+                  cursor: "pointer",
                 }}
               >
                 Expenseer
@@ -178,6 +180,7 @@ const Navbar = () => {
               variant="h5"
               noWrap
               component="span"
+              onClick={() => navigate("/")}
               sx={{
                 mr: 2,
                 display: { xs: "flex", md: "none" },
