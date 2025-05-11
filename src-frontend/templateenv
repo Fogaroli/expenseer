@@ -1,0 +1,6 @@
+# Template .env file.
+# Adjust this file to meet the details of the machine running the application and rename it to .env for local execution.
+# To compile production code, make sure to have these parameters on the machine compiling the code with name .env.production
+
+# URL for the expenseer backend app.
+VITE_EXPENSEER_API_URL=

@@ -3,8 +3,15 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectToken } from "../store/authSlice";
 import ExpenseerAPI from "../helper/api";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import {
+  Box,
+  Typography,
+  CircularProgress,
+  Paper,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
 
 /** Category Dashboard component
  *
@@ -38,26 +45,51 @@ const CategoryDashboard = () => {
   }, [token]);
 
   return (
-    <>
-      <p>Expenses by Category</p>
+    <Paper elevation={2} sx={{ p: 2 }}>
+      <Typography variant="h6" gutterBottom>
+        Expenses by Category
+      </Typography>
       {loading && (
-        <p>
-          <FontAwesomeIcon icon={faCircleNotch} spin />
-        </p>
+        <Typography align="center" sx={{ my: 2 }}>
+          <CircularProgress size={24} />
+        </Typography>
       )}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {dashboardData &&
-        dashboardData.map((category, idx) => {
-          return (
-            <div key={idx}>
-              <Link to={`/categories/${category.category}`}>
-                {category.category}
-              </Link>{" "}
-              - {category.total_amount}
-            </div>
-          );
-        })}
-    </>
+      {error && (
+        <Typography color="error" sx={{ my: 2 }}>
+          {error}
+        </Typography>
+      )}
+      {dashboardData && (
+        <List>
+          {dashboardData.map((category, idx) => (
+            <ListItem key={idx} disablePadding>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  width: "100%",
+                  px: 2,
+                  py: 1,
+                }}
+              >
+                <Typography
+                  component={Link}
+                  to={`/categories/${category.category}`}
+                  variant="body1"
+                  sx={{ textDecoration: "none", color: "inherit" }}
+                >
+                  {category.category}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  $ {category.total_amount}
+                </Typography>
+              </Box>
+            </ListItem>
+          ))}
+        </List>
+      )}
+    </Paper>
   );
 };
 

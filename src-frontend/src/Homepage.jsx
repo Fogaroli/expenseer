@@ -2,44 +2,70 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "./store/authSlice";
+import { Box, Typography, Button, Paper, Stack } from "@mui/material";
 
-/**Homepage content
- * Should provide information of the tool and a sign in and registration link for new users.
- * Registered users should be redirected to the dashboards page
+/** Homepage content
+ * Shows app info and login/signup links for new users.
+ * Registered users are redirected to dashboards.
  */
 const Homepage = () => {
   const navigate = useNavigate();
   const user = useSelector(selectUser);
 
-  // Handle clicks to login or registration buttons
-  const handleClick = (evt) => {
-    evt.preventDefault();
-    navigate(`/${evt.target.name}`);
-  };
-
-  // Navigates to dashboard once user is logged in.
   useEffect(() => {
     if (user) navigate("/dashboards");
-  }, [user]);
+  }, [user, navigate]);
 
   return (
-    <>
-      <div>
-        <h1>Welcome to Expenseer</h1>
-        <p>
-          This application was build to help you take control of your financial
-          life.
-        </p>
-      </div>
-      <div>
-        <button type="button" name="login" onClick={handleClick}>
-          Login
-        </button>
-        <button type="button" name="register" onClick={handleClick}>
-          Sign Up
-        </button>
-      </div>
-    </>
+    <Box
+      sx={{
+        minHeight: "60vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Paper
+        elevation={4}
+        sx={{
+          p: { xs: 3, sm: 5 },
+          maxWidth: 480,
+          width: "100%",
+          mx: "auto",
+          textAlign: "center",
+        }}
+      >
+        <Typography variant="h3" component="h1" gutterBottom>
+          Welcome to Expenseer
+        </Typography>
+        <Typography variant="h6" color="text.secondary" gutterBottom>
+          Take control of your finances with ease.
+        </Typography>
+        <Typography variant="body1" sx={{ mb: 3 }}>
+          Expenseer helps you track your spending, manage budgets, and reach
+          your financial goals. Sign up to get started or log in if you already
+          have an account.
+        </Typography>
+        <Stack direction="row" spacing={2} justifyContent="center">
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            onClick={() => navigate("/login")}
+          >
+            Login
+          </Button>
+          <Button
+            variant="outlined"
+            color="primary"
+            size="large"
+            onClick={() => navigate("/register")}
+          >
+            Sign Up
+          </Button>
+        </Stack>
+      </Paper>
+    </Box>
   );
 };
 

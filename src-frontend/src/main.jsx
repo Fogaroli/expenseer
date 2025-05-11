@@ -9,6 +9,8 @@ import "@fontsource/roboto/700.css";
 import store from "./store/store.jsx";
 import "./main.css";
 import App from "./App.jsx";
+import theme from "./Theme.jsx";
+import { ThemeProvider } from "@emotion/react";
 
 /** Main react component
  * Loads Redux store
@@ -17,7 +19,9 @@ createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <Provider store={store}>
       <StrictMode>
-        <App />
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
       </StrictMode>
     </Provider>
   </BrowserRouter>

@@ -3,8 +3,15 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectToken } from "../store/authSlice";
 import ExpenseerAPI from "../helper/api";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import {
+  Typography,
+  CircularProgress,
+  Paper,
+  List,
+  ListItem,
+  LinearProgress,
+  Box,
+} from "@mui/material";
 
 /** Budget Dashboard component
  *
@@ -38,25 +45,89 @@ const BudgetDashboard = () => {
   }, [token]);
 
   return (
-    <>
-      <p>Expenses by Budget</p>
+    <Paper elevation={2} sx={{ p: 2 }}>
+      <Typography variant="h6" gutterBottom>
+        Expenses by Budget
+      </Typography>
       {loading && (
-        <p>
-          <FontAwesomeIcon icon={faCircleNotch} spin />
-        </p>
+        <Typography align="center" sx={{ my: 2 }}>
+          <CircularProgress size={24} />
+        </Typography>
       )}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {dashboardData &&
-        dashboardData.map((budget, idx) => {
-          return (
-            <div key={idx}>
-              <Link to={`/budgets/${budget.budget}`}>{budget.budget}</Link> -{" "}
-              {budget.total_amount} - {budget.budget_amount} -{" "}
-              {budget.percentage_used}
-            </div>
-          );
-        })}
-    </>
+      {error && (
+        <Typography color="error" sx={{ my: 2 }}>
+          {error}
+        </Typography>
+      )}
+      {dashboardData && (
+        <List>
+          {dashboardData && (
+            <List>
+              {dashboardData.map((budget, idx) => {
+                const percent = Math.min(Number(budget.percent_used || 0), 100);
+                const barColor = percent > 90 ? "#d32f2f" : "#1976d2"; // error or primary
+
+                return (
+                  <ListItem
+                    key={idx}
+                    disablePadding
+                    sx={{
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                      px: 2,
+                      py: 1,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography
+                        component={Link}
+                        to={`/budgets/${budget.budget}`}
+                        variant="body1"
+                        sx={{ textDecoration: "none", color: "inherit" }}
+                      >
+                        {budget.budget}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ width: "100%", mt: 1 }}>
+                      <LinearProgress
+                        variant="determinate"
+                        value={+budget.percent_used}
+                        sx={{
+                          height: 8,
+                          borderRadius: 4,
+                          backgroundColor: "#e0e0e0",
+                          "& .MuiLinearProgress-bar": {
+                            backgroundColor: barColor,
+                          },
+                        }}
+                      />
+                      <Typography variant="caption" color="text.secondary">
+                        {+budget.percent_used}% used
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        color="text.secondary"
+                        sx={{ display: "block" }}
+                      >
+                        <strong>Spent:</strong> {budget.total_amount} /{" "}
+                        <strong>Budget:</strong> {budget.budget_amount || 0}
+                      </Typography>
+                    </Box>
+                  </ListItem>
+                );
+              })}
+            </List>
+          )}
+        </List>
+      )}
+    </Paper>
   );
 };
 

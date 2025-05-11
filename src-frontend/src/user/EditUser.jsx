@@ -1,13 +1,30 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Navigate } from "react-router-dom";
 import {
   editUser,
+  clearSuccess,
+  clearError,
   selectUser,
   selectUserError,
   selectUserLoading,
   selectToken,
+  selectUpdateSuccess,
 } from "../store/authSlice";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Paper,
+  CircularProgress,
+  Stack,
+} from "@mui/material";
 
+/** Edit User component
+ *
+ * Allow user to modify basic information and set an image avatar
+ */
 const EditUser = () => {
   const INITIALFORM = {
     username: "",
@@ -21,11 +38,21 @@ const EditUser = () => {
   const error = useSelector(selectUserError);
   const loading = useSelector(selectUserLoading);
   const token = useSelector(selectToken);
+  const updateSuccess = useSelector(selectUpdateSuccess);
   const dispatch = useDispatch();
 
+  // Load user data to the form
   useEffect(() => {
     setFormData(user);
   }, [user]);
+
+  // Clear success message when unmounting the component
+  useEffect(() => {
+    return () => {
+      dispatch(clearSuccess());
+      dispatch(clearError());
+    };
+  }, [dispatch]);
 
   // Handles save button click, send updated user information to store
   const handleSubmit = async (evt) => {
@@ -48,80 +75,127 @@ const EditUser = () => {
   }
 
   return (
-    <>
-      <div>
-        <img
-          src={user.image_url}
-          alt="User"
-          style={{ width: "100px", height: "100px", objectFit: "contain" }}
-        />
-      </div>
-      <div>
-        <p>Edit user information</p>
-        <form onSubmit={handleSubmit} style={{ maxWidth: "600px" }}>
-          <div>
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              name="username"
+    <Paper
+      elevation={3}
+      sx={{
+        p: 4,
+        maxWidth: 700,
+        mt: 3,
+        mx: "auto",
+      }}
+    >
+      <Typography variant="h5" component="h1" gutterBottom>
+        Edit User Information
+      </Typography>
+      <Box sx={{ mt: 2 }}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={4}
+          alignItems="flex-start"
+        >
+          <Box
+            sx={{
+              minWidth: 120,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              component="img"
+              src={formData.image_url || user.image_url}
+              alt={formData.username}
+              sx={{
+                width: 120,
+                height: 120,
+                objectFit: "contain",
+                borderRadius: 2,
+                mb: 2,
+                bgcolor: "grey.100",
+                border: "1px solid #ccc",
+              }}
+            />
+          </Box>
+          <Box component="form" onSubmit={handleSubmit} sx={{ flex: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
               id="username"
-              aria-describedby="username"
+              label="Username"
+              name="username"
               value={formData.username}
               onChange={handleChange}
+              disabled
             />
-          </div>
-
-          <div>
-            <label htmlFor="firstname">First Name</label>
-            <input
-              type="text"
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="first_name"
+              label="First Name"
               name="first_name"
-              id="firstname"
-              aria-describedby="First Name"
               value={formData.first_name}
               onChange={handleChange}
             />
-          </div>
-          <div>
-            <label htmlFor="lastname">Last Name</label>
-            <input
-              type="text"
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="last_name"
+              label="Last Name"
               name="last_name"
-              id="lastname"
-              aria-describedby="Last Name"
               value={formData.last_name}
               onChange={handleChange}
             />
-          </div>
-          <div>
-            <label htmlFor="email">E-mail</label>
-            <input
-              type="email"
-              name="email"
+            <TextField
+              margin="normal"
+              required
+              fullWidth
               id="email"
-              aria-describedby="E-mail"
+              label="Email"
+              name="email"
+              type="email"
               value={formData.email}
               onChange={handleChange}
             />
-          </div>
-          <div>
-            <label htmlFor="image">Image URL</label>
-            <input
-              type="URL"
+            <TextField
+              margin="normal"
+              fullWidth
+              id="image_url"
+              label="Image URL"
               name="image_url"
-              id="image"
-              aria-describedby="Image URL"
               value={formData.image_url}
               onChange={handleChange}
             />
-          </div>
-
-          <button type="submit">Update</button>
-          {loading && <p>Loading...</p>}
-          {error && <p style={{ color: "red" }}>{error}</p>}
-        </form>
-      </div>
-    </>
+            {updateSuccess && (
+              <Typography color="success" sx={{ mt: 2 }}>
+                Update Successful
+              </Typography>
+            )}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              disabled={loading}
+            >
+              Update
+            </Button>
+            {loading && (
+              <Box sx={{ display: "flex", justifyContent: "center", mt: 1 }}>
+                <CircularProgress size={24} />
+              </Box>
+            )}
+            {error && (
+              <Typography color="error" sx={{ mt: 1 }}>
+                {error}
+              </Typography>
+            )}
+          </Box>
+        </Stack>
+      </Box>
+    </Paper>
   );
 };
 

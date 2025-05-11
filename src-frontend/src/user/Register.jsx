@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate, Navigate, Link } from "react-router-dom";
 import {
   register,
+  clearError,
   selectUserError,
   selectUser,
   selectUserLoading,
 } from "../store/authSlice";
+import { Box, TextField, Button, Typography, Paper } from "@mui/material";
 
 /** Registration component
  * Allow account creation
@@ -25,6 +27,13 @@ const Register = () => {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // Clear error message when unmounting the component
+  useEffect(() => {
+    return () => {
+      dispatch(clearError());
+    };
+  }, [dispatch]);
 
   // Handles register button click, send credentials to redux store - auth slice
   const handleSubmit = async (evt) => {
@@ -49,70 +58,106 @@ const Register = () => {
   }
 
   return (
-    <>
-      <p>Create your free account now</p>
-      <form onSubmit={handleSubmit} style={{ maxWidth: "600px" }}>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            aria-describedby="username"
-            value={formData.username}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            aria-describedby="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="firstname">First Name</label>
-          <input
-            type="text"
-            name="first_name"
-            id="firstname"
-            aria-describedby="First Name"
-            value={formData.first_name}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="lastname">Last Name</label>
-          <input
-            type="text"
-            name="last_name"
-            id="lastname"
-            aria-describedby="Last Name"
-            value={formData.last_name}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="email">E-mail</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            aria-describedby="E-mail"
-            value={formData.email}
-            onChange={handleChange}
-          />
-        </div>
+    <Paper
+      elevation={3}
+      sx={{
+        p: 4,
+        maxWidth: 600,
+        mt: 3,
+        mx: "auto",
+      }}
+    >
+      <Typography variant="h5" component="h1" gutterBottom>
+        Create your account
+      </Typography>
 
-        <button type="submit">Register</button>
-        {loading && <p>Loading...</p>}
-        {error && <p style={{ color: "red" }}>{error}</p>}
-      </form>
-    </>
+      <Typography variant="body1" gutterBottom>
+        Fill in the form below to register
+      </Typography>
+
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          id="username"
+          label="Username"
+          name="username"
+          autoComplete="username"
+          value={formData.username}
+          onChange={handleChange}
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="new-password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          id="first_name"
+          label="First Name"
+          name="first_name"
+          autoComplete="given-name"
+          value={formData.first_name}
+          onChange={handleChange}
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          id="last_name"
+          label="Last Name"
+          name="last_name"
+          autoComplete="family-name"
+          value={formData.last_name}
+          onChange={handleChange}
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Email"
+          name="email"
+          autoComplete="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+          disabled={loading}
+        >
+          Register
+        </Button>
+
+        {loading && <Typography>Loading...</Typography>}
+        {error && (
+          <Typography color="error" sx={{ mt: 1 }}>
+            {error}
+          </Typography>
+        )}
+
+        <Typography sx={{ mt: 2 }}>
+          Already have an account?{" "}
+          <Button component={Link} to="/login" variant="text">
+            Log In
+          </Button>
+        </Typography>
+      </Box>
+    </Paper>
   );
 };
 

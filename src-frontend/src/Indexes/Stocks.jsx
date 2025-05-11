@@ -2,10 +2,19 @@ import { useState } from "react";
 import useStocks from "../customHook/useStocks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCircleNotch,
   faThumbtackSlash,
   faThumbtack,
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  Typography,
+  Box,
+  Stack,
+  TextField,
+  Button,
+  IconButton,
+  CircularProgress,
+  Paper,
+} from "@mui/material";
 
 /** Stocks value components
  *
@@ -53,53 +62,93 @@ const Stocks = () => {
   };
 
   return (
-    <>
-      <p>Stock Values</p>
+    <Box>
+      <Typography variant="h6" gutterBottom>
+        Stock Values
+      </Typography>
       {loading && (
-        <p>
-          <FontAwesomeIcon icon={faCircleNotch} spin />
-        </p>
+        <Box sx={{ textAlign: "center", mb: 2 }}>
+          <CircularProgress size={24} />
+        </Box>
       )}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {stocksData &&
-        stocksData.map((stock, idx) => {
-          return (
-            <div key={idx}>
-              {stock.symbol} {stock.value} {stock.variation}%
-              <FontAwesomeIcon
+      {error && (
+        <Typography color="error" sx={{ mb: 2 }}>
+          {error}
+        </Typography>
+      )}
+      <Box sx={{ mb: 2 }}>
+        {stocksData &&
+          stocksData.map((stock, idx) => (
+            <Paper
+              key={idx}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                p: 1,
+                mb: 1,
+              }}
+              variant="outlined"
+            >
+              <span>
+                {stock.symbol} {stock.value} {stock.variation}%
+              </span>
+              <IconButton
                 data-name={stock.symbol}
                 onClick={handleDelete}
-                icon={faThumbtackSlash}
-              />
-            </div>
-          );
-        })}
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="search">Search Stock</label>
-        <input
-          type="text"
-          name="search"
-          id="search"
-          aria-describedby="Search Stocks"
-          value={searchInput}
-          onChange={handleChange}
-        />
-        <button type="submit">Search</button>
-      </form>
-      {searchResults &&
-        searchResults.map((result, idx) => {
-          return (
-            <div key={idx}>
-              {result.symbol} - {result.name} -
-              <FontAwesomeIcon
+                size="small"
+                color="error"
+              >
+                <FontAwesomeIcon icon={faThumbtackSlash} />
+              </IconButton>
+            </Paper>
+          ))}
+      </Box>
+      <Box component="form" onSubmit={handleSubmit} sx={{ mb: 2 }}>
+        <Stack direction="row" spacing={1} alignItems="center">
+          <TextField
+            label="Search Stock"
+            name="search"
+            value={searchInput}
+            onChange={handleChange}
+            size="small"
+            sx={{ minWidth: 180 }}
+          />
+          <Button type="submit" variant="contained" size="small">
+            Search
+          </Button>
+        </Stack>
+      </Box>
+      <Box>
+        {searchResults &&
+          searchResults.map((result, idx) => (
+            <Paper
+              key={idx}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                p: 1,
+                mb: 1,
+                bgcolor: "grey.100",
+              }}
+              variant="outlined"
+            >
+              <span>
+                {result.symbol} - {result.name}
+              </span>
+              <IconButton
                 data-name={result.symbol}
                 onClick={handleAdd}
-                icon={faThumbtack}
-              />
-            </div>
-          );
-        })}
-    </>
+                size="small"
+                color="primary"
+              >
+                <FontAwesomeIcon icon={faThumbtack} />
+              </IconButton>
+            </Paper>
+          ))}
+      </Box>
+    </Box>
   );
 };
 

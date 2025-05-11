@@ -65,6 +65,7 @@ const initialState = {
   budgets: [],
   loading: false,
   error: null,
+  updateSuccess: false,
 };
 
 /** Redux Budget Slice
@@ -74,6 +75,17 @@ const initialState = {
 const budgetSlice = createSlice({
   name: "budget",
   initialState,
+  reducers: {
+    clearBudgets(state) {
+      state.budgets = [];
+    },
+    clearSuccess(state) {
+      state.updateSuccess = false;
+    },
+    clearError(state) {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getBudgets.pending, (state) => {
@@ -115,10 +127,12 @@ const budgetSlice = createSlice({
       .addCase(editBudget.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.updateSuccess = true;
       })
       .addCase(editBudget.fulfilled, (state) => {
         state.loading = false;
         state.error = null;
+        state.updateSuccess = true;
       })
       .addCase(editBudget.rejected, (state, action) => {
         state.loading = false;
@@ -139,11 +153,13 @@ const budgetSlice = createSlice({
   },
 });
 
+export const { clearBudgets, clearSuccess, clearError } = budgetSlice.actions;
 export { getBudgets, getBudget, addBudget, editBudget, deleteBudget };
 
 // Define selectors for data easy access
 export const selectBudgets = (state) => state.budget.budgets;
 export const selectBudgetLoading = (state) => state.budget.loading;
 export const selectBudgetError = (state) => state.budget.error;
+export const selectUpdateSuccess = (state) => state.budget.updateSuccess;
 
 export default budgetSlice.reducer;

@@ -4,6 +4,9 @@ import { useSelector } from "react-redux";
 import { selectToken } from "../store/authSlice";
 import Stocks from "./Stocks";
 import Exchanges from "./Exchanges";
+import { Paper, Box, IconButton, Stack } from "@mui/material";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const indexes = [<Stocks />, <Exchanges />];
 
@@ -21,13 +24,52 @@ const Indexes = () => {
   const next = () => setShowing((c) => (c === indexes.length - 1 ? 0 : c + 1));
 
   return (
-    <>
-      <div style={{ textAlign: "center" }}>
-        <button onClick={prev}>&lt;</button>
-        <span style={{ margin: "0 2rem" }}>{indexes[showing]}</span>
-        <button onClick={next}>&gt;</button>
-      </div>
-    </>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        mt: 4,
+        width: "100%",
+      }}
+    >
+      <Paper
+        elevation={4}
+        sx={{
+          p: { xs: 2, sm: 4 },
+          width: "100%",
+          minWidth: 0,
+          maxWidth: { xs: "100%", sm: 500 },
+          position: "relative",
+          overflow: "hidden",
+          boxSizing: "border-box",
+        }}
+      >
+        <Box sx={{ width: "100%", textAlign: "center" }}>
+          {indexes[showing]}
+        </Box>
+      </Paper>
+      <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+        <IconButton
+          onClick={prev}
+          sx={{
+            bgcolor: "background.paper",
+          }}
+          aria-label="Previous"
+        >
+          <ArrowBackIosIcon />
+        </IconButton>
+        <IconButton
+          onClick={next}
+          sx={{
+            bgcolor: "background.paper",
+          }}
+          aria-label="Next"
+        >
+          <ArrowForwardIosIcon />
+        </IconButton>
+      </Stack>
+    </Box>
   );
 };
 

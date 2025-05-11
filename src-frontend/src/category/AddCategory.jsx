@@ -7,6 +7,14 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Navigate } from "react-router-dom";
 import { selectToken } from "../store/authSlice";
+import {
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Stack,
+} from "@mui/material";
 
 /** Add category component
  *
@@ -42,25 +50,42 @@ const AddCategory = () => {
     return <Navigate to="/" />;
   }
   return (
-    <>
-      <h1>Add Category</h1>
-      <form onSubmit={handleSubmit} style={{ maxWidth: "600px" }}>
-        <div>
-          <label htmlFor="categoryName">Category Name</label>
-          <input
-            type="text"
-            name="categoryName"
-            id="categoryName"
-            aria-describedby="categoryName"
-            value={categoryName}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit">Add Category</button>
-        {loading && <p>Loading...</p>}
-        {error && <p style={{ color: "red" }}>{error}</p>}
-      </form>
-    </>
+    <Paper elevation={4} sx={{ p: 4, maxWidth: 600, mx: "auto", mt: 4 }}>
+      <Typography variant="h4" gutterBottom>
+        Add Category
+      </Typography>
+      <Box component="form" onSubmit={handleSubmit}>
+        <TextField
+          label="Category Name"
+          name="categoryName"
+          id="categoryName"
+          value={categoryName}
+          onChange={handleChange}
+          fullWidth
+          required
+          sx={{ mb: 2 }}
+        />
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+          <Button fullWidth variant="outlined" onClick={() => navigate(-1)}>
+            Back
+          </Button>
+          <Button
+            fullWidth
+            type="submit"
+            variant="contained"
+            disabled={loading}
+          >
+            Add Category
+          </Button>
+        </Stack>
+        {loading && <Typography sx={{ mt: 2 }}>Loading...</Typography>}
+        {error && (
+          <Typography color="error" sx={{ mt: 2 }}>
+            {error}
+          </Typography>
+        )}
+      </Box>
+    </Paper>
   );
 };
 

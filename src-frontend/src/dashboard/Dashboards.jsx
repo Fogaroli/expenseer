@@ -4,6 +4,9 @@ import { useSelector } from "react-redux";
 import { selectToken } from "../store/authSlice";
 import BudgetDashboard from "./BudgetsDashboard";
 import CategoryDashboard from "./CategoryDashboard";
+import { Paper, Box, IconButton, Stack, Button } from "@mui/material";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const dashboards = [<BudgetDashboard />, <CategoryDashboard />];
 
@@ -25,22 +28,59 @@ const Dashboards = () => {
   }
 
   return (
-    <>
-      <p>Dasboards</p>
-      <div style={{ textAlign: "center" }}>
-        <button onClick={prev}>&lt;</button>
-        <span style={{ margin: "0 2rem" }}>{dashboards[showing]}</span>
-        <button onClick={next}>&gt;</button>
-      </div>
-      <button
-        type="button"
-        onClick={() => {
-          navigate("/add-expense");
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        mt: 4,
+        width: "100%",
+      }}
+    >
+      <Paper
+        elevation={4}
+        sx={{
+          p: { xs: 2, sm: 4 },
+          width: "100%",
+          minWidth: { xs: "0", sm: 350 },
+          maxWidth: { xs: "100%", sm: 500 },
+          overflow: "hidden",
+          position: "relative",
+          boxSizing: "border-box",
         }}
       >
-        Add new Expense
-      </button>
-    </>
+        <Box sx={{ width: "100%", textAlign: "center" }}>
+          {dashboards[showing]}
+        </Box>
+        <Button
+          variant="contained"
+          sx={{ mt: 3, width: "100%" }}
+          onClick={() => navigate("/add-expense")}
+        >
+          Add new Expense
+        </Button>
+      </Paper>
+      <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+        <IconButton
+          onClick={prev}
+          sx={{
+            bgcolor: "background.paper",
+          }}
+          aria-label="Previous"
+        >
+          <ArrowBackIosIcon />
+        </IconButton>
+        <IconButton
+          onClick={next}
+          sx={{
+            bgcolor: "background.paper",
+          }}
+          aria-label="Next"
+        >
+          <ArrowForwardIosIcon />
+        </IconButton>
+      </Stack>
+    </Box>
   );
 };
 
