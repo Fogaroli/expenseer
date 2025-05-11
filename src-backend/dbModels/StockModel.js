@@ -120,9 +120,6 @@ class Stock {
             ORDER BY s.symbol`,
       [username]
     );
-    if (!result.rows[0]) {
-      throw new ExpressError("Error reading stocks data", 500);
-    }
     const stocks = result.rows;
     if (stocks.length === 0) {
       return stocks;

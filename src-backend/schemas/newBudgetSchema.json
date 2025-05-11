@@ -6,13 +6,15 @@
     "name": {
       "type": "string",
       "minLength": 1,
-      "maxLength": 50
+      "maxLength": 50,
+      "pattern": "^[^/\\\\]*$"
     },
     "type": {
       "type": "integer"
     },
     "amount": {
-      "type": "number"
+      "type": "number",
+      "minimum": 0
     },
     "description": {
       "type": "string"

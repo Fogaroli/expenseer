@@ -21,6 +21,23 @@ const getExchangeRate = async (currency1, currency2) => {
 };
 
 /**
+ * Fetch the available currencies for exchange rate requests
+ * Using ExchangeRate API
+ *
+ * The function returns all supported currencies.
+ */
+const getExchangeCodes = async () => {
+  try {
+    const response = await axios.get(
+      `https://v6.exchangerate-api.com/v6/${API_KEY}/codes`
+    );
+    return response.data.supported_codes;
+  } catch (error) {
+    throw new Error("Unable to fetch currency codes");
+  }
+};
+
+/**
  * Fetches the stock price for a given stock symbol.
  * Using Alpha Vantage API
  *
@@ -59,6 +76,7 @@ const stockSearch = async (term) => {
 
 module.exports = {
   getExchangeRate,
+  getExchangeCodes,
   getStockPrice,
   stockSearch,
 };

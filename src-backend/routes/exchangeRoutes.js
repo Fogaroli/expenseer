@@ -8,6 +8,7 @@ const { ensureLoggedIn } = require("../middleware/authMiddleware");
 const ExpressError = require("../helpers/expressError");
 const Exchange = require("../dbModels/ExchangeModel");
 const exchangeSchema = require("../schemas/exchangeSchema.json");
+const { getExchangeCodes } = require("../helpers/api.js");
 
 const router = express.Router();
 
@@ -95,7 +96,24 @@ router.delete("/", ensureLoggedIn, async function (req, res, next) {
         req.body.data
       );
       return res.json({ deleted: deletedData });
+    } else {
+      throw new ExpressError("No exchange provided", 400);
     }
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/** Get available currency codes for exchange requests
+ *
+ * Request sent directly to the API, no data stored in teh database
+ *
+ * GET /codes => {supported_codes:[[<code>,<description>], ...]}
+ */
+router.get("/codes", ensureLoggedIn, async function (req, res, next) {
+  try {
+    const supported_codes = await getExchangeCodes();
+    return res.json({ supported_codes });
   } catch (err) {
     return next(err);
   }

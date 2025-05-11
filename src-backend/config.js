@@ -12,7 +12,7 @@ const BCRYPT_WORK_FACTOR =
 
 const DB_URI =
   process.env.NODE_ENV === "test"
-    ? "postgresql:///expenseer_test"
+    ? process.env.DB_URI_TEST
     : process.env.DB_URI;
 
 const API_KEY = process.env.EXCHANGE_RATE_API_KEY;
