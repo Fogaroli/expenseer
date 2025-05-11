@@ -38,7 +38,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"username\" : \"fogaroli\",\r\n    \"password\" : \"fogaroli\"\r\n}",
+              "raw": "{\r\n    \"username\" : \"fogaroli2\",\r\n    \"password\" : \"fogaroli\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -184,7 +184,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"data\": {\r\n        \"first_name\" : \"updated2\",\r\n        \"is_admin\": false\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"password\": \"fogaroli1\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -192,9 +192,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/users/admin2",
+              "raw": "{{base_url}}/users/fogaroli",
               "host": ["{{base_url}}"],
-              "path": ["users", "admin2"]
+              "path": ["users", "fogaroli"]
             }
           },
           "response": []
@@ -315,9 +315,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/budgets/TestBudget",
+              "raw": "{{base_url}}/budgets/zx\\\\zcz\\\\xc\\\\zx",
               "host": ["{{base_url}}"],
-              "path": ["budgets", "TestBudget"]
+              "path": ["budgets", "zx", "", "zcz", "", "xc", "", "zx"]
             }
           },
           "response": []
@@ -335,7 +335,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"Piece2\",\r\n        \"type\": 2,\r\n        \"amount\": 10000,\r\n        \"description\": \"My Description\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"newBudget\",\r\n        \"type\": 2,\r\n        \"amount\": 10000,\r\n        \"description\": \"My Description\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -363,7 +363,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"TestBudget\",\r\n        \"type\": 1,\r\n        \"amount\": 50000,\r\n        \"description\": \"My Description2\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"Entertainment\",\r\n        \"type\": 1,\r\n        \"amount\": 50000,\r\n        \"description\": \"My Description2\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -371,9 +371,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/budgets/Test%20Budget",
+              "raw": "{{base_url}}/budgets/newBudget",
               "host": ["{{base_url}}"],
-              "path": ["budgets", "Test%20Budget"]
+              "path": ["budgets", "newBudget"]
             }
           },
           "response": []
@@ -399,9 +399,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/budgets/Piecenew",
+              "raw": "{{base_url}}/budgets/newBudget",
               "host": ["{{base_url}}"],
-              "path": ["budgets", "Piecenew"]
+              "path": ["budgets", "newBudget"]
             }
           },
           "response": []
@@ -486,7 +486,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"New Category\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"newcat\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -514,7 +514,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"updated\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"newcat2\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -522,9 +522,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/categories/New%20Category",
+              "raw": "{{base_url}}/categories/newcat",
               "host": ["{{base_url}}"],
-              "path": ["categories", "New%20Category"]
+              "path": ["categories", "newcat"]
             }
           },
           "response": []
@@ -550,9 +550,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/categories/test2",
+              "raw": "{{base_url}}/categories/newcat2",
               "host": ["{{base_url}}"],
-              "path": ["categories", "test2"]
+              "path": ["categories", "newcat2"]
             }
           },
           "response": []
@@ -617,7 +617,7 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/expenses?budget=Groceries&limit=500",
+              "raw": "{{base_url}}/expenses?budget=Groceries&start_date=2025-04-13",
               "host": ["{{base_url}}"],
               "path": ["expenses"],
               "query": [
@@ -626,8 +626,8 @@
                   "value": "Groceries"
                 },
                 {
-                  "key": "limit",
-                  "value": "500"
+                  "key": "start_date",
+                  "value": "2025-04-13"
                 }
               ]
             }
@@ -658,9 +658,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/expenses/8",
+              "raw": "{{base_url}}/expenses/23",
               "host": ["{{base_url}}"],
-              "path": ["expenses", "8"]
+              "path": ["expenses", "23"]
             }
           },
           "response": []
@@ -678,7 +678,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"Grocery Store 3\",\r\n        \"amount\": 100.00,\r\n        \"description\": \"Weekly groceries\",\r\n        \"date\": \"2025-03-05\",\r\n        \"budget\": \"Groceries\",\r\n        \"category\": \"Food\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"name\": \"Grocery Store 5\",\r\n        \"amount\": 100.00,\r\n        \"date\": \"2025-03-05\",\r\n        \"budget\": \"\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -706,7 +706,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"data\": {\r\n        \"budget\": \"Summer Vacation\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\": {\r\n        \"category\": null\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -714,9 +714,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/expenses/51",
+              "raw": "{{base_url}}/expenses/23",
               "host": ["{{base_url}}"],
-              "path": ["expenses", "51"]
+              "path": ["expenses", "23"]
             }
           },
           "response": []
@@ -742,9 +742,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/expenses/51",
+              "raw": "{{base_url}}/expenses/52",
               "host": ["{{base_url}}"],
-              "path": ["expenses", "51"]
+              "path": ["expenses", "52"]
             }
           },
           "response": []
@@ -822,6 +822,37 @@
                   "value": "GBP"
                 }
               ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get currency codes",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/exchanges/codes",
+              "host": ["{{base_url}}"],
+              "path": ["exchanges", "codes"]
             }
           },
           "response": []
@@ -979,13 +1010,13 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/stocks/search?term=itron",
+              "raw": "{{base_url}}/stocks/search?term=se",
               "host": ["{{base_url}}"],
               "path": ["stocks", "search"],
               "query": [
                 {
                   "key": "term",
-                  "value": "itron"
+                  "value": "se"
                 }
               ]
             }
@@ -1033,7 +1064,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"data\":{\r\n        \"symbol2\": \"ITRI\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"data\":{\r\n        \"symbol\": \"ITRI\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1114,13 +1145,13 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/dashboards/budget?budget=Groceries",
+              "raw": "{{base_url}}/dashboards/budget?budget=Sample%20Budget",
               "host": ["{{base_url}}"],
               "path": ["dashboards", "budget"],
               "query": [
                 {
                   "key": "budget",
-                  "value": "Groceries"
+                  "value": "Sample%20Budget"
                 }
               ]
             }
@@ -1342,7 +1373,7 @@
     },
     {
       "key": "token",
-      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNfYWRtaW4iOnRydWUsImlhdCI6MTc0NTEwMDc0Mn0.ZoKajSUNaqHwR7Or5Cg44al3_fhdG2Y9cOwqfh6l7aQ",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDY3MTYyMjl9.OpsSWeHI7Yz3BI_tX0Cp2f0vD33-ljC2vOJGW9jmrdw",
       "type": "string"
     }
   ]
