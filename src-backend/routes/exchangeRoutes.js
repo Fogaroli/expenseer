@@ -96,6 +96,8 @@ router.delete("/", ensureLoggedIn, async function (req, res, next) {
         req.body.data
       );
       return res.json({ deleted: deletedData });
+    } else {
+      throw new ExpressError("No exchange provided", 400);
     }
   } catch (err) {
     return next(err);

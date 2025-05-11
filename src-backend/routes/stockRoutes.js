@@ -93,6 +93,8 @@ router.delete("/", ensureLoggedIn, async function (req, res, next) {
         req.body.data
       );
       return res.json({ deleted: deletedData });
+    } else {
+      throw new ExpressError("No Stock symbol provided", 400);
     }
   } catch (err) {
     return next(err);
@@ -116,6 +118,8 @@ router.get("/search", ensureLoggedIn, async function (req, res, next) {
       }
       const stocks = await Stock.search(givenParams.term);
       return res.json({ stocks });
+    } else {
+      throw new ExpressError("No Stock symbol provided", 400);
     }
   } catch (err) {
     return next(err);
