@@ -126,7 +126,7 @@ const AddExpense = () => {
           label="Amount"
           name="amount"
           type="number"
-          value={newExpense.amount}
+          value={newExpense.amount || 0}
           onChange={handleChange}
           fullWidth
           required
@@ -139,7 +139,6 @@ const AddExpense = () => {
           value={newExpense.category}
           onChange={handleChange}
           fullWidth
-          required
           sx={{ mb: 2 }}
           disabled={categoryLoading}
         >
@@ -163,7 +162,6 @@ const AddExpense = () => {
           value={newExpense.budget}
           onChange={handleChange}
           fullWidth
-          required
           sx={{ mb: 2 }}
           disabled={budgetLoading}
         >

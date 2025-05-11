@@ -4,9 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getBudget,
   editBudget,
+  clearSuccess,
+  clearError,
   deleteBudget,
   selectBudgetError,
   selectBudgetLoading,
+  selectUpdateSuccess,
 } from "../store/budgetSlice";
 import { selectToken } from "../store/authSlice";
 import {
@@ -35,6 +38,7 @@ const Editbudget = () => {
   const loading = useSelector(selectBudgetLoading);
   const error = useSelector(selectBudgetError);
   const token = useSelector(selectToken);
+  const updateSuccess = useSelector(selectUpdateSuccess);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -47,6 +51,10 @@ const Editbudget = () => {
       setBudgetData(response);
     };
     fetchData();
+    return () => {
+      dispatch(clearSuccess());
+      dispatch(clearError());
+    };
   }, [budgetName, dispatch, token]);
 
   // Form update handler
@@ -96,13 +104,12 @@ const Editbudget = () => {
       {loading && <Typography>Loading...</Typography>}
       <Box component="form" onSubmit={handleSubmit}>
         <TextField
+          disabled
           label="Name"
           name="name"
           id="budgetName"
           value={budgetData.name}
-          onChange={handleChange}
           fullWidth
-          required
           sx={{ mb: 2 }}
         />
         <TextField
@@ -110,7 +117,7 @@ const Editbudget = () => {
           name="amount"
           id="budgetAmount"
           type="number"
-          value={budgetData.amount}
+          value={budgetData.amount || 0}
           onChange={handleChange}
           fullWidth
           required
@@ -129,21 +136,26 @@ const Editbudget = () => {
         >
           <MenuItem value={0}>Select a type</MenuItem>
           <MenuItem value={1}>Monthly Expense</MenuItem>
-          <MenuItem value={2}>Yearly Expense</MenuItem>
+          {/* <MenuItem value={2}>Yearly Expense</MenuItem>
           <MenuItem value={3}>Event</MenuItem>
-          <MenuItem value={4}>Savings</MenuItem>
+          <MenuItem value={4}>Savings</MenuItem> */}
         </TextField>
         <TextField
           label="Description"
           name="description"
           id="budgetDescription"
-          value={budgetData.description}
+          value={budgetData.description || ""}
           onChange={handleChange}
           fullWidth
           multiline
           minRows={2}
           sx={{ mb: 2 }}
         />
+        {updateSuccess && (
+          <Typography color="success" sx={{ mt: 2 }}>
+            Update Successful
+          </Typography>
+        )}
         <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
           <Button fullWidth variant="outlined" onClick={() => navigate(-1)}>
             Back

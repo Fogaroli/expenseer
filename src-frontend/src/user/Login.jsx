@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   login,
+  clearError,
   selectUserError,
   selectUser,
   selectUserLoading,
@@ -32,6 +33,13 @@ const Login = () => {
       console.error("Login failed: ", err);
     }
   };
+
+  // Clear error message when unmounting the component
+  useEffect(() => {
+    return () => {
+      dispatch(clearError());
+    };
+  }, [dispatch]);
 
   // Form update handler
   const handleChange = (evt) => {

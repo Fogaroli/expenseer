@@ -76,22 +76,39 @@ const Categories = () => {
               </IconButton>
             }
             disablePadding
+            sx={{
+              alignItems: "flex-start",
+            }}
           >
             <ListItemText
               primary={
                 <Button
                   component={Link}
                   to={`/categories/${category.name}`}
-                  sx={{ textTransform: "none" }}
+                  sx={{
+                    textTransform: "none",
+                    width: "100%",
+                    maxWidth: "100%",
+                    whiteSpace: "normal",
+                    wordBreak: "break-word",
+                    textAlign: "left",
+                    pr: 5, // padding right to avoid overlap with icon
+                    display: "block",
+                  }}
                 >
                   {category.name}
                 </Button>
               }
+              sx={{
+                width: "100%",
+                maxWidth: "100%",
+                pr: 0,
+              }}
             />
           </ListItem>
         ))}
       </List>
-      <Stack direction="row" justifyContent="flex-end" sx={{ mt: 2 }}>
+      <Stack direction="row" justifyContent="center" sx={{ mt: 2 }}>
         <Button
           variant="contained"
           component={Link}

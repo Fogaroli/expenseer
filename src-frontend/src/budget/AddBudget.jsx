@@ -84,7 +84,7 @@ const AddBudget = () => {
           name="amount"
           id="budgetAmount"
           type="number"
-          value={budgetData.amount}
+          value={budgetData.amount || 0}
           onChange={handleChange}
           fullWidth
           required
@@ -103,9 +103,9 @@ const AddBudget = () => {
         >
           <MenuItem value={0}>Select a type</MenuItem>
           <MenuItem value={1}>Monthly Expense</MenuItem>
-          <MenuItem value={2}>Yearly Expense</MenuItem>
+          {/* <MenuItem value={2}>Yearly Expense</MenuItem>
           <MenuItem value={3}>Event</MenuItem>
-          <MenuItem value={4}>Savings</MenuItem>
+          <MenuItem value={4}>Savings</MenuItem> */}
         </TextField>
         <TextField
           label="Description"

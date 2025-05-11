@@ -9,7 +9,6 @@ import {
   Paper,
   List,
   ListItem,
-  ListItemText,
   LinearProgress,
   Box,
 } from "@mui/material";
@@ -65,7 +64,7 @@ const BudgetDashboard = () => {
           {dashboardData && (
             <List>
               {dashboardData.map((budget, idx) => {
-                const percent = Math.min(Number(budget.percentage_used), 100);
+                const percent = Math.min(Number(budget.percent_used || 0), 100);
                 const barColor = percent > 90 ? "#d32f2f" : "#1976d2"; // error or primary
 
                 return (
@@ -95,10 +94,6 @@ const BudgetDashboard = () => {
                       >
                         {budget.budget}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        <strong>Spent:</strong> {budget.total_amount} /{" "}
-                        <strong>Budget:</strong> {budget.budget_amount}
-                      </Typography>
                     </Box>
                     <Box sx={{ width: "100%", mt: 1 }}>
                       <LinearProgress
@@ -115,6 +110,14 @@ const BudgetDashboard = () => {
                       />
                       <Typography variant="caption" color="text.secondary">
                         {+budget.percent_used}% used
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        color="text.secondary"
+                        sx={{ display: "block" }}
+                      >
+                        <strong>Spent:</strong> {budget.total_amount} /{" "}
+                        <strong>Budget:</strong> {budget.budget_amount || 0}
                       </Typography>
                     </Box>
                   </ListItem>

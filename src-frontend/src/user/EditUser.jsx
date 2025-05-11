@@ -3,10 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import {
   editUser,
+  clearSuccess,
+  clearError,
   selectUser,
   selectUserError,
   selectUserLoading,
   selectToken,
+  selectUpdateSuccess,
 } from "../store/authSlice";
 import {
   Box,
@@ -16,9 +19,12 @@ import {
   Paper,
   CircularProgress,
   Stack,
-  Avatar,
 } from "@mui/material";
 
+/** Edit User component
+ *
+ * Allow user to modify basic information and set an image avatar
+ */
 const EditUser = () => {
   const INITIALFORM = {
     username: "",
@@ -32,11 +38,21 @@ const EditUser = () => {
   const error = useSelector(selectUserError);
   const loading = useSelector(selectUserLoading);
   const token = useSelector(selectToken);
+  const updateSuccess = useSelector(selectUpdateSuccess);
   const dispatch = useDispatch();
 
+  // Load user data to the form
   useEffect(() => {
     setFormData(user);
   }, [user]);
+
+  // Clear success message when unmounting the component
+  useEffect(() => {
+    return () => {
+      dispatch(clearSuccess());
+      dispatch(clearError());
+    };
+  }, [dispatch]);
 
   // Handles save button click, send updated user information to store
   const handleSubmit = async (evt) => {
@@ -152,6 +168,11 @@ const EditUser = () => {
               value={formData.image_url}
               onChange={handleChange}
             />
+            {updateSuccess && (
+              <Typography color="success" sx={{ mt: 2 }}>
+                Update Successful
+              </Typography>
+            )}
             <Button
               type="submit"
               fullWidth

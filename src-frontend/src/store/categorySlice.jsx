@@ -65,6 +65,7 @@ const initialState = {
   categories: [],
   loading: false,
   error: null,
+  updateSuccess: false,
 };
 
 /** Redux Category Slice
@@ -77,6 +78,12 @@ const categorySlice = createSlice({
   reducers: {
     clearCategories(state) {
       state.categories = [];
+    },
+    clearSuccess(state) {
+      state.updateSuccess = false;
+    },
+    clearError(state) {
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -120,10 +127,12 @@ const categorySlice = createSlice({
       .addCase(editCategory.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.updateSuccess = false;
       })
       .addCase(editCategory.fulfilled, (state) => {
         state.loading = false;
         state.error = null;
+        state.updateSuccess = true;
       })
       .addCase(editCategory.rejected, (state, action) => {
         state.loading = false;
@@ -144,7 +153,8 @@ const categorySlice = createSlice({
   },
 });
 
-export const { clearCategories } = categorySlice.actions;
+export const { clearCategories, clearSuccess, clearError } =
+  categorySlice.actions;
 export {
   getCategories,
   getCategory,
@@ -157,5 +167,6 @@ export {
 export const selectCategories = (state) => state.category.categories;
 export const selectCategoryLoading = (state) => state.category.loading;
 export const selectCategoryError = (state) => state.category.error;
+export const selectUpdateSuccess = (state) => state.category.updateSuccess;
 
 export default categorySlice.reducer;

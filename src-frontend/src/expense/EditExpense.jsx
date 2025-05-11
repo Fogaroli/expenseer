@@ -145,7 +145,7 @@ const EditExpense = () => {
             label="Amount"
             name="amount"
             type="number"
-            value={expense.amount}
+            value={expense.amount || 0}
             onChange={handleChange}
             fullWidth
             required
@@ -158,7 +158,6 @@ const EditExpense = () => {
             value={expense.category}
             onChange={handleChange}
             fullWidth
-            required
             sx={{ mb: 2 }}
             disabled={categoryLoading}
           >
@@ -182,7 +181,6 @@ const EditExpense = () => {
             value={expense.budget}
             onChange={handleChange}
             fullWidth
-            required
             sx={{ mb: 2 }}
             disabled={budgetLoading}
           >

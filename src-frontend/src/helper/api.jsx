@@ -181,7 +181,7 @@ class ExpenseerAPI {
       throw new Error("Incorrect dashboard type");
     }
     let res = await this.request(`dashboards/expenses/${type}`, {}, {}, "GET");
-    return res.dashboard.expenses;
+    return res.dashboard[type];
   }
 
   /** Get updated stocks information already registered by the user */

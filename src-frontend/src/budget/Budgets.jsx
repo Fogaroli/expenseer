@@ -15,7 +15,6 @@ import {
   Typography,
   List,
   ListItem,
-  ListItemText,
   IconButton,
   Button,
   Stack,
@@ -102,7 +101,7 @@ const Budgets = () => {
           </ListItem>
         ))}
       </List>
-      <Stack direction="row" justifyContent="flex-end" sx={{ mt: 2 }}>
+      <Stack direction="row" justifyContent="center" sx={{ mt: 2 }}>
         <Button
           variant="contained"
           component={Link}

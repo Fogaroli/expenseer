@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Navigate, Link } from "react-router-dom";
 import {
   register,
+  clearError,
   selectUserError,
   selectUser,
   selectUserLoading,
@@ -26,6 +27,13 @@ const Register = () => {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // Clear error message when unmounting the component
+  useEffect(() => {
+    return () => {
+      dispatch(clearError());
+    };
+  }, [dispatch]);
 
   // Handles register button click, send credentials to redux store - auth slice
   const handleSubmit = async (evt) => {

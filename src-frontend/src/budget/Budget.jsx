@@ -77,7 +77,7 @@ const Budget = () => {
       <Typography variant="h4" gutterBottom>
         {budgetName}
       </Typography>
-      <Typography>Budget Value ${currentMonth.budget_amount}</Typography>
+      <Typography>Budget Value ${currentMonth?.budget_amount || 0}</Typography>
       {isLoading && <Typography>Loading...</Typography>}
       {error && <Typography color="error">{error}</Typography>}
 

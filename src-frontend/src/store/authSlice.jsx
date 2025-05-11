@@ -44,7 +44,6 @@ const editUser = createAsyncThunk(
     ExpenseerAPI.token = token;
     const response = await ExpenseerAPI.editUser(username, data);
     if (!response) throw new Error("Error updating user information");
-    console.log("response", response);
     return response;
   }
 );
@@ -67,19 +66,20 @@ const register = createAsyncThunk(
   }
 );
 
+// Thunk to logout and clear all user-related state
+const logoutAll = () => (dispatch) => {
+  dispatch(authSlice.actions.logout());
+  dispatch(clearCategories());
+  dispatch(clearBudgets());
+};
+
 // constant for starting point for the authentication slice
 const initialState = {
   token: Cookies.get("token") || null,
   user: Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null,
   loading: false,
   error: null,
-};
-
-// Thunk to logout and clear all user-related state
-const logoutAll = () => (dispatch) => {
-  dispatch(authSlice.actions.logout());
-  dispatch(clearCategories());
-  dispatch(clearBudgets());
+  updateSuccess: false,
 };
 
 /** Redux Authentication Slice
@@ -96,6 +96,12 @@ const authSlice = createSlice({
       state.error = null;
       Cookies.remove("token");
       Cookies.remove("user");
+    },
+    clearSuccess(state) {
+      state.updateSuccess = false;
+    },
+    clearError(state) {
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -142,10 +148,12 @@ const authSlice = createSlice({
       .addCase(editUser.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.updateSuccess = false;
       })
       .addCase(editUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+        state.updateSuccess = true;
         Cookies.set("user", JSON.stringify(action.payload));
       })
       .addCase(editUser.rejected, (state, action) => {
@@ -155,7 +163,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, clearSuccess, clearError } = authSlice.actions;
 export { getUserData, login, register, editUser, logoutAll };
 
 // Define selectors for data easy access
@@ -163,5 +171,6 @@ export const selectUser = (state) => state.auth.user;
 export const selectToken = (state) => state.auth.token;
 export const selectUserError = (state) => state.auth.error;
 export const selectUserLoading = (state) => state.auth.loading;
+export const selectUpdateSuccess = (state) => state.auth.updateSuccess;
 
 export default authSlice.reducer;

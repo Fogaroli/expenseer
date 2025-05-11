@@ -4,9 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getCategory,
   editCategory,
+  clearSuccess,
+  clearError,
   deleteCategory,
   selectCategoryError,
   selectCategoryLoading,
+  selectUpdateSuccess,
 } from "../store/categorySlice";
 import { selectToken } from "../store/authSlice";
 import {
@@ -28,6 +31,7 @@ const EditCategory = () => {
   const loading = useSelector(selectCategoryLoading);
   const error = useSelector(selectCategoryError);
   const token = useSelector(selectToken);
+  const updateSuccess = useSelector(selectUpdateSuccess);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -50,6 +54,14 @@ const EditCategory = () => {
       [name]: value,
     }));
   };
+
+  // Clear success message when unmounting the component
+  useEffect(() => {
+    return () => {
+      dispatch(clearSuccess());
+      dispatch(clearError());
+    };
+  }, [dispatch]);
 
   // Send update request to the server with the information from the form
   const handleSubmit = async (e) => {
@@ -93,6 +105,11 @@ const EditCategory = () => {
           required
           sx={{ mb: 2 }}
         />
+        {updateSuccess && (
+          <Typography color="success" sx={{ mt: 2 }}>
+            Update Successful
+          </Typography>
+        )}
         <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
           <Button fullWidth variant="outlined" onClick={() => navigate(-1)}>
             Back

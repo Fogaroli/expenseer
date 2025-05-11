@@ -25,15 +25,7 @@ import {
   TextField,
   MenuItem,
   CircularProgress,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
 } from "@mui/material";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
 
 const LIMIT = 20;
 
@@ -69,8 +61,6 @@ const Espenses = () => {
   const observer = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Resets expenses list on page refresh or when filters are updated
   useEffect(() => {
@@ -228,7 +218,9 @@ const Espenses = () => {
             type="date"
             value={fieldsData.startdate}
             onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
+            slotProps={{
+              inputLabel: { shrink: true },
+            }}
             sx={{
               minWidth: { xs: 0, sm: 140 },
               width: { xs: "100%", sm: "auto" },
@@ -240,7 +232,9 @@ const Espenses = () => {
             type="date"
             value={fieldsData.enddate}
             onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
+            slotProps={{
+              inputLabel: { shrink: true },
+            }}
             sx={{
               minWidth: { xs: 0, sm: 140 },
               width: { xs: "100%", sm: "auto" },
