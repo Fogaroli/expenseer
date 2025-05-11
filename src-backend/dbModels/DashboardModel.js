@@ -375,14 +375,16 @@ class Dashboard {
     let query = `
     SELECT 
       c.name AS category,
-      SUM(e.amount) AS total_amount
-      FROM expenses e
-      RIGHT JOIN categories c ON c.id = e.category_id
-      WHERE e.username = $1
+      COALESCE(SUM(e.amount), 0) AS total_amount
+    FROM categories c
+    LEFT JOIN expenses e
+      ON c.id = e.category_id
+      AND e.username = $1
       AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
-      GROUP BY c.name
-      ORDER BY c.name
-    `;
+    WHERE c.username = $1
+    GROUP BY c.name
+    ORDER BY c.name
+  `;
     const params = [username];
 
     try {
@@ -410,16 +412,16 @@ class Dashboard {
   static async getCurrentMonthExpensesByBudget(username) {
     let query = `
     SELECT 
-      b.name AS budget,
-      b.type,
-      b.amount,
-      SUM(e.amount) AS total_amount
-      FROM expenses AS e
-      RIGHT JOIN budgets AS b ON b.id = e.budget_id
-      WHERE e.username = $1
+      b.name AS budget, b.type, b.amount,
+      COALESCE(SUM(e.amount), 0) AS total_amount
+    FROM budgets b
+    LEFT JOIN expenses e
+      ON b.id = e.category_id
+      AND e.username = $1
       AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
-      GROUP BY b.name, b.type, b.amount
-      ORDER BY b.name
+    WHERE b.username = $1
+    GROUP BY b.name, b.type, b.amount
+    ORDER BY b.name
     `;
     const params = [username];
 

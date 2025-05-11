@@ -12,7 +12,8 @@
       "type": "integer"
     },
     "amount": {
-      "type": "number"
+      "type": "number",
+      "minimum": 0
     },
     "description": {
       "type": "string"

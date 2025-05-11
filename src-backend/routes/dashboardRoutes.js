@@ -190,7 +190,7 @@ router.get(
 
       return res.json({
         dashboard: {
-          expenses: categoryExpenses,
+          category: categoryExpenses,
         },
       });
     } catch (err) {
@@ -218,7 +218,7 @@ router.get("/expenses/budget", ensureLoggedIn, async function (req, res, next) {
 
     return res.json({
       dashboard: {
-        expenses: budgetExpenses,
+        budget: budgetExpenses,
       },
     });
   } catch (err) {
