@@ -35,7 +35,5 @@ describe("AddBudget", () => {
     expect(screen.getByLabelText(/amount/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/type/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/description/i)).toBeInTheDocument();
-    // Update button text if needed
-    // expect(screen.getByRole("button", { name: /add budget/i })).toBeInTheDocument();
   });
 });

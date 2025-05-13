@@ -58,18 +58,11 @@ describe("AddExpense", () => {
       target: { value: 3.5 },
     });
 
-    // For MUI Select, use userEvent to select an option
     const user = userEvent.setup();
-
-    // Open the category select
     await user.click(screen.getByLabelText(/category/i));
-    // Click the option
     await user.click(screen.getByRole("option", { name: "Food" }));
-
-    // Open the budget select
     await user.click(screen.getByLabelText(/budget/i));
     await user.click(screen.getByRole("option", { name: "Monthly" }));
-
     fireEvent.change(screen.getByLabelText(/description/i), {
       target: { value: "Morning coffee" },
     });

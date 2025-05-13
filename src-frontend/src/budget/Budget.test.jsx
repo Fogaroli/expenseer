@@ -56,21 +56,15 @@ describe("Budget", () => {
   it("renders budget dashboard sections and data", () => {
     screen.debug();
     renderWithProviders(<Budget />);
-    // Heading with budget name from route param
     expect(screen.getByText(/test-budget/i)).toBeInTheDocument();
-    // Budget value
     expect(screen.getByText(/Budget Value \$1000/i)).toBeInTheDocument();
-    // Status section
     expect(screen.getByText(/Status/i)).toBeInTheDocument();
     expect(screen.getByText(/2024-05 - \$500/i)).toBeInTheDocument();
     expect(screen.getByText(/50% used/i)).toBeInTheDocument();
-    // Last 6 Months section
     expect(screen.getByText(/Last 6 Months/i)).toBeInTheDocument();
-    // Latest Expenses section
     expect(screen.getByText(/Latest Expenses/i)).toBeInTheDocument();
     expect(screen.getByText(/Groceries/i)).toBeInTheDocument();
     expect(screen.getByText(/Rent/i)).toBeInTheDocument();
-    // Action buttons
     expect(screen.getByRole("button", { name: /Back/i })).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /Add new Expense/i })
