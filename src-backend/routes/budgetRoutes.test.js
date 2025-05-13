@@ -15,7 +15,6 @@ let userToken;
 beforeAll(commonBeforeAll);
 beforeEach(async () => {
   await commonBeforeEach();
-  // Login and get token for tuser1
   const resp = await request(app)
     .post("/auth/login")
     .send({ username: "tuser1", password: "password1" });
@@ -139,7 +138,7 @@ describe("PATCH /budgets/:budget", function () {
   test("fails for invalid data", async function () {
     const resp = await request(app)
       .patch("/budgets/Groceries")
-      .send({ data: { amount: -100 } }) // negative not allowed
+      .send({ data: { amount: -100 } })
       .set("authorization", userToken);
     expect(resp.statusCode).toBe(400);
     expect(resp.body.message).toBeDefined();

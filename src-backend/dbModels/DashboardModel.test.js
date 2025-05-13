@@ -23,7 +23,6 @@ describe("DashboardModel", function () {
         "tuser1"
       );
       expect(Array.isArray(result)).toBe(true);
-      // Should include all categories for tuser1, even if no expenses
       for (let row of result) {
         expect(row).toHaveProperty("category");
         expect(row).toHaveProperty("total_amount");
@@ -59,7 +58,6 @@ describe("DashboardModel", function () {
   /************************************** getByCategory */
   describe("getByCategory", function () {
     test("returns current month data for a category", async function () {
-      // Add a category and expense for tuser1 if needed in your fixtures
       const result = await Dashboard.getByCategory("tuser1", "Bills");
       expect(result).toHaveProperty("month");
       expect(result).toHaveProperty("total_amount");
@@ -70,7 +68,7 @@ describe("DashboardModel", function () {
         fail();
       } catch (err) {
         expect(err instanceof ExpressError).toBeTruthy();
-        expect(err.status).toBe(500); // or 404 depending on your implementation
+        expect(err.status).toBe(500);
       }
     });
   });
@@ -91,7 +89,7 @@ describe("DashboardModel", function () {
         fail();
       } catch (err) {
         expect(err instanceof ExpressError).toBeTruthy();
-        expect(err.status).toBe(500); // or 404 depending on your implementation
+        expect(err.status).toBe(500);
       }
     });
   });
@@ -112,7 +110,7 @@ describe("DashboardModel", function () {
         fail();
       } catch (err) {
         expect(err instanceof ExpressError).toBeTruthy();
-        expect(err.status).toBe(500); // or 404 depending on your implementation
+        expect(err.status).toBe(500);
       }
     });
   });
@@ -135,7 +133,7 @@ describe("DashboardModel", function () {
         fail();
       } catch (err) {
         expect(err instanceof ExpressError).toBeTruthy();
-        expect(err.status).toBe(500); // or 404 depending on your implementation
+        expect(err.status).toBe(500);
       }
     });
   });

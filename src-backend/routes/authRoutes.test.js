@@ -1,7 +1,7 @@
 "use strict";
 
 const request = require("supertest");
-const app = require("../app"); // Adjust if your app entry point is named differently
+const app = require("../app");
 const db = require("../db.js");
 const {
   commonBeforeAll,
@@ -60,7 +60,6 @@ describe("POST /auth/register", function () {
     const resp = await request(app).post("/auth/register").send({
       username: "nouser",
       password: "nopass",
-      // missing first_name, last_name, email
     });
     expect(resp.statusCode).toBe(400);
     expect(resp.body.message).toBeDefined();

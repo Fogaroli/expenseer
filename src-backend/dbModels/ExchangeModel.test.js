@@ -15,15 +15,6 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
-// Mock getExchangeRate to avoid real API calls
-// const api = require("../helpers/api.js");
-// jest.spyOn(api, "getExchangeRate").mockImplementation((c1, c2) =>
-//   Promise.resolve({
-//     conversion_rate: c1 === "USD" && c2 === "EUR" ? 0.95 : 1.05,
-//     time_last_update_utc: new Date().toISOString(),
-//   })
-// );
-
 jest.mock("../helpers/api.js", () => ({
   getExchangeRate: jest.fn((c1, c2) =>
     Promise.resolve({
@@ -112,7 +103,6 @@ describe("ExchangeModel", function () {
       });
       expect(result).toEqual({ currency1: "USD", currency2: "EUR" });
 
-      // Should not be in user_exchange anymore
       const found = await db.query(
         `SELECT * FROM user_exchange ue
          JOIN exchanges e ON ue.exchange_id = e.id

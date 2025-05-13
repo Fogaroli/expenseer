@@ -15,7 +15,6 @@ let userToken;
 beforeAll(commonBeforeAll);
 beforeEach(async () => {
   await commonBeforeEach();
-  // Login and get token for tuser1
   const resp = await request(app)
     .post("/auth/login")
     .send({ username: "tuser1", password: "password1" });

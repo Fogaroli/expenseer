@@ -14,7 +14,6 @@ let adminToken, userToken;
 beforeAll(commonBeforeAll);
 beforeEach(async () => {
   await commonBeforeEach();
-  // Login as admin and user
   let resp = await request(app)
     .post("/auth/login")
     .send({ username: "tuser2", password: "password2" });

@@ -172,7 +172,6 @@ describe("search", function () {
   });
 
   test("returns empty array if no results", async function () {
-    // Mock stockSearch to return empty
     const { stockSearch } = require("../helpers/api.js");
     stockSearch.mockResolvedValueOnce({ bestMatches: [] });
     const results = await Stock.search("noresults");
