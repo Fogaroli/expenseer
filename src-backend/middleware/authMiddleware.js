@@ -34,7 +34,7 @@ function authenticateJWT(req, res, next) {
 
 function ensureLoggedIn(req, res, next) {
   try {
-    if (!res.locals.user) throw new ExpressError("Unauthorized", 401);
+    if (!res.locals.user) throw new ExpressError("Forbidden", 403);
     return next();
   } catch (err) {
     return next(err);
@@ -49,7 +49,7 @@ function ensureLoggedIn(req, res, next) {
 function ensureIsAdmin(req, res, next) {
   try {
     if (!res.locals.user || !res.locals.user.is_admin)
-      throw new ExpressError("Unauthorized", 401);
+      throw new ExpressError("Forbidden", 403);
     return next();
   } catch (err) {
     return next(err);
@@ -63,12 +63,12 @@ function ensureIsAdmin(req, res, next) {
  */
 function ensureIsAuthorized(req, res, next) {
   try {
-    if (!res.locals.user) throw new ExpressError("Unauthorized", 401);
+    if (!res.locals.user) throw new ExpressError("Forbidden", 403);
     if (
       !res.locals.user.is_admin &&
       res.locals.user.username !== req.params.username
     )
-      throw new ExpressError("Unauthorized", 401);
+      throw new ExpressError("Forbidden", 403);
     return next();
   } catch (err) {
     return next(err);
