@@ -72,6 +72,7 @@ class Stock {
     try {
       const stockData = await getStockPrice(symbol);
       value = stockData["Global Quote"]["05. price"];
+      if (!value) throw Error("Could not find stock Symbol");
       const variation = parseFloat(
         stockData["Global Quote"]["10. change percent"]
       );

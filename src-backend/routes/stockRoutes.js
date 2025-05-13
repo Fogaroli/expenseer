@@ -56,7 +56,9 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 router.get("/", ensureLoggedIn, async function (req, res, next) {
   try {
     const givenData = req.query;
-    if (givenData.length > 0) {
+    console.log(givenData);
+    if (Object.keys(givenData).length > 0) {
+      console.log("inside validator");
       const validator = jsonschema.validate(req.query, stockSchema);
       if (!validator.valid) {
         const errs = validator.errors.map((e) => e.stack);
@@ -82,7 +84,7 @@ router.get("/", ensureLoggedIn, async function (req, res, next) {
 router.delete("/", ensureLoggedIn, async function (req, res, next) {
   try {
     const givenData = req.body.data;
-    if (givenData) {
+    if (Object.keys(givenData).length > 0) {
       const validator = jsonschema.validate(req.body.data, stockSchema);
       if (!validator.valid) {
         const errs = validator.errors.map((e) => e.stack);

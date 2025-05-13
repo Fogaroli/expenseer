@@ -65,6 +65,7 @@ describe("getAll", function () {
     expect(budgets).toEqual([
       { name: "Entertainment", type: 2, amount: 200 },
       { name: "Groceries", type: 1, amount: 500.0 },
+      { name: "Main", type: 1, amount: 1000.0 },
     ]);
   });
 
