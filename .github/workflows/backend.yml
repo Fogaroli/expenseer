@@ -5,11 +5,28 @@ on:
     branches: [Develop-Backend]
   push:
     branches: [Develop-Backend]
+  workflow_dispatch:
 
 jobs:
   test:
     name: Run Backend Tests
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U testuser"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    env:
+      DB_URI_TEST: postgres://testuser:testpass@localhost:5432/testdb
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -25,8 +42,12 @@ jobs:
           npm ci
 
       - name: Run tests
+        env:
+          DB_URI_TEST: ${{ env.DB_URI_TEST }}
+          PORT: 4001
+          SECRET_KEY: TestKey
         run: |
-          cd src-frontend
+          cd src-backend
           npm test
 
   deploy:
@@ -50,4 +71,5 @@ jobs:
             git fetch
             git checkout Develop-Backend
             git pull
+            pm2 restart expenseer-dev
           '
