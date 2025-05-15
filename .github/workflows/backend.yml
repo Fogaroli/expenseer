@@ -40,6 +40,7 @@ jobs:
         run: |
           cd src-backend
           npm ci
+          PGPASSWORD=testpass psql -h localhost -U testuser -d testdb -f expenseer.sql
 
       - name: Run tests
         env:
