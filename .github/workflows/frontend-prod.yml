@@ -1,0 +1,87 @@
+name: Production Frontend CD
+
+on:
+  push:
+    branches: [Main]
+    paths:
+      - "src-frontend/**"
+      - ".github/workflows/frontend-prod.yml"
+  pull_request:
+    branches: [Main]
+    paths:
+      - "src-frontend/**"
+      - ".github/workflows/frontend-prod.yml"
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run Frontend Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: |
+          cd src-frontend
+          npm ci
+
+      - name: Run tests
+        run: |
+          cd src-frontend
+          npm test
+
+  build-and-deploy:
+    name: Build and Deploy Frontend
+    needs: test
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: |
+          cd src-frontend
+          npm ci
+
+      - name: Create .env file
+        run: |
+          echo "VITE_API_URL=${{ secrets.PROD_API_URL }}" > src-frontend/.env
+
+      - name: Build Vite App
+        run: |
+          cd src-frontend
+          npm run build
+
+      - name: Deploy SSH Key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Copy dist to server (scp)
+        run: |
+          scp -P ${{ secrets.SERVER_PORT }} -r src-frontend/dist/* ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/var/www/temp
+
+      - name: Deploy Expenseer
+        run: |
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} '
+            rm -rf /var/www/expenseer-frontend/*
+            mv /var/www/temp/* /var/www/expenseer-frontend/
+            find /var/www/expenseer-frontend -type d -exec chmod 755 {} \;
+            find /var/www/expenseer-frontend -type f -exec chmod 644 {} \;
+            rm -rf /var/www/temp
+          '

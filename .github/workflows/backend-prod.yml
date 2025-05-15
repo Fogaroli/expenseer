@@ -1,0 +1,61 @@
+name: Production Backend CD
+
+on:
+  push:
+    branches: [Main]
+    paths:
+      - "src-backend/**"
+      - ".github/workflows/backend-prod.yml"
+  pull_request:
+    branches: [Main]
+    paths:
+      - "src-backend/**"
+      - ".github/workflows/backend-prod.yml"
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run Backend Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: |
+          cd src-backend
+          npm ci
+
+      - name: Run tests
+        run: |
+          cd src-frontend
+          npm test
+
+  deploy:
+    name: Deploy to Remote Server
+    needs: test
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy SSH Key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Deploy API
+        run: |
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} '
+            cd /var/www/expenseer-backend
+            git fetch
+            git checkout Main
+            git pull
+            pm2 restart expenseer-prod
+          '
