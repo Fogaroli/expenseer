@@ -15,8 +15,5 @@
     }
   },
   "additionalProperties": false,
-  "required": [
-    "currency1",
-    "currency2"
-  ]
+  "required": ["currency1", "currency2"]
 }

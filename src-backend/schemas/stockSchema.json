@@ -6,11 +6,9 @@
     "symbol": {
       "type": "string",
       "minLength": 2,
-      "maxLength": 7
+      "maxLength": 15
     }
   },
   "additionalProperties": false,
-  "required": [
-    "symbol"
-  ]
+  "required": []
 }

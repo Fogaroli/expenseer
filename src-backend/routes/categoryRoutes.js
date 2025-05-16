@@ -14,7 +14,7 @@ const router = express.Router();
 
 /** Add new Category Route
  *
- * POST / {data:{ <category> }, token: <adminToken> }  => { category }
+ * POST / {data:{ <category> }}  => { category }
  *
  * This route only adds a category to the logged in user.
  *
@@ -31,7 +31,10 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
       const errs = validator.errors.map((e) => e.stack);
       throw new ExpressError(errs, 400);
     }
-    const category = await Category.create(res.locals.user.username, req.body.data);
+    const category = await Category.create(
+      res.locals.user.username,
+      req.body.data
+    );
     return res.status(201).json({ category });
   } catch (err) {
     return next(err);
@@ -40,7 +43,7 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 
 /** Get all categories in the database for the logged in user
  *  *
- * GET / {token: <Token> }=> { categories: [ {name}, ... ] }
+ * GET / {}=> { categories: [ {name}, ... ] }
  *
  * Returns list of all categories.
  *
@@ -58,7 +61,7 @@ router.get("/", ensureLoggedIn, async function (req, res, next) {
 
 /** Get details of a single category provided in params. 
  
- * GET /[category] {token: <Token> }=> {category:{ name }}
+ * GET /[category] {}=> {category:{ name }}
  * Authorization required: logged in user
  **/
 
@@ -76,7 +79,7 @@ router.get("/:category", ensureLoggedIn, async function (req, res, next) {
 
 /** Update category data
  *
- * PATCH /[category] {data:{ <category> }, token: <adminToken> } => { name }
+ * PATCH /[category] {data:{ <category> }} => { name }
  *
  * Data can include:
  *   {  name }

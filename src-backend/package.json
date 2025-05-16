@@ -8,7 +8,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
     "seed": "dropdb expenseer && createdb expenseer && psql expenseer < expenseer.sql && psql expenseer < seed.sql && dropdb expenseer_test && createdb expenseer_test && psql expenseer_test < expenseer.sql"
   },
   "dependencies": {
@@ -21,6 +21,7 @@
     "jsonschema": "^1.5.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
-    "pg": "^8.14.1"
+    "pg": "^8.14.1",
+    "supertest": "^7.1.1"
   }
 }

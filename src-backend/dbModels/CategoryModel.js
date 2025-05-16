@@ -3,7 +3,6 @@ const ExpressError = require("../helpers/expressError");
 const { sqlForPartialUpdate } = require("../helpers/partialUpdate.js");
 
 class Category {
-
   /** Create a new category.
    *
    * [{name}]
@@ -24,17 +23,17 @@ class Category {
     );
 
     if (duplicateCheck.rows[0]) {
-      throw new ExpressError(`User already have a category with this name`, 400);
+      throw new ExpressError(
+        `User already have a category with this name`,
+        400
+      );
     }
 
     const result = await db.query(
       `INSERT INTO categories (name, username)
             VALUES ($1, $2)
             RETURNING name`,
-      [
-        category.name,
-        username,
-      ]
+      [category.name, username]
     );
     const newCategory = result.rows[0];
     return newCategory;
@@ -93,6 +92,24 @@ class Category {
    **/
 
   static async update(username, categoryName, data) {
+    const duplicateCheck = await db.query(
+      `SELECT name 
+            FROM categories 
+            WHERE username = $1 AND name = $2`,
+      [username, data.name]
+    );
+    console.assert(
+      !duplicateCheck.rows[0],
+      "Attempt to create already existing category"
+    );
+
+    if (duplicateCheck.rows[0]) {
+      throw new ExpressError(
+        `User already have a category with this name`,
+        400
+      );
+    }
+
     const result = await db.query(
       `SELECT name
          FROM categories

@@ -7,7 +7,7 @@ const ExpressError = require("../helpers/expressError");
 /** Middleware: Authenticate user.
  *
  * This function should be executed for every request.
- * 
+ *
  * If a token was provided, verify it, and, if valid, store the token payload
  * on res.locals (this will include the username and is_admin field.)
  *
@@ -16,14 +16,13 @@ const ExpressError = require("../helpers/expressError");
 
 function authenticateJWT(req, res, next) {
   try {
-    const authToken = req.body.token
+    const authToken = req.headers.authorization;
     if (authToken) {
       res.locals.user = jwt.verify(authToken, SECRET_KEY);
     }
     console.assert(res.locals.user, "Token verification failed, no user saved");
     return next();
   } catch (err) {
-    console.error(err);
     return next();
   }
 }
@@ -35,7 +34,7 @@ function authenticateJWT(req, res, next) {
 
 function ensureLoggedIn(req, res, next) {
   try {
-    if (!res.locals.user) throw new ExpressError("Unauthorized", 401);
+    if (!res.locals.user) throw new ExpressError("Forbidden", 403);
     return next();
   } catch (err) {
     return next(err);
@@ -50,7 +49,7 @@ function ensureLoggedIn(req, res, next) {
 function ensureIsAdmin(req, res, next) {
   try {
     if (!res.locals.user || !res.locals.user.is_admin)
-      throw new ExpressError("Unauthorized", 401);
+      throw new ExpressError("Forbidden", 403);
     return next();
   } catch (err) {
     return next(err);
@@ -64,12 +63,12 @@ function ensureIsAdmin(req, res, next) {
  */
 function ensureIsAuthorized(req, res, next) {
   try {
-    if (!res.locals.user) throw new ExpressError("Unauthorized", 401);
+    if (!res.locals.user) throw new ExpressError("Forbidden", 403);
     if (
       !res.locals.user.is_admin &&
       res.locals.user.username !== req.params.username
     )
-      throw new ExpressError("Unauthorized", 401);
+      throw new ExpressError("Forbidden", 403);
     return next();
   } catch (err) {
     return next(err);
@@ -80,5 +79,5 @@ module.exports = {
   authenticateJWT,
   ensureLoggedIn,
   ensureIsAdmin,
-  ensureIsAuthorized
+  ensureIsAuthorized,
 };
