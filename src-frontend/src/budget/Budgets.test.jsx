@@ -13,7 +13,7 @@ const testStore = configureStore({
   },
   preloadedState: {
     auth: { token: "fake-token" },
-    budget: { budgets: [] }, // <-- Fix: ensure budgets is an array
+    budget: { budgets: [] },
   },
 });
 

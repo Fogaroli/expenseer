@@ -38,7 +38,6 @@ describe("Stocks", () => {
     render(<Stocks />);
     expect(screen.getByText(/GOOG - Alphabet Inc./i)).toBeInTheDocument();
     expect(screen.getByText(/TSLA - Tesla Inc./i)).toBeInTheDocument();
-    // The add (pin) button should be present
     expect(
       screen
         .getAllByRole("button")
@@ -52,6 +51,5 @@ describe("Stocks", () => {
       target: { value: "AMZN" },
     });
     fireEvent.click(screen.getByRole("button", { name: /search/i }));
-    // You can add more assertions if you want to check that searchStocks was called
   });
 });

@@ -29,8 +29,6 @@ function renderWithProviders(ui) {
 describe("AddBudget", () => {
   it("renders add budget form fields", () => {
     renderWithProviders(<AddBudget />);
-    screen.debug(); // See what is rendered!
-    // Update these queries to match your actual labels
     expect(screen.getByLabelText(/name/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/amount/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/type/i)).toBeInTheDocument();

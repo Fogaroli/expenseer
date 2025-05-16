@@ -54,7 +54,6 @@ function renderWithProviders(ui, { route = "/budgets/test-budget" } = {}) {
 
 describe("Budget", () => {
   it("renders budget dashboard sections and data", () => {
-    screen.debug();
     renderWithProviders(<Budget />);
     expect(screen.getByText(/test-budget/i)).toBeInTheDocument();
     expect(screen.getByText(/Budget Value \$1000/i)).toBeInTheDocument();
