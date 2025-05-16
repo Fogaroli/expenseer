@@ -68,6 +68,7 @@ jobs:
       - name: Deploy API
         run: |
           ssh -o StrictHostKeyChecking=no -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} '
+            source ~/.profile
             cd /var/www/dev-expenseer-backend
             git fetch
             git checkout Develop-Backend
