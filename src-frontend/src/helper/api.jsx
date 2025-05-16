@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_EXPENSEER_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 class ExpenseerAPI {
   // the JWT for interactive with the API will be stored here.
