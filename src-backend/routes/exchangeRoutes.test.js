@@ -22,6 +22,22 @@ beforeEach(async () => {
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
+jest.mock("../helpers/api.js", () => ({
+  getExchangeRate: jest.fn((c1, c2) =>
+    Promise.resolve({
+      conversion_rate: c1 === "USD" && c2 === "EUR" ? 0.95 : 1.05,
+      time_last_update_utc: new Date().toISOString(),
+    })
+  ),
+  getExchangeCodes: jest.fn(() =>
+    Promise.resolve([
+      ["USD", "United States Dollar"],
+      ["EUR", "Euro"],
+      ["BRL", "Brazilian Real"],
+    ])
+  ),
+}));
+
 describe("POST /exchanges", function () {
   test("works for valid data", async function () {
     const resp = await request(app)
