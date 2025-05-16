@@ -72,6 +72,10 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
+      - name: Add server to known_hosts
+        run: |
+          ssh-keyscan -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
       - name: Copy dist to server (scp)
         run: |
           scp -P ${{ secrets.SERVER_PORT }} -r src-frontend/dist/* ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/var/www/temp

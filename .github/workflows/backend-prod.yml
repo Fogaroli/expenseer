@@ -42,17 +42,11 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Wait for Postgres to be ready
-        run: |
-          for i in {1..10}; do
-            pg_isready -h localhost -U testuser && break
-            sleep 3
-          done
-
       - name: Install dependencies
         run: |
           cd src-backend
           npm ci
+          PGPASSWORD=testpass psql -h localhost -U testuser -d testdb -f expenseer.sql
 
       - name: Run tests
         env:
@@ -80,9 +74,11 @@ jobs:
       - name: Deploy API
         run: |
           ssh -o StrictHostKeyChecking=no -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} '
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             cd /var/www/expenseer-backend
             git fetch
             git checkout Main
             git pull
-            pm2 restart expenseer-prod
+            pm2 restart expenseer-prod --update-env
           '
