@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import store from "../store/store.jsx";
@@ -14,10 +14,6 @@ function renderWithProviders(ui) {
 
 describe("EditUser", () => {
   it("renders edit user form fields", () => {
-    // By default, not logged in, so should redirect (no form fields)
     renderWithProviders(<EditUser />);
-    // You can check for the presence of the heading if you set up a mock user in the store
-    // For now, just check that the component renders without crashing
-    // Optionally, you can mock the store to simulate a logged-in user for more detailed tests
   });
 });
