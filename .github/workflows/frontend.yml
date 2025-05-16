@@ -50,7 +50,7 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "VITE_API_URL=${{ secrets.DEV_API_URL }}" > src-frontend/.env
+          echo VITE_API_URL=${{ secrets.DEV_API_URL }} > src-frontend/.env
 
       - name: Build Vite App
         run: |
@@ -64,6 +64,10 @@ jobs:
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+
+      - name: Add server to known_hosts
+        run: |
+          ssh-keyscan -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
       - name: Copy dist to server (scp)
         run: |
