@@ -15,13 +15,14 @@ const ExpenseItem = forwardRef(({ expense }, ref) => {
   return (
     <Paper
       ref={ref}
+      elevation={2}
       sx={{
         mb: 2,
         px: 2,
         py: 1.5,
         display: "flex",
         alignItems: "center",
-        elevation: 2,
+        overflow: "hidden",
       }}
     >
       <Box
@@ -29,6 +30,7 @@ const ExpenseItem = forwardRef(({ expense }, ref) => {
           display: "flex",
           width: "100%",
           alignItems: "center",
+          minWidth: 0,
         }}
       >
         {/* Date */}
