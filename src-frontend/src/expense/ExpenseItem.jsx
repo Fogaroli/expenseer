@@ -40,7 +40,7 @@ const ExpenseItem = forwardRef(({ expense }, ref) => {
           sx={{
             flexBasis: { xs: "30%", sm: "18%" },
             flexShrink: 0,
-            minWidth: 80,
+            minWidth: 0,
           }}
         >
           {new Date(date).toISOString().split("T")[0]}
@@ -57,7 +57,7 @@ const ExpenseItem = forwardRef(({ expense }, ref) => {
             overflow: "hidden",
             textOverflow: "ellipsis",
             whiteSpace: "nowrap",
-            flexBasis: { xs: "40%", sm: "32%" },
+            flexBasis: { xs: "50%", sm: "50%" },
             flexGrow: 1,
             minWidth: 0,
             mx: 1,
@@ -70,9 +70,9 @@ const ExpenseItem = forwardRef(({ expense }, ref) => {
           variant="body1"
           sx={{
             fontWeight: 600,
-            flexBasis: { xs: "30%", sm: "18%" },
+            flexBasis: { xs: "20%", sm: "18%" },
             textAlign: "right",
-            minWidth: 70,
+            minWidth: 0,
             mx: 1,
           }}
         >
@@ -85,7 +85,7 @@ const ExpenseItem = forwardRef(({ expense }, ref) => {
             color="text.secondary"
             sx={{
               flexBasis: "16%",
-              minWidth: 60,
+              minWidth: 0,
               mx: 1,
               textAlign: "center",
             }}
@@ -100,7 +100,7 @@ const ExpenseItem = forwardRef(({ expense }, ref) => {
             color="text.secondary"
             sx={{
               flexBasis: "16%",
-              minWidth: 60,
+              minWidth: 0,
               mx: 1,
               textAlign: "center",
             }}

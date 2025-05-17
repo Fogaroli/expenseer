@@ -64,7 +64,17 @@ const AddBudget = () => {
     return <Navigate to="/" />;
   }
   return (
-    <Paper elevation={4} sx={{ p: 4, maxWidth: 600, mx: "auto", mt: 4 }}>
+    <Paper
+      elevation={4}
+      sx={{
+        p: 2,
+        width: { xs: "80vw", md: 765 },
+        maxWidth: "100vw",
+        mx: "auto",
+        mt: 4,
+        boxSizing: "border-box",
+      }}
+    >
       <Typography variant="h4" gutterBottom>
         Add Budget
       </Typography>
@@ -118,11 +128,23 @@ const AddBudget = () => {
           minRows={2}
           sx={{ mb: 2 }}
         />
-        <Stack direction="row" spacing={2}>
-          <Button variant="outlined" onClick={() => navigate(-1)}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={2}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Button fullWidth variant="outlined" onClick={() => navigate(-1)}>
             Back
           </Button>
-          <Button type="submit" variant="contained" disabled={loading}>
+          <Button
+            fullWidth
+            type="submit"
+            variant="contained"
+            disabled={loading}
+          >
             Add Budget
           </Button>
         </Stack>

@@ -111,11 +111,12 @@ const AddExpense = () => {
     <Paper
       elevation={4}
       sx={{
-        p: 4,
+        p: 2,
         width: { xs: "80vw", md: 765 },
         maxWidth: "100vw",
         mx: "auto",
         mt: 4,
+        boxSizing: "border-box",
       }}
     >
       <Typography variant="h5" component="h1" gutterBottom>

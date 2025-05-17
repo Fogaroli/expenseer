@@ -79,9 +79,11 @@ const EditUser = () => {
       elevation={3}
       sx={{
         p: 4,
-        maxWidth: 700,
+        width: { xs: "80vw", md: 765 },
+        maxWidth: "100vw",
         mt: 3,
         mx: "auto",
+        boxSizing: "border-box",
       }}
     >
       <Typography variant="h5" component="h1" gutterBottom>
@@ -91,7 +93,7 @@ const EditUser = () => {
         <Stack
           direction={{ xs: "column", sm: "row" }}
           spacing={4}
-          alignItems="flex-start"
+          alignItems="center"
         >
           <Box
             sx={{

@@ -11,7 +11,16 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts";
-import { Paper, Typography, Button, Box, Stack, Divider } from "@mui/material";
+import {
+  Paper,
+  Typography,
+  Button,
+  Box,
+  Stack,
+  Divider,
+  useMediaQuery,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 /** Category component
  *
@@ -26,6 +35,8 @@ const Category = () => {
     category: categoryName,
   });
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.up("sm"));
 
   // Process click to the button to add expense
   // Should send the category name as filter to the add expense component
@@ -52,7 +63,17 @@ const Category = () => {
   }
 
   return (
-    <Paper elevation={4} sx={{ p: 4, maxWidth: 800, mx: "auto", mt: 4 }}>
+    <Paper
+      elevation={4}
+      sx={{
+        p: 1,
+        width: { xs: "80vw", md: 765 },
+        maxWidth: "100vw",
+        mx: "auto",
+        mt: 4,
+        boxSizing: "border-box",
+      }}
+    >
       <Typography variant="h4" gutterBottom>
         {categoryName}
       </Typography>
@@ -88,23 +109,77 @@ const Category = () => {
       <Divider sx={{ my: 2 }} />
 
       <Typography variant="h6">Latest Expenses</Typography>
-      <Box sx={{ mb: 2 }}>
+      <Box>
         {expenses.map((exp, idx) => (
-          <Typography key={idx}>
-            {new Date(exp.date).toISOString().split("T")[0]} - {exp.name} - $
-            {exp.amount} - {exp.budget}
-          </Typography>
+          <Box
+            sx={{
+              mb: 2,
+              display: "flex",
+              width: "100%",
+              minWidth: 0,
+            }}
+          >
+            <Typography
+              key={idx}
+              sx={{
+                flexBasis: { xs: "30%", sm: "20%" },
+                flexShrink: 0,
+                minWidth: 80,
+              }}
+            >
+              {new Date(exp.date).toISOString().split("T")[0]}
+            </Typography>
+            <Typography
+              key={idx}
+              sx={{
+                flexBasis: { xs: "50%", sm: "45%" },
+                flexShrink: 0,
+                minWidth: 80,
+              }}
+            >
+              {exp.name}
+            </Typography>
+            <Typography
+              key={idx}
+              sx={{
+                flexBasis: { xs: "20%", sm: "15%" },
+                flexShrink: 0,
+                minWidth: 80,
+              }}
+            >
+              ${exp.amount}
+            </Typography>
+            {isMobile && (
+              <Typography
+                key={idx}
+                sx={{
+                  flexBasis: { xs: "30%", sm: "20%" },
+                  flexShrink: 0,
+                  minWidth: 80,
+                }}
+              >
+                {exp.budget}
+              </Typography>
+            )}
+          </Box>
         ))}
       </Box>
 
-      <Stack direction="row" spacing={2}>
-        <Button variant="outlined" onClick={() => navigate(-1)}>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        spacing={2}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Button fullWidth variant="outlined" onClick={() => navigate(-1)}>
           Back
         </Button>
-        <Button variant="contained" onClick={handleAddExpense}>
+        <Button fullWidth variant="contained" onClick={handleAddExpense}>
           Add new Expense
         </Button>
-        <Button variant="outlined" onClick={handleSeeAll}>
+        <Button fullWidth variant="outlined" onClick={handleSeeAll}>
           See All
         </Button>
       </Stack>
