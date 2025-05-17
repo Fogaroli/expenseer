@@ -231,7 +231,10 @@ const Navbar = () => {
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                       alt={`${user.first_name} ${user.last_name}`}
-                      src={user.image_url}
+                      src={
+                        user.image_url ||
+                        "https://images.freeimages.com/fic/images/icons/989/ivista_2/256/user.png"
+                      }
                     />
                   </IconButton>
                 </Tooltip>

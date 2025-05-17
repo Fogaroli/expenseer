@@ -105,7 +105,11 @@ const EditUser = () => {
           >
             <Box
               component="img"
-              src={formData.image_url || user.image_url}
+              src={
+                formData.image_url ||
+                user.image_url ||
+                "https://images.freeimages.com/fic/images/icons/989/ivista_2/256/user.png"
+              }
               alt={formData.username}
               sx={{
                 width: 120,
@@ -169,6 +173,7 @@ const EditUser = () => {
               name="image_url"
               value={formData.image_url}
               onChange={handleChange}
+              onFocus={(event) => event.target.select()}
             />
             {updateSuccess && (
               <Typography color="success" sx={{ mt: 2 }}>
