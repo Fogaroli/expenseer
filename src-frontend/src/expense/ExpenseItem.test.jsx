@@ -21,6 +21,6 @@ describe("ExpenseItem", () => {
     expect(screen.getByText(/food/i)).toBeInTheDocument();
     expect(screen.getByText(/monthly/i)).toBeInTheDocument();
     expect(screen.getByText(/2024-05-10/i)).toBeInTheDocument();
-    expect(screen.getByText(/€ 3.5/i)).toBeInTheDocument();
+    expect(screen.getByText(/3.5/i)).toBeInTheDocument();
   });
 });

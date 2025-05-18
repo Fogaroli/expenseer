@@ -1,6 +1,7 @@
 # Expenseer
 
-The Expenseer project is intended to cover all content given in teh second half of the springboard software engineering career track course.
+The Expenseer project is intended to cover all content given in the second half of the springboard software engineering career track course.
+
 The project is split into a backend application developed in node.js + Express and a frontend application developed in React.
 
 Details of the tools and libraries used in this project can be found below.
