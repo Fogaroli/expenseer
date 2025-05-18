@@ -25,9 +25,16 @@
       "format": "email"
     },
     "image_url": {
-      "type": "string",
-      "minLength": 1,
-      "format": "uri"
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uri"
+        },
+        {
+          "type": "string",
+          "maxLength": 0
+        }
+      ]
     }
   },
   "additionalProperties": false,

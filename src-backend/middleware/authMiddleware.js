@@ -20,7 +20,6 @@ function authenticateJWT(req, res, next) {
     if (authToken) {
       res.locals.user = jwt.verify(authToken, SECRET_KEY);
     }
-    console.assert(res.locals.user, "Token verification failed, no user saved");
     return next();
   } catch (err) {
     return next();

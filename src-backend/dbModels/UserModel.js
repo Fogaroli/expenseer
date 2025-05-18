@@ -4,9 +4,6 @@ const ExpressError = require("../helpers/expressError");
 const { sqlForPartialUpdate } = require("../helpers/partialUpdate.js");
 const { BCRYPT_WORK_FACTOR } = require("../config");
 
-const DEFAULT_IMAGE_URL =
-  "https://images.freeimages.com/fic/images/icons/989/ivista_2/256/user.png";
-
 class User {
   /** Register user with data. Returns new user data. */
 
@@ -18,7 +15,7 @@ class User {
       [user.username]
     );
     console.assert(
-      duplicateCheck.rows[0],
+      !duplicateCheck.rows[0],
       "Attempt to register already existing username"
     );
 
@@ -41,7 +38,7 @@ class User {
         user.first_name,
         user.last_name,
         user.email,
-        user.image_url || DEFAULT_IMAGE_URL,
+        user.image_url || "",
         new Date(),
         user.is_admin || false,
       ]
