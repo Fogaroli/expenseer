@@ -20,6 +20,7 @@ import {
   Box,
   Stack,
   MenuItem,
+  InputAdornment,
 } from "@mui/material";
 
 /** Edit budget Component
@@ -97,7 +98,17 @@ const Editbudget = () => {
     return <Navigate to="/" />;
   }
   return (
-    <Paper elevation={4} sx={{ p: 4, maxWidth: 600, mx: "auto", mt: 4 }}>
+    <Paper
+      elevation={4}
+      sx={{
+        p: 4,
+        width: { xs: "80vw", sm: 480 },
+        maxWidth: "100vw",
+        mx: "auto",
+        mt: 4,
+        boxSizing: "border-box",
+      }}
+    >
       <Typography variant="h4" gutterBottom>
         Edit Budget
       </Typography>
@@ -117,11 +128,18 @@ const Editbudget = () => {
           name="amount"
           id="budgetAmount"
           type="number"
-          value={budgetData.amount || 0}
+          value={budgetData.amount || ""}
           onChange={handleChange}
           fullWidth
           required
           sx={{ mb: 2 }}
+          InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+          }}
+          inputProps={{
+            step: "0.01",
+            min: "0",
+          }}
         />
         <TextField
           label="Type"
