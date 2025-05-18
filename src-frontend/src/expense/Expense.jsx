@@ -76,7 +76,17 @@ const Expense = () => {
   }
 
   return (
-    <Paper elevation={4} sx={{ p: 4, maxWidth: 600, mx: "auto", mt: 4 }}>
+    <Paper
+      elevation={4}
+      sx={{
+        p: 2,
+        width: { xs: "80vw", md: 765 },
+        maxWidth: "100vw",
+        mx: "auto",
+        mt: 4,
+        boxSizing: "border-box",
+      }}
+    >
       <Typography variant="h5" component="h1" gutterBottom>
         Expense Details
       </Typography>
