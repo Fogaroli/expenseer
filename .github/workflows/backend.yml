@@ -1,0 +1,78 @@
+name: Backend CI/CD
+
+on:
+  pull_request:
+    branches: [Develop-Backend]
+  push:
+    branches: [Develop-Backend]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run Backend Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U testuser"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    env:
+      DB_URI_TEST: postgres://testuser:testpass@localhost:5432/testdb
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: |
+          cd src-backend
+          npm ci
+          PGPASSWORD=testpass psql -h localhost -U testuser -d testdb -f expenseer.sql
+
+      - name: Run tests
+        env:
+          DB_URI_TEST: ${{ env.DB_URI_TEST }}
+          PORT: 4001
+          SECRET_KEY: TestKey
+        run: |
+          cd src-backend
+          npm test
+
+  deploy:
+    name: Deploy to Remote Server
+    needs: test
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy SSH Key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Deploy API
+        run: |
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} '
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            cd /var/www/dev-expenseer-backend
+            git fetch
+            git checkout Develop-Backend
+            git pull
+            pm2 restart expenseer-dev --update-env
+          '

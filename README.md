@@ -28,6 +28,7 @@ A development server is also available for features that are under test (from th
 Dev API can be found here
 https://dev.expenseer.fogaroli.freeddns.org/api
 
+
 ## Additional information
 
 This application was developed as the Capstone Project for Springboard Software Engineering Career Track course and includes some the technologies and tools learned in the course.

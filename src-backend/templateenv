@@ -1,0 +1,26 @@
+# Template .env file.
+# Adjust this file to meet the details of the machine running the application and rename it to .env
+
+# Secrete key used by the password encryption engine, make a complex long secret key
+SECRET_KEY=
+
+# Port used to serve the API
+PORT=
+
+# Description if this is a development or production environment
+NODE_ENV=DEV
+
+# Encription work factor, recommended 12
+BCRYPT_WORK_FACTOR=
+
+# Database connection string for running the application
+DB_URI=postgresql://<user>:<pass>@<server>:5432/expenseer
+
+# Database connection string for testing
+DB_URI=postgresql://<user>:<pass>@<server>:5432/expenseer-test
+
+# Key for the Exchange rate API - Create your own at https://www.exchangerate-api.com/
+EXCHANGE_RATE_API_KEY=
+
+# Key for the Alpha Vantage API - Create your own at https://www.alphavantage.co/
+STOCK_API_KEY=

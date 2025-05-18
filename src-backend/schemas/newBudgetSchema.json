@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^[^/\\\\]*$"
+    },
+    "type": {
+      "type": "integer"
+    },
+    "amount": {
+      "type": "number",
+      "minimum": 0
+    },
+    "description": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["name", "type", "amount"]
+}
