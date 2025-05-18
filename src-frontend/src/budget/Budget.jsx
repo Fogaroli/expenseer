@@ -19,9 +19,7 @@ import {
   Stack,
   Divider,
   LinearProgress,
-  useMediaQuery,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 
 /** Budget component
  *
@@ -36,8 +34,6 @@ const Budget = () => {
     budget: budgetName,
   });
   const navigate = useNavigate();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.up("sm"));
 
   // Process click to the button to add expense
   // Should send the budget name as filter to the add expense component
@@ -77,17 +73,7 @@ const Budget = () => {
     return <Navigate to="/" />;
   }
   return (
-    <Paper
-      elevation={4}
-      sx={{
-        p: 2,
-        width: { xs: "80vw", md: 765 },
-        maxWidth: "100vw",
-        mx: "auto",
-        mt: 4,
-        boxSizing: "border-box",
-      }}
-    >
+    <Paper elevation={4} sx={{ p: 4, maxWidth: 800, mx: "auto", mt: 4 }}>
       <Typography variant="h4" gutterBottom>
         {budgetName}
       </Typography>
@@ -161,54 +147,10 @@ const Budget = () => {
 
       <Box sx={{ mb: 2 }}>
         {expenses.map((exp, idx) => (
-          <Box
-            sx={{
-              mb: 2,
-              display: "flex",
-              width: "100%",
-              minWidth: 0,
-              boxSizing: "border-box",
-            }}
-          >
-            <Typography
-              key={idx}
-              sx={{
-                flexBasis: { xs: "30%", sm: "20%" },
-                flexShrink: 0,
-              }}
-            >
-              {new Date(exp.date).toISOString().split("T")[0]}
-            </Typography>
-            <Typography
-              key={idx}
-              sx={{
-                flexBasis: { xs: "50%", sm: "40%" },
-                flexShrink: 0,
-              }}
-            >
-              {exp.name}
-            </Typography>
-            <Typography
-              key={idx}
-              sx={{
-                flexBasis: { xs: "20%", sm: "20%" },
-                flexShrink: 0,
-              }}
-            >
-              ${exp.amount}
-            </Typography>
-            {isMobile && (
-              <Typography
-                key={idx}
-                sx={{
-                  flexBasis: "20%",
-                  flexShrink: 0,
-                }}
-              >
-                {exp.category}
-              </Typography>
-            )}
-          </Box>
+          <Typography key={idx}>
+            {new Date(exp.date).toISOString().split("T")[0]} - {exp.name} - $
+            {exp.amount} - {exp.category}
+          </Typography>
         ))}
       </Box>
 

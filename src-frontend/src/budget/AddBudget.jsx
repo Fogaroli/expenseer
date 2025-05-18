@@ -15,7 +15,6 @@ import {
   Box,
   Stack,
   MenuItem,
-  InputAdornment,
 } from "@mui/material";
 
 /** Add Budget component
@@ -65,17 +64,7 @@ const AddBudget = () => {
     return <Navigate to="/" />;
   }
   return (
-    <Paper
-      elevation={4}
-      sx={{
-        p: 2,
-        width: { xs: "80vw", md: 765 },
-        maxWidth: "100vw",
-        mx: "auto",
-        mt: 4,
-        boxSizing: "border-box",
-      }}
-    >
+    <Paper elevation={4} sx={{ p: 4, maxWidth: 600, mx: "auto", mt: 4 }}>
       <Typography variant="h4" gutterBottom>
         Add Budget
       </Typography>
@@ -95,18 +84,11 @@ const AddBudget = () => {
           name="amount"
           id="budgetAmount"
           type="number"
-          value={budgetData.amount || ""}
+          value={budgetData.amount || 0}
           onChange={handleChange}
           fullWidth
           required
           sx={{ mb: 2 }}
-          InputProps={{
-            startAdornment: <InputAdornment position="start">$</InputAdornment>,
-          }}
-          inputProps={{
-            step: "0.01",
-            min: "0",
-          }}
         />
         <TextField
           label="Type"
@@ -136,23 +118,11 @@ const AddBudget = () => {
           minRows={2}
           sx={{ mb: 2 }}
         />
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          spacing={2}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <Button fullWidth variant="outlined" onClick={() => navigate(-1)}>
+        <Stack direction="row" spacing={2}>
+          <Button variant="outlined" onClick={() => navigate(-1)}>
             Back
           </Button>
-          <Button
-            fullWidth
-            type="submit"
-            variant="contained"
-            disabled={loading}
-          >
+          <Button type="submit" variant="contained" disabled={loading}>
             Add Budget
           </Button>
         </Stack>

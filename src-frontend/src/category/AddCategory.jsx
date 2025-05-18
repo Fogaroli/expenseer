@@ -50,17 +50,7 @@ const AddCategory = () => {
     return <Navigate to="/" />;
   }
   return (
-    <Paper
-      elevation={4}
-      sx={{
-        p: 4,
-        width: { xs: "80vw", md: 765 },
-        maxWidth: "100vw",
-        mx: "auto",
-        mt: 4,
-        boxSizing: "border-box",
-      }}
-    >
+    <Paper elevation={4} sx={{ p: 4, maxWidth: 600, mx: "auto", mt: 4 }}>
       <Typography variant="h4" gutterBottom>
         Add Category
       </Typography>

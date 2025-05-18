@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link, Navigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   login,
@@ -22,13 +22,6 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Clear error message when unmounting the component
-  useEffect(() => {
-    return () => {
-      dispatch(clearError());
-    };
-  }, [dispatch]);
-
   // Handles login button click, send credentials to redux store - auth slice
   const handleSubmit = async (evt) => {
     evt.preventDefault();
@@ -41,28 +34,18 @@ const Login = () => {
     }
   };
 
-  const loginDemonstration = async (evt) => {
-    evt.preventDefault();
-    try {
-      await dispatch(
-        login({ username: "demonstration", password: "demonstration" })
-      ).unwrap();
-      setFormData(emptyForm);
-      navigate("/");
-    } catch (err) {
-      console.error("Demonstration login failed: ", err);
-    }
-  };
+  // Clear error message when unmounting the component
+  useEffect(() => {
+    return () => {
+      dispatch(clearError());
+    };
+  }, [dispatch]);
 
   // Form update handler
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     setFormData((old) => ({ ...old, [name]: value }));
   };
-
-  if (user) {
-    return <Navigate to="/" />;
-  }
 
   return (
     <Paper
@@ -74,12 +57,12 @@ const Login = () => {
         mx: "auto",
       }}
     >
-      <Typography variant="h4" component="h1" gutterBottom>
-        Welcome back!
+      <Typography variant="h5" component="h1" gutterBottom>
+        {user ? `Welcome, ${user.first_name}!` : "Please log in."}
       </Typography>
 
       <Typography variant="body1" gutterBottom>
-        Please enter your credentials in the form below.
+        Enter your credentials in the form below
       </Typography>
 
       <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
@@ -123,21 +106,6 @@ const Login = () => {
             {error}
           </Typography>
         )}
-
-        <Typography variant="h6" sx={{ mt: 2 }}>
-          Want to take a peek into the portal features?
-          <Button
-            type="button"
-            fullWidth
-            variant="contained"
-            color="secondary"
-            sx={{ mt: 3, mb: 2 }}
-            disabled={loading}
-            onClick={loginDemonstration}
-          >
-            Login with Demonstration user
-          </Button>
-        </Typography>
 
         <Typography sx={{ mt: 2 }}>
           Don't have an account?{" "}
