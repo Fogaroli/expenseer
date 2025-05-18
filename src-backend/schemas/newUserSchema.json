@@ -31,7 +31,6 @@
     },
     "image_url": {
       "type": "string",
-      "minLength": 1,
       "format": "uri"
     },
     "is_admin": {

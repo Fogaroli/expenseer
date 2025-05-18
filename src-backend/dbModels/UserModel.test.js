@@ -34,8 +34,7 @@ describe("test function register", function () {
       first_name: "New",
       last_name: "User",
       email: "newuser@example.com",
-      image_url:
-        "https://images.freeimages.com/fic/images/icons/989/ivista_2/256/user.png",
+      image_url: "",
       last_logged: expect.any(Date),
     });
 
