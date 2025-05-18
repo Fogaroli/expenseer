@@ -26,6 +26,7 @@ const Stocks = () => {
   const {
     stocksData,
     searchResults,
+    resultsError,
     loading,
     error,
     addStock,
@@ -104,7 +105,16 @@ const Stocks = () => {
             </Paper>
           ))}
       </Box>
-      <Box component="form" onSubmit={handleSubmit} sx={{ mb: 2 }}>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          mb: 2,
+        }}
+      >
         <Stack direction="row" spacing={1} alignItems="center">
           <TextField
             label="Search Stock"
@@ -120,6 +130,11 @@ const Stocks = () => {
         </Stack>
       </Box>
       <Box>
+        {resultsError && (
+          <Typography color="error" sx={{ mb: 2 }}>
+            {resultsError}
+          </Typography>
+        )}
         {searchResults &&
           searchResults.map((result, idx) => (
             <Paper

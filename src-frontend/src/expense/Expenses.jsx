@@ -154,11 +154,12 @@ const Espenses = () => {
     <Paper
       elevation={4}
       sx={{
-        p: { xs: 2, sm: 4 },
-        maxWidth: 1100,
-        width: "100%",
+        width: { xs: "80vw", md: 765 },
+        maxWidth: "100vw",
+        minWidth: { xs: "0", sm: "400px" },
         mx: "auto",
         mt: 4,
+        p: 2,
         boxSizing: "border-box",
       }}
     >
@@ -181,7 +182,7 @@ const Espenses = () => {
             value={fieldsData.category}
             onChange={handleChange}
             sx={{
-              minWidth: { xs: 0, sm: 160 },
+              minWidth: { xs: 0, sm: 80 },
               width: { xs: "100%", sm: "auto" },
             }}
             disabled={categoryLoading}
@@ -200,7 +201,7 @@ const Espenses = () => {
             value={fieldsData.budget}
             onChange={handleChange}
             sx={{
-              minWidth: { xs: 0, sm: 160 },
+              minWidth: { xs: 0, sm: 80 },
               width: { xs: "100%", sm: "auto" },
             }}
             disabled={budgetLoading}
@@ -222,7 +223,7 @@ const Espenses = () => {
               inputLabel: { shrink: true },
             }}
             sx={{
-              minWidth: { xs: 0, sm: 140 },
+              minWidth: { xs: 0, sm: 80 },
               width: { xs: "100%", sm: "auto" },
             }}
           />
@@ -236,7 +237,7 @@ const Espenses = () => {
               inputLabel: { shrink: true },
             }}
             sx={{
-              minWidth: { xs: 0, sm: 140 },
+              minWidth: { xs: 0, sm: 80 },
               width: { xs: "100%", sm: "auto" },
             }}
           />

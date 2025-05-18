@@ -79,9 +79,11 @@ const EditUser = () => {
       elevation={3}
       sx={{
         p: 4,
-        maxWidth: 700,
+        width: { xs: "80vw", md: 765 },
+        maxWidth: "100vw",
         mt: 3,
         mx: "auto",
+        boxSizing: "border-box",
       }}
     >
       <Typography variant="h5" component="h1" gutterBottom>
@@ -91,7 +93,7 @@ const EditUser = () => {
         <Stack
           direction={{ xs: "column", sm: "row" }}
           spacing={4}
-          alignItems="flex-start"
+          alignItems="center"
         >
           <Box
             sx={{
@@ -103,7 +105,11 @@ const EditUser = () => {
           >
             <Box
               component="img"
-              src={formData.image_url || user.image_url}
+              src={
+                formData.image_url ||
+                user.image_url ||
+                "https://images.freeimages.com/fic/images/icons/989/ivista_2/256/user.png"
+              }
               alt={formData.username}
               sx={{
                 width: 120,
@@ -167,6 +173,7 @@ const EditUser = () => {
               name="image_url"
               value={formData.image_url}
               onChange={handleChange}
+              onFocus={(event) => event.target.select()}
             />
             {updateSuccess && (
               <Typography color="success" sx={{ mt: 2 }}>

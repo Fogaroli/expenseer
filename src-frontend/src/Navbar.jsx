@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import logo from "./assets/LOGO.svg";
 import { useEffect, useState } from "react";
-import { selectUser, logout, logoutAll } from "./store/authSlice";
+import { selectUser, logoutAll } from "./store/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 import AppBar from "@mui/material/AppBar";
@@ -18,7 +18,7 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 
 const pages = ["Dashboard", "Categories", "Budgets", "Expenses", "Indexes"];
-const pagesNotLogged = ["Login", "Register"];
+const pagesNotLogged = ["Login", "Sign Up"];
 const settings = ["Profile", "Logout"];
 
 /**Main navigation bar
@@ -231,7 +231,10 @@ const Navbar = () => {
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                       alt={`${user.first_name} ${user.last_name}`}
-                      src={user.image_url}
+                      src={
+                        user.image_url ||
+                        "https://images.freeimages.com/fic/images/icons/989/ivista_2/256/user.png"
+                      }
                     />
                   </IconButton>
                 </Tooltip>
