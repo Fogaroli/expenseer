@@ -18,7 +18,7 @@ const ExpenseItem = forwardRef(({ expense }, ref) => {
       elevation={2}
       sx={{
         mb: 2,
-        px: 2,
+        px: 1,
         py: 1.5,
         display: "flex",
         alignItems: "center",
@@ -76,7 +76,7 @@ const ExpenseItem = forwardRef(({ expense }, ref) => {
             mx: 1,
           }}
         >
-          € {amount}
+          ${amount}
         </Typography>
         {/* Category */}
         {!isMobile && (

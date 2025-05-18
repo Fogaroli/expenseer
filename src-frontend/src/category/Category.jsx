@@ -112,6 +112,7 @@ const Category = () => {
       <Box>
         {expenses.map((exp, idx) => (
           <Box
+            key={idx}
             sx={{
               mb: 2,
               display: "flex",
@@ -120,42 +121,34 @@ const Category = () => {
             }}
           >
             <Typography
-              key={idx}
               sx={{
                 flexBasis: { xs: "30%", sm: "20%" },
                 flexShrink: 0,
-                minWidth: 80,
               }}
             >
               {new Date(exp.date).toISOString().split("T")[0]}
             </Typography>
             <Typography
-              key={idx}
               sx={{
                 flexBasis: { xs: "50%", sm: "45%" },
                 flexShrink: 0,
-                minWidth: 80,
               }}
             >
               {exp.name}
             </Typography>
             <Typography
-              key={idx}
               sx={{
                 flexBasis: { xs: "20%", sm: "15%" },
                 flexShrink: 0,
-                minWidth: 80,
               }}
             >
               ${exp.amount}
             </Typography>
             {isMobile && (
               <Typography
-                key={idx}
                 sx={{
-                  flexBasis: { xs: "30%", sm: "20%" },
+                  flexBasis: "20%",
                   flexShrink: 0,
-                  minWidth: 80,
                 }}
               >
                 {exp.budget}

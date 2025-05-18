@@ -15,6 +15,7 @@ import {
   Box,
   Stack,
   MenuItem,
+  InputAdornment,
 } from "@mui/material";
 
 /** Add Budget component
@@ -94,11 +95,18 @@ const AddBudget = () => {
           name="amount"
           id="budgetAmount"
           type="number"
-          value={budgetData.amount || 0}
+          value={budgetData.amount || ""}
           onChange={handleChange}
           fullWidth
           required
           sx={{ mb: 2 }}
+          InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+          }}
+          inputProps={{
+            step: "0.01",
+            min: "0",
+          }}
         />
         <TextField
           label="Type"

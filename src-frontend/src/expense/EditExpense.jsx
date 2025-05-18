@@ -24,6 +24,7 @@ import {
   Box,
   Stack,
   CircularProgress,
+  InputAdornment,
 } from "@mui/material";
 
 /** Edit expense component
@@ -155,11 +156,20 @@ const EditExpense = () => {
             label="Amount"
             name="amount"
             type="number"
-            value={expense.amount || 0}
+            value={expense.amount || ""}
             onChange={handleChange}
             fullWidth
             required
             sx={{ mb: 2 }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">$</InputAdornment>
+              ),
+            }}
+            inputProps={{
+              step: "0.01",
+              min: "0",
+            }}
           />
           <TextField
             select

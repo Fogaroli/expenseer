@@ -167,14 +167,14 @@ const Budget = () => {
               display: "flex",
               width: "100%",
               minWidth: 0,
+              boxSizing: "border-box",
             }}
           >
             <Typography
               key={idx}
               sx={{
-                flexBasis: { xs: "35%", sm: "20%" },
+                flexBasis: { xs: "30%", sm: "20%" },
                 flexShrink: 0,
-                minWidth: 80,
               }}
             >
               {new Date(exp.date).toISOString().split("T")[0]}
@@ -182,9 +182,8 @@ const Budget = () => {
             <Typography
               key={idx}
               sx={{
-                flexBasis: { xs: "50%", sm: "20%" },
+                flexBasis: { xs: "50%", sm: "40%" },
                 flexShrink: 0,
-                minWidth: 80,
               }}
             >
               {exp.name}
@@ -192,20 +191,18 @@ const Budget = () => {
             <Typography
               key={idx}
               sx={{
-                flexBasis: { xs: "15%", sm: "20%" },
+                flexBasis: { xs: "20%", sm: "20%" },
                 flexShrink: 0,
-                minWidth: 80,
               }}
             >
-              {exp.amount}
+              ${exp.amount}
             </Typography>
             {isMobile && (
               <Typography
                 key={idx}
                 sx={{
-                  flexBasis: { xs: "30%", sm: "20%" },
+                  flexBasis: "20%",
                   flexShrink: 0,
-                  minWidth: 80,
                 }}
               >
                 {exp.category}

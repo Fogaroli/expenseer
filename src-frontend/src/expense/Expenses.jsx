@@ -159,7 +159,7 @@ const Espenses = () => {
         minWidth: { xs: "0", sm: "400px" },
         mx: "auto",
         mt: 4,
-        p: { xs: 2, sm: 4 },
+        p: 2,
         boxSizing: "border-box",
       }}
     >
