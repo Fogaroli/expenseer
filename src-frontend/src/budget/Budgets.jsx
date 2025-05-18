@@ -46,9 +46,9 @@ const Budgets = () => {
     <Paper
       elevation={4}
       sx={{
-        p: 2,
-        width: { xs: "80vw", sm: 480 },
-        maxWidth: "100vw",
+        p: { xs: 2, sm: 4 },
+        maxWidth: 800,
+        width: "100%",
         mx: "auto",
         mt: 4,
         boxSizing: "border-box",
@@ -80,10 +80,11 @@ const Budgets = () => {
               >
                 {budget.name}
               </Button>
+              {/* Amount: fixed width, right-aligned */}
               <Typography
                 variant="body1"
                 color="text.secondary"
-                sx={{ minWidth: 0, textAlign: "right" }}
+                sx={{ minWidth: 90, textAlign: "right" }}
               >
                 ${budget.amount}
               </Typography>

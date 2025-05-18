@@ -17,7 +17,7 @@ describe("Navbar", () => {
     renderWithProviders(<Navbar />);
     expect(screen.getByRole("button", { name: /login/i })).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /sign up/i })
+      screen.getByRole("button", { name: /register/i })
     ).toBeInTheDocument();
   });
 });

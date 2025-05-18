@@ -113,16 +113,7 @@ const Exchanges = () => {
       <Typography variant="subtitle1" gutterBottom>
         Choose an exchange
       </Typography>
-      <Box
-        component="form"
-        onSubmit={handleSubmit}
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          mb: 2,
-        }}
-      >
+      <Box component="form" onSubmit={handleSubmit} sx={{ mb: 2 }}>
         <Stack direction="row" spacing={1} alignItems="center">
           <TextField
             select
@@ -131,10 +122,7 @@ const Exchanges = () => {
             value={inputData.currency1}
             onChange={handleChange}
             size="small"
-            sx={{
-              minWidth: { xs: 0, sm: 80 },
-              width: { xs: "100%", sm: "auto" },
-            }}
+            sx={{ minWidth: 100 }}
           >
             <MenuItem value="" disabled>
               {availableCurrency && availableCurrency.length > 0
@@ -156,10 +144,7 @@ const Exchanges = () => {
             value={inputData.currency2}
             onChange={handleChange}
             size="small"
-            sx={{
-              minWidth: { xs: 0, sm: 80 },
-              width: { xs: "100%", sm: "auto" },
-            }}
+            sx={{ minWidth: 100 }}
           >
             <MenuItem value="" disabled>
               {availableCurrency && availableCurrency.length > 0

@@ -10,7 +10,6 @@ import ExpenseerAPI from "../helper/api";
 const useStocks = () => {
   const [stocksData, setStocksData] = useState(null);
   const [searchResults, setSeachResults] = useState(null);
-  const [resultsError, setResultsError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const token = useSelector(selectToken);
@@ -79,9 +78,6 @@ const useStocks = () => {
       if (!response) {
         throw new Error("Error during search");
       }
-      if (response.length === 0) {
-        setResultsError("No results matching your search");
-      }
       setSeachResults(response);
     } catch (err) {
       setError(err.message);
@@ -103,7 +99,6 @@ const useStocks = () => {
   return {
     stocksData,
     searchResults,
-    resultsError,
     loading,
     error,
     addStock,

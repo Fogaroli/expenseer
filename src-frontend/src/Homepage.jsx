@@ -32,32 +32,19 @@ const Homepage = () => {
           maxWidth: 480,
           width: "100%",
           mx: "auto",
+          textAlign: "center",
         }}
       >
-        <Typography
-          variant="h3"
-          component="h1"
-          sx={{
-            textAlign: "center",
-          }}
-          gutterBottom
-        >
+        <Typography variant="h3" component="h1" gutterBottom>
           Welcome to Expenseer
         </Typography>
         <Typography variant="h6" color="text.secondary" gutterBottom>
-          Take control of your finances.
+          Take control of your finances with ease.
         </Typography>
-        <Typography variant="body1" sx={{ mb: 3, textAlign: "left" }}>
-          Expenseer was designed to help you track your spending, manage
-          budgets, and reach your financial goals. <br />
-          <br /> Use to tool to create financial budgets and set expense
-          targets. Keep it handy and record every step, save every expense
-          detail to the tool, assigning a budget and a expense category.
-        </Typography>
-        <Typography variant="body1" sx={{ mb: 3, textAlign: "left" }}>
-          Use the Dashboards and the expense detailed information to access
-          current status and a history of the budget performance in previous
-          months.
+        <Typography variant="body1" sx={{ mb: 3 }}>
+          Expenseer helps you track your spending, manage budgets, and reach
+          your financial goals. Sign up to get started or log in if you already
+          have an account.
         </Typography>
         <Stack direction="row" spacing={2} justifyContent="center">
           <Button

@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Navigate, Link } from "react-router-dom";
 import {
-  login,
   register,
   clearError,
   selectUserError,
@@ -54,19 +53,6 @@ const Register = () => {
     setFormData((old) => ({ ...old, [name]: value }));
   };
 
-  const loginDemonstration = async (evt) => {
-    evt.preventDefault();
-    try {
-      await dispatch(
-        login({ username: "demonstration", password: "demonstration" })
-      ).unwrap();
-      setFormData(cleanForm);
-      navigate("/");
-    } catch (err) {
-      console.error("Demonstration login failed: ", err);
-    }
-  };
-
   if (user) {
     return <Navigate to="/" />;
   }
@@ -81,11 +67,8 @@ const Register = () => {
         mx: "auto",
       }}
     >
-      <Typography variant="h4" component="h1" gutterBottom>
-        New to Expenseer?
-      </Typography>
-      <Typography variant="h6" component="h1" gutterBottom>
-        Create your account today and take controls of your finances.
+      <Typography variant="h5" component="h1" gutterBottom>
+        Create your account
       </Typography>
 
       <Typography variant="body1" gutterBottom>
@@ -166,21 +149,6 @@ const Register = () => {
             {error}
           </Typography>
         )}
-
-        <Typography variant="h6" sx={{ mt: 2 }}>
-          Want to take a peek into the portal features?
-          <Button
-            type="button"
-            fullWidth
-            variant="contained"
-            color="secondary"
-            sx={{ mt: 3, mb: 2 }}
-            disabled={loading}
-            onClick={loginDemonstration}
-          >
-            Login with Demonstration user
-          </Button>
-        </Typography>
 
         <Typography sx={{ mt: 2 }}>
           Already have an account?{" "}
