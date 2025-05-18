@@ -17,10 +17,10 @@ For those interested in monitoring what is going on int eh financial market, che
 The applications allows logging in as a demonstration user to have access to pre-loaded data.
 
 Get access to the tool by navigating to:
-https://expenseer.fogaroli.freeddns.org
+[https://expenseer.fogaroli.freeddns.org](https://expenseer.fogaroli.freeddns.org)
 
 A development server is also available for features that are under test (from the development branch) at:
-https://dev.expenseer.fogaroli.freeddns.org
+[https://dev.expenseer.fogaroli.freeddns.org](https://dev.expenseer.fogaroli.freeddns.org)
 
 ## Additional information
 
