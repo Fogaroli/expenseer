@@ -19,8 +19,14 @@ The applications allows logging in as a demonstration user to have access to pre
 Get access to the tool by navigating to:
 [https://expenseer.fogaroli.freeddns.org](https://expenseer.fogaroli.freeddns.org)
 
+Direct access to the API is also possible using the address below. Feel free to use the Postman Collection file from the src-backend folder for easy access to the API routes.
+https://expenseer.fogaroli.freeddns.org/api
+
 A development server is also available for features that are under test (from the development branch) at:
 [https://dev.expenseer.fogaroli.freeddns.org](https://dev.expenseer.fogaroli.freeddns.org)
+
+Dev API can be found here
+https://dev.expenseer.fogaroli.freeddns.org/api
 
 ## Additional information
 
