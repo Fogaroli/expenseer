@@ -26,7 +26,7 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body.data, stockSchema);
     if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
+      const errs = validator.errors.map((e) => e.message);
       throw new ExpressError(errs, 400);
     }
     const addedStock = await Stock.addToUser(
@@ -61,7 +61,7 @@ router.get("/", ensureLoggedIn, async function (req, res, next) {
       console.log("inside validator");
       const validator = jsonschema.validate(req.query, stockSchema);
       if (!validator.valid) {
-        const errs = validator.errors.map((e) => e.stack);
+        const errs = validator.errors.map((e) => e.message);
         throw new ExpressError(errs, 400);
       }
       const stock = await Stock.get(givenData.symbol);
@@ -87,7 +87,7 @@ router.delete("/", ensureLoggedIn, async function (req, res, next) {
     if (Object.keys(givenData).length > 0) {
       const validator = jsonschema.validate(req.body.data, stockSchema);
       if (!validator.valid) {
-        const errs = validator.errors.map((e) => e.stack);
+        const errs = validator.errors.map((e) => e.message);
         throw new ExpressError(errs, 400);
       }
       const deletedData = await Stock.delete(
@@ -115,7 +115,7 @@ router.get("/search", ensureLoggedIn, async function (req, res, next) {
     if (givenParams) {
       const validator = jsonschema.validate(req.query, stockSearchSchema);
       if (!validator.valid) {
-        const errs = validator.errors.map((e) => e.stack);
+        const errs = validator.errors.map((e) => e.message);
         throw new ExpressError(errs, 400);
       }
       const stocks = await Stock.search(givenParams.term);

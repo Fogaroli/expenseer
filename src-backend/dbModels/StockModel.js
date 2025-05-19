@@ -166,10 +166,6 @@ class Stock {
             WHERE us.username = $1 AND s.symbol = $2`,
       [username, symbol]
     );
-    console.assert(
-      !duplicateCheck.rows[0],
-      "Stock already assigned to this user"
-    );
     if (duplicateCheck.rows[0]) {
       throw new ExpressError(`User already have this stock assigned`, 400);
     }

@@ -18,7 +18,6 @@ class Expense {
               WHERE username = $1 AND name = $2`,
         [username, expenseData.category]
       );
-      console.assert(category.rows[0], "Category not found to create expense");
 
       if (!category.rows[0]) {
         throw new ExpressError(`Category not found to create expense`, 400);
@@ -33,7 +32,6 @@ class Expense {
               WHERE username = $1 AND name = $2`,
         [username, expenseData.budget]
       );
-      console.assert(budget.rows[0], "Budget not found to create expense");
 
       if (!budget.rows[0]) {
         throw new ExpressError(`Budget not found to create expense`, 400);
@@ -195,7 +193,6 @@ class Expense {
             WHERE username = $1 AND name = $2`,
         [username, data.category]
       );
-      console.assert(category.rows[0], "Category not found to update expense");
 
       if (!category.rows[0]) {
         throw new ExpressError(`Category not found to update expense`, 400);
@@ -212,7 +209,6 @@ class Expense {
                 WHERE username = $1 AND name = $2`,
         [username, data.budget]
       );
-      console.assert(budget.rows[0], "Budget not found to update expense");
 
       if (!budget.rows[0]) {
         throw new ExpressError(`Budget not found to update expense`, 400);

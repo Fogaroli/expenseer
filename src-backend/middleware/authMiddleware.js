@@ -3,6 +3,7 @@
 const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("../config");
 const ExpressError = require("../helpers/expressError");
+const rateLimit = require("express-rate-limit");
 
 /** Middleware: Authenticate user.
  *
@@ -74,9 +75,28 @@ function ensureIsAuthorized(req, res, next) {
   }
 }
 
+/**
+ * Middleware to limit access of requests coming from the same IP.
+ *
+ * IF more than 5 requests are sent within a timeinterval of 10 minutes, the request will
+ * be blocked until the next window is available.
+ *
+ */
+const loginLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 5,
+  message: new ExpressError(
+    "Too many login attempts from this IP, please try again after 10 minutes",
+    429
+  ),
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+});
+
 module.exports = {
   authenticateJWT,
   ensureLoggedIn,
   ensureIsAdmin,
   ensureIsAuthorized,
+  loginLimiter,
 };

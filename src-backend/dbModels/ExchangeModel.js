@@ -162,10 +162,7 @@ class Exchange {
             WHERE ue.username = $1 AND e.currency1 = $2 AND e.currency2 = $3`,
       [username, currency1, currency2]
     );
-    console.assert(
-      !duplicateCheck.rows[0],
-      "Currency pair already assigned to this user"
-    );
+
     if (duplicateCheck.rows[0]) {
       throw new ExpressError(
         `User already have this currency pair assigned`,
