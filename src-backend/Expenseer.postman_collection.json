@@ -16,7 +16,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"username\" : \"admin2\",\r\n    \"password\" : \"admin\",\r\n    \"first_name\" : \"Administrator\",\r\n    \"last_name\" : \"Expenseer\",\r\n    \"email\" : \"fogaroli@gmail.com\"\r\n}",
+              "raw": "{\r\n    \"username\" : \"demonstration\",\r\n    \"password\" : \"d\",\r\n    \"first_name\" : \"Demo\",\r\n    \"last_name\" : \"Demo\",\r\n    \"email\" : \"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -38,7 +38,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"username\" : \"fogaroli2\",\r\n    \"password\" : \"fogaroli\"\r\n}",
+              "raw": "{\r\n    \"username\" : \"demonstration\",\r\n    \"password\" : \"d\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -136,9 +136,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/users/fogaroli",
+              "raw": "{{base_url}}/users/demonstration",
               "host": ["{{base_url}}"],
-              "path": ["users", "fogaroli"]
+              "path": ["users", "demonstration"]
             }
           },
           "response": []
@@ -420,7 +420,7 @@
             "method": "GET",
             "header": [
               {
-                "key": "Authorization",
+                "key": "authorization",
                 "value": "{{token}}",
                 "type": "text"
               }
@@ -973,13 +973,13 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/stocks?symbol=AMZ.FRK",
+              "raw": "{{base_url}}/stocks?symbol=AAPL",
               "host": ["{{base_url}}"],
               "path": ["stocks"],
               "query": [
                 {
                   "key": "symbol",
-                  "value": "AMZ.FRK"
+                  "value": "AAPL"
                 }
               ]
             }
@@ -1010,13 +1010,13 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/stocks/search?term=se",
+              "raw": "{{base_url}}/stocks/search?term=bla",
               "host": ["{{base_url}}"],
               "path": ["stocks", "search"],
               "query": [
                 {
                   "key": "term",
-                  "value": "se"
+                  "value": "bla"
                 }
               ]
             }
@@ -1108,13 +1108,13 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/dashboards/category?category=Food",
+              "raw": "{{base_url}}/dashboards/category?category=Venue%20booking",
               "host": ["{{base_url}}"],
               "path": ["dashboards", "category"],
               "query": [
                 {
                   "key": "category",
-                  "value": "Food"
+                  "value": "Venue%20booking"
                 }
               ]
             }
@@ -1145,13 +1145,13 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/dashboards/budget?budget=Sample%20Budget",
+              "raw": "{{base_url}}/dashboards/budget?budget=Vacation",
               "host": ["{{base_url}}"],
               "path": ["dashboards", "budget"],
               "query": [
                 {
                   "key": "budget",
-                  "value": "Sample%20Budget"
+                  "value": "Vacation"
                 }
               ]
             }
@@ -1159,7 +1159,7 @@
           "response": []
         },
         {
-          "name": "Monthly Budget Dashboard",
+          "name": "Dashboard Summary Categories",
           "protocolProfileBehavior": {
             "disableBodyPruning": true
           },
@@ -1182,15 +1182,15 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/dashboards/monthly",
+              "raw": "{{base_url}}/dashboards/categories",
               "host": ["{{base_url}}"],
-              "path": ["dashboards", "monthly"]
+              "path": ["dashboards", "categories"]
             }
           },
           "response": []
         },
         {
-          "name": "Yearly Budget Dashboard",
+          "name": "Dashboard Summary Budgets",
           "protocolProfileBehavior": {
             "disableBodyPruning": true
           },
@@ -1213,133 +1213,9 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/dashboards/yearly",
+              "raw": "{{base_url}}/dashboards/budgets",
               "host": ["{{base_url}}"],
-              "path": ["dashboards", "yearly"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Event Budget Dashboard",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "{{token}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{base_url}}/dashboards/event",
-              "host": ["{{base_url}}"],
-              "path": ["dashboards", "event"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Savings Budget Dashboard",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "{{token}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{base_url}}/dashboards/savings",
-              "host": ["{{base_url}}"],
-              "path": ["dashboards", "savings"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Expenses by category Dashboard",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "{{token}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{base_url}}/dashboards/expenses/category",
-              "host": ["{{base_url}}"],
-              "path": ["dashboards", "expenses", "category"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Expenses by budget Dashboard",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "{{token}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{base_url}}/dashboards/expenses/budget",
-              "host": ["{{base_url}}"],
-              "path": ["dashboards", "expenses", "budget"]
+              "path": ["dashboards", "budgets"]
             }
           },
           "response": []
@@ -1368,12 +1244,12 @@
   "variable": [
     {
       "key": "base_url",
-      "value": "http://localhost:3000",
+      "value": "localhost:3000",
       "type": "string"
     },
     {
       "key": "token",
-      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvZ2Fyb2xpIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE3NDY3MTYyMjl9.OpsSWeHI7Yz3BI_tX0Cp2f0vD33-ljC2vOJGW9jmrdw",
+      "value": "",
       "type": "string"
     }
   ]

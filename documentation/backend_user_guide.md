@@ -857,7 +857,10 @@ Routes that require JWT authetication, the token should be added to the request 
 
 ### 2. GET /dashboard/budget
 
-- **Description:** Retrieves dashboard data for a specific budget, including current month and last 6 months history, with budget amount and percent used.
+- **Description:** Retrieves dashboard data for a specific budget, including current month and history, with budget amount and percent used.
+  History will depend on the type of budget being read. Monthly budget will show the last 6 months history,
+  yearly budget will show all current year's history per month.
+  Event driven and savings budget will show all expenses/deposits made to the budget, on a monthly basis.
 - **Input:**
   Use query parameters
   `/dashboards/budget?budget=<budget name>`
@@ -868,11 +871,12 @@ Routes that require JWT authetication, the token should be added to the request 
   {
     "dashboard": {
       "budget": "Budget Name",
+      "type": "Budget type [1-4]",
+      "amount": "Budget amount",
       "current_month": [
         {
           "month": "Apr 2025",
           "total_amount": 100,
-          "budget_amount": 200,
           "percent_used": 50
         }
       ],
@@ -880,16 +884,14 @@ Routes that require JWT authetication, the token should be added to the request 
         {
           "month": "Apr 2025",
           "total_amount": 100,
-          "budget_amount": 200,
           "percent_used": 50
         },
         {
           "month": "Mar 2025",
           "total_amount": 80,
-          "budget_amount": 200,
           "percent_used": 40
         }
-        // ... up to 6 months
+        // ...history
       ]
     }
   }
@@ -899,122 +901,16 @@ Routes that require JWT authetication, the token should be added to the request 
 
 ---
 
-### 3. GET /dashboard/monthly
+### 3. GET /dashboard/categories
 
-- **Description:** Retrieves dashboard data for all monthly budgets in the current month.
+- **Description:** Retrieves summary dashboard for all categories in the current month.
 - **Input:**
 - **Output:**
 
   ```json
   {
     "dashboard": {
-      "monthly_budget": [
-        {
-          "name": "Budget Name 1",
-          "total_amount": 100,
-          "budget_amount": 200,
-          "percent_used": 50
-        },
-        {
-          "name": "Budget Name 2",
-          "total_amount": 150,
-          "budget_amount": 300,
-          "percent_used": 50
-        }
-      ]
-    }
-  }
-  ```
-
-- **Authentication:** JWT Token required
-
----
-
-### 4. GET /dashboard/yearly
-
-- **Description:** Retrieves dashboard data for all yearly budgets in the current month.
-- **Input:**
-- **Output:**
-
-  ```json
-  {
-    "dashboard": {
-      "yearly_budget": [
-        {
-          "name": "Yearly Budget 1",
-          "total_amount": 500,
-          "budget_amount": 1200,
-          "percent_used": 41.67
-        }
-      ]
-    }
-  }
-  ```
-
-- **Authentication:** JWT Token required
-
----
-
-### 5. GET /dashboard/event
-
-- **Description:** Retrieves dashboard data for all event budgets in the current month.
-- **Input:**
-- **Output:**
-
-  ```json
-  {
-    "dashboard": {
-      "event_budget": [
-        {
-          "name": "Event Budget 1",
-          "total_amount": 300,
-          "budget_amount": 500,
-          "percent_used": 60
-        }
-      ]
-    }
-  }
-  ```
-
-- **Authentication:** JWT Token required
-
----
-
-### 6. GET /dashboard/savings
-
-- **Description:** Retrieves dashboard data for all savings budgets in the current month.
-- **Input:**
-- **Output:**
-
-  ```json
-  {
-    "dashboard": {
-      "saving_budget": [
-        {
-          "name": "Savings 1",
-          "total_amount": 200,
-          "budget_amount": 1000,
-          "percent_used": 20
-        }
-      ]
-    }
-  }
-  ```
-
-- **Authentication:** JWT Token required
-
----
-
-### 7. GET /dashboard/expenses/category
-
-- **Description:** Retrieves total expenses for each category in the current month.
-- **Input:**
-- **Output:**
-
-  ```json
-  {
-    "dashboard": {
-      "expenses": [
+      "categories": [
         {
           "category": "Food",
           "total_amount": 120
@@ -1032,16 +928,18 @@ Routes that require JWT authetication, the token should be added to the request 
 
 ---
 
-### 8. GET /dashboard/expenses/budget
+### 4. GET /dashboard/budgets
 
-- **Description:** Retrieves total expenses for each budget in the current month, including budget amount and percent used.
+- **Description:** Retrieves summary dashboard for all budget in the current month, including budget amount and percent used.
+  Total amount will depend on the type of budget. Monthly budgets show total amount for current month, yearly budgets
+  show total for the current year. Event driven and SAvings show the total historical amount.
 - **Input:**
 - **Output:**
 
   ```json
   {
     "dashboard": {
-      "expenses": [
+      "budgets": [
         {
           "budget": "Budget Name 1",
           "type": 1,

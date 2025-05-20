@@ -23,17 +23,16 @@ class Dashboard {
     }
     let query = `
     SELECT 
-      TO_CHAR(DATE_TRUNC('month', e.date), 'Mon YYYY') AS month,
-      DATE_TRUNC('month', e.date) AS month_start,
+      TO_CHAR(DATE_TRUNC('month', CURRENT_DATE), 'Mon YYYY') AS month,
       SUM(e.amount) AS total_amount
-      FROM expenses e
-      LEFT JOIN categories c ON c.id = e.category_id
-      WHERE e.username = $1
-      AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
+    FROM expenses e
+    LEFT JOIN categories c ON c.id = e.category_id
+    WHERE e.username = $1
+      AND e.date >= DATE_TRUNC('month', CURRENT_DATE) -- Start of the current month
+      AND e.date <= CURRENT_DATE -- Up to the current date
       AND c.name = $2
-      GROUP BY month, month_start
-      ORDER BY month_start DESC
-    `;
+    GROUP BY month
+  `;
 
     const params = [username, category];
 
@@ -80,7 +79,9 @@ class Dashboard {
       LEFT JOIN categories c ON c.id = e.category_id
       WHERE e.username = $1
       AND e.date >= (DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '5 months')
-      AND c.name = $2  GROUP BY month, month_start
+      AND e.date <= CURRENT_DATE
+      AND c.name = $2
+      GROUP BY month, month_start
       ORDER BY month_start DESC
       LIMIT 6
     `;
@@ -106,40 +107,47 @@ class Dashboard {
    */
   static async getByBudget(username, budget) {
     let budgetAmount = null;
+    let budgetType = null;
     try {
       const budgetRes = await db.query(
-        `SELECT amount FROM budgets WHERE name = $1 AND username = $2`,
+        `SELECT amount, type FROM budgets WHERE name = $1 AND username = $2`,
         [budget, username]
       );
       if (!budgetRes.rows[0]) {
         throw new ExpressError("Budget not found", 404);
       }
       budgetAmount = +budgetRes.rows[0].amount;
+      budgetType = +budgetRes.rows[0].type;
     } catch (err) {
       console.error("Error reading budget", err);
       throw new ExpressError("No such budget", 500);
     }
+
+    let dateFilter = "";
+    if (budgetType === 1) {
+      dateFilter = "AND e.date >= DATE_TRUNC('month', CURRENT_DATE)";
+    } else if (budgetType === 2) {
+      dateFilter = "AND e.date >= DATE_TRUNC('year', CURRENT_DATE)";
+    } else if (budgetType === 3 || budgetType === 4) {
+      dateFilter = "";
+    }
     let query = `
     SELECT 
-      TO_CHAR(DATE_TRUNC('month', e.date), 'Mon YYYY') AS month,
-      DATE_TRUNC('month', e.date) AS month_start,
+      TO_CHAR(DATE_TRUNC('month', CURRENT_DATE), 'Mon YYYY') AS current_month,
       SUM(e.amount) AS total_amount
-      FROM expenses e
-      LEFT JOIN budgets b ON b.id = e.budget_id
-      WHERE e.username = $1
-      AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
-      AND b.name = $2
-      GROUP BY month, month_start
-      ORDER BY month_start DESC
-    `;
+    FROM expenses e
+    LEFT JOIN budgets b ON b.id = e.budget_id
+    WHERE e.username = $1
+    ${dateFilter}
+    AND b.name = $2
+  `;
 
     const params = [username, budget];
     try {
       const result = await db.query(query, params);
       const monthData = result.rows.map((row) => ({
-        month: row.month,
+        month: row.current_month,
         total_amount: +row.total_amount,
-        budget_amount: budgetAmount,
         percent_used:
           budgetAmount > 0
             ? Number(((row.total_amount / budgetAmount) * 100).toFixed(2))
@@ -159,18 +167,41 @@ class Dashboard {
    */
   static async getHistoryByBudget(username, budget) {
     let budgetAmount = null;
+    let budgetType = null;
+
     try {
       const budgetRes = await db.query(
-        `SELECT amount FROM budgets WHERE name = $1 AND username = $2`,
+        `SELECT amount, type FROM budgets WHERE name = $1 AND username = $2`,
         [budget, username]
       );
       if (!budgetRes.rows[0]) {
         throw new ExpressError("Budget not found", 404);
       }
       budgetAmount = +budgetRes.rows[0].amount;
+      budgetType = +budgetRes.rows[0].type;
     } catch (err) {
       console.error("Error reading budget", err);
       throw new ExpressError("No such budget", 500);
+    }
+
+    let dateFilter = "";
+    let limitClause = "";
+
+    if (budgetType === 1) {
+      dateFilter = `
+        AND e.date >= (DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '5 months')
+        AND e.date <= CURRENT_DATE
+      `;
+      limitClause = "LIMIT 6";
+    } else if (budgetType === 2) {
+      // All months for the current year up to the current month
+      dateFilter = `
+        AND e.date >= DATE_TRUNC('year', CURRENT_DATE)
+        AND e.date <= CURRENT_DATE
+      `;
+    } else if (budgetType === 3 || budgetType === 4) {
+      // All months with reported expenses
+      dateFilter = "AND e.date <= CURRENT_DATE";
     }
 
     let query = `
@@ -178,15 +209,15 @@ class Dashboard {
       TO_CHAR(DATE_TRUNC('month', e.date), 'Mon YYYY') AS month,
       DATE_TRUNC('month', e.date) AS month_start,
       SUM(e.amount) AS total_amount
-      FROM expenses e
-      LEFT JOIN budgets b ON b.id = e.budget_id
-      WHERE e.username = $1
-      AND e.date >= (DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '5 months')
-      AND b.name = $2 
-      GROUP BY month, month_start
-      ORDER BY month_start DESC
-      LIMIT 6
-    `;
+    FROM expenses e
+    LEFT JOIN budgets b ON b.id = e.budget_id
+    WHERE e.username = $1
+      ${dateFilter}
+      AND b.name = $2
+    GROUP BY month, month_start
+    ORDER BY month_start DESC
+    ${limitClause}
+  `;
     const params = [username, budget];
 
     try {
@@ -196,7 +227,6 @@ class Dashboard {
       return result.rows.map((row) => ({
         month: row.month,
         total_amount: +row.total_amount,
-        budget_amount: budgetAmount,
         percent_used:
           budgetAmount > 0
             ? Number(((row.total_amount / budgetAmount) * 100).toFixed(2))
@@ -208,162 +238,6 @@ class Dashboard {
     }
   }
 
-  /** Get all Monthly budgets for a user
-   *
-   * This function retrieves all budgets of the type month (type 1) for a specific user.
-   *
-   * Returns an array of budget objects, total expenses int eh current month and percentage.
-   */
-  static async getMonthlyBudgets(username) {
-    let query = `
-    SELECT 
-      b.name,
-      b.amount,
-      SUM(e.amount) AS total_amount
-      FROM budgets b
-      LEFT JOIN expenses e ON e.budget_id = b.id
-      WHERE b.username = $1
-      AND b.type = 1
-      AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
-      GROUP BY b.name, b.amount
-      ORDER BY b.name
-    `;
-    const params = [username];
-
-    try {
-      const result = await db.query(query, params);
-      return result.rows.map((row) => ({
-        name: row.name,
-        total_amount: +row.total_amount,
-        budget_amount: +row.amount,
-        percent_used:
-          row.amount > 0
-            ? Number(((row.total_amount / row.amount) * 100).toFixed(2))
-            : null,
-      }));
-    } catch (err) {
-      console.error("Error fetching monthly budgets:", err);
-      throw new ExpressError("Error fetching monthly budgets", 500);
-    }
-  }
-
-  /** Get all Yearly budgets for a user
-   *
-   * This function retrieves all budgets of the type year (type 2) for a specific user.
-   *
-   * Returns an array of budget objects, total expenses in the current month and percentage.
-   */
-  static async getYearlyBudgets(username) {
-    let query = `
-    SELECT 
-      b.name,
-      b.amount,
-      SUM(e.amount) AS total_amount
-      FROM budgets b
-      LEFT JOIN expenses e ON e.budget_id = b.id
-      WHERE b.username = $1
-      AND b.type = 2
-      AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
-      GROUP BY b.name, b.amount
-      ORDER BY b.name
-    `;
-    const params = [username];
-
-    try {
-      const result = await db.query(query, params);
-      return result.rows.map((row) => ({
-        name: row.name,
-        total_amount: +row.total_amount,
-        budget_amount: +row.amount,
-        percent_used:
-          row.amount > 0
-            ? Number(((row.total_amount / row.amount) * 100).toFixed(2))
-            : null,
-      }));
-    } catch (err) {
-      console.error("Error fetching yearly budgets:", err);
-      throw new ExpressError("Error fetching yearly budgets", 500);
-    }
-  }
-
-  /** Get all individual event budgets for a user
-   *
-   * This function retrieves all budgets of the type event (type 3) for a specific user.
-   *
-   * Returns an array of budget objects, total expenses in the current month and percentage.
-   */
-  static async getEventBudgets(username) {
-    let query = `
-    SELECT 
-      b.name,
-      b.amount,
-      SUM(e.amount) AS total_amount
-      FROM budgets b
-      LEFT JOIN expenses e ON e.budget_id = b.id
-      WHERE b.username = $1
-      AND b.type = 3
-      AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
-      GROUP BY b.name, b.amount
-      ORDER BY b.name
-    `;
-    const params = [username];
-
-    try {
-      const result = await db.query(query, params);
-      return result.rows.map((row) => ({
-        name: row.name,
-        total_amount: +row.total_amount,
-        budget_amount: +row.amount,
-        percent_used:
-          row.amount > 0
-            ? Number(((row.total_amount / row.amount) * 100).toFixed(2))
-            : null,
-      }));
-    } catch (err) {
-      console.error("Error fetching event budgets:", err);
-      throw new ExpressError("Error fetching event budgets", 500);
-    }
-  }
-
-  /** Get all savings budgets for a user
-   *
-   * This function retrieves all budgets of the type savings (type 4) for a specific user.
-   *
-   * Returns an array of budget objects, total expenses in the current month and percentage.
-   */
-  static async getSavingsBudgets(username) {
-    let query = `
-    SELECT 
-      b.name,
-      b.amount,
-      SUM(e.amount) AS total_amount
-      FROM budgets b
-      LEFT JOIN expenses e ON e.budget_id = b.id
-      WHERE b.username = $1
-      AND b.type = 4
-      AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
-      GROUP BY b.name, b.amount
-      ORDER BY b.name
-    `;
-    const params = [username];
-
-    try {
-      const result = await db.query(query, params);
-      return result.rows.map((row) => ({
-        name: row.name,
-        total_amount: +row.total_amount,
-        budget_amount: +row.amount,
-        percent_used:
-          row.amount > 0
-            ? Number(((row.total_amount / row.amount) * 100).toFixed(2))
-            : null,
-      }));
-    } catch (err) {
-      console.error("Error fetching event budgets:", err);
-      throw new ExpressError("Error fetching event budgets", 500);
-    }
-  }
-
   /**
    * Get total os expenses for each category in the current month
    *
@@ -371,7 +245,7 @@ class Dashboard {
    *
    * Returns an array of objects, each containing the category name and the total amount spent in that category.
    */
-  static async getCurrentMonthExpensesByCategory(username) {
+  static async getCategoriesDashboard(username) {
     let query = `
     SELECT 
       c.name AS category,
@@ -381,6 +255,7 @@ class Dashboard {
       ON c.id = e.category_id
       AND e.username = $1
       AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
+      AND e.date <= CURRENT_DATE
     WHERE c.username = $1
     GROUP BY c.name
     ORDER BY c.name
@@ -409,20 +284,42 @@ class Dashboard {
    *
    * Returns an array of objects, each containing the budget name and the total amount spent in that budget.
    */
-  static async getCurrentMonthExpensesByBudget(username) {
+  static async getBudgetsDashboard(username) {
     let query = `
     SELECT 
-      b.name AS budget, b.type, b.amount,
-      COALESCE(SUM(e.amount), 0) AS total_amount
+      b.name AS budget, 
+      b.type, 
+      b.amount,
+      CASE 
+        WHEN b.type = 1 THEN (
+          SELECT COALESCE(SUM(e.amount), 0)
+          FROM expenses e
+          WHERE e.budget_id = b.id
+          AND e.username = $1
+          AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
+          AND e.date <= CURRENT_DATE
+        )
+        WHEN b.type = 2 THEN (
+          SELECT COALESCE(SUM(e.amount), 0)
+          FROM expenses e
+          WHERE e.budget_id = b.id
+          AND e.username = $1
+          AND e.date >= DATE_TRUNC('year', CURRENT_DATE)
+          AND e.date <= CURRENT_DATE
+        )
+        WHEN b.type IN (3, 4) THEN (
+          SELECT COALESCE(SUM(e.amount), 0)
+          FROM expenses e
+          WHERE e.budget_id = b.id
+          AND e.username = $1
+          AND e.date <= CURRENT_DATE
+        )
+        ELSE 0
+      END AS total_amount
     FROM budgets b
-    LEFT JOIN expenses e
-      ON b.id = e.category_id
-      AND e.username = $1
-      AND e.date >= DATE_TRUNC('month', CURRENT_DATE)
     WHERE b.username = $1
-    GROUP BY b.name, b.type, b.amount
     ORDER BY b.name
-    `;
+  `;
     const params = [username];
 
     try {
