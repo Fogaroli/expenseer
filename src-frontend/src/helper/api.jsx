@@ -176,11 +176,11 @@ class ExpenseerAPI {
   /**Get Expense dashboards
    * Dashboard can be by budget or by category
    */
-  static async getExpenseDashboard(type) {
-    if (type !== "category" && type !== "budget") {
+  static async getSummaryDashboard(type) {
+    if (type !== "categories" && type !== "budgets") {
       throw new Error("Incorrect dashboard type");
     }
-    let res = await this.request(`dashboards/expenses/${type}`, {}, {}, "GET");
+    let res = await this.request(`dashboards/${type}`, {}, {}, "GET");
     return res.dashboard[type];
   }
 

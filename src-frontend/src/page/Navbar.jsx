@@ -17,7 +17,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 
-const pages = ["Dashboard", "Categories", "Budgets", "Expenses", "Indexes"];
+const pages = ["Dashboards", "Categories", "Budgets", "Expenses", "Indexes"];
 const pagesNotLogged = ["Login", "Sign Up"];
 const settings = ["Profile", "Logout"];
 

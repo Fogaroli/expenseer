@@ -3,6 +3,9 @@ import { useSelector } from "react-redux";
 import { selectToken } from "../../store/authSlice";
 import useDashboard from "../../customHook/useDashboard";
 import {
+  ComposedChart,
+  Line,
+  Legend,
   BarChart,
   Bar,
   XAxis,
@@ -10,6 +13,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   CartesianGrid,
+  ReferenceLine,
 } from "recharts";
 import {
   Paper,
@@ -32,9 +36,10 @@ import { useTheme } from "@mui/material/styles";
 const Budget = () => {
   const { budgetName } = useParams();
   const token = useSelector(selectToken);
-  const { currentMonth, history, expenses, isLoading, error } = useDashboard({
-    budget: budgetName,
-  });
+  const { targetData, currentMonth, history, expenses, isLoading, error } =
+    useDashboard({
+      budget: budgetName,
+    });
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.up("sm"));
@@ -59,19 +64,35 @@ const Budget = () => {
     });
   };
 
-  // Process the historical data to split among what is withing the budget and what is outside the budget.
-  // Note the usage of the current active budget as there is no budget threshold history
-  const processedHistory = history
-    ? history.map((item) => {
-        const budget = Number(item.budget_amount) || 0;
-        const total = Number(item.total_amount) || 0;
-        return {
-          ...item,
-          withinBudget: Math.min(total, budget),
-          overBudget: total > budget ? total - budget : 0,
-        };
-      })
-    : [];
+  // Process the historical data to split among what is within the budget and what is outside the budget.
+  // Note the usage of the current active budget amount as there is no budget threshold history
+  const processedHistory =
+    targetData?.type === 1 && history
+      ? history.map((item) => {
+          const budget = Number(targetData.amount) || 0;
+          const total = Number(item.total_amount) || 0;
+          return {
+            ...item,
+            withinBudget: Math.min(total, budget),
+            overBudget: total > budget ? total - budget : 0,
+          };
+        })
+      : [];
+
+  // Accumulate data for Yearly, Event, and Savings budgets
+  const accumulatedHistory =
+    targetData?.type !== 1 && history
+      ? history.reduce((acc, item, index) => {
+          const total = Number(item.total_amount) || 0;
+          const previousAccumulated = acc[index - 1]?.accumulated || 0;
+          const accumulated = previousAccumulated + total;
+          acc.push({
+            ...item,
+            accumulated,
+          });
+          return acc;
+        }, [])
+      : [];
 
   if (!token) {
     return <Navigate to="/" />;
@@ -91,7 +112,10 @@ const Budget = () => {
       <Typography variant="h4" gutterBottom>
         {budgetName}
       </Typography>
-      <Typography>Budget Value ${currentMonth?.budget_amount || 0}</Typography>
+      <Typography>
+        {targetData?.type === 4 ? "Goal" : "Budget"} Value $
+        {targetData?.amount || 0}
+      </Typography>
       {isLoading && <Typography>Loading...</Typography>}
       {error && <Typography color="error">{error}</Typography>}
 
@@ -120,7 +144,8 @@ const Budget = () => {
             }}
           />
           <Typography variant="caption" color="text.secondary">
-            {currentMonth?.percent_used || 0}% used
+            {currentMonth?.percent_used || 0}%{" "}
+            {targetData?.type === 4 ? "achieved" : "used"}
           </Typography>
         </Box>
       </Box>
@@ -129,26 +154,64 @@ const Budget = () => {
 
       <Typography variant="h6">Last 6 Months</Typography>
       <Box sx={{ mb: 2, width: "100%", height: 250 }}>
-        {processedHistory.length > 0 ? (
+        {history.length > 0 ? (
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={processedHistory}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Bar
-                dataKey="withinBudget"
-                stackId="a"
-                fill="#1976d2"
-                name="Within Budget"
-              />
-              <Bar
-                dataKey="overBudget"
-                stackId="a"
-                fill="#d32f2f"
-                name="Over Budget"
-              />
-            </BarChart>
+            {targetData?.type === 1 ? (
+              // Bar chart for budget type 1
+              <BarChart data={processedHistory}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Bar
+                  dataKey="withinBudget"
+                  stackId="a"
+                  fill="#1976d2"
+                  name="Within Budget"
+                />
+                <Bar
+                  dataKey="overBudget"
+                  stackId="a"
+                  fill="#d32f2f"
+                  name="Over Budget"
+                />
+              </BarChart>
+            ) : (
+              // Combined bar and line chart for budget types 2, 3, and 4
+              <ComposedChart data={accumulatedHistory}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar
+                  dataKey="total_amount"
+                  fill="#8884d8"
+                  name="Monthly Total"
+                />
+                <Line
+                  type="monotone"
+                  dataKey="accumulated"
+                  stroke="#1976d2"
+                  strokeWidth={2}
+                  dot={false}
+                  name="Accumulated"
+                />
+                {targetData?.amount && (
+                  <ReferenceLine
+                    y={targetData.amount}
+                    stroke="#d32f2f"
+                    strokeDasharray="3 3"
+                    label={{
+                      value: `Budget (${targetData.amount})`,
+                      position: "right",
+                      fill: "#d32f2f",
+                      fontSize: 12,
+                    }}
+                  />
+                )}
+              </ComposedChart>
+            )}
           </ResponsiveContainer>
         ) : (
           <Typography>No history data available.</Typography>
@@ -157,11 +220,14 @@ const Budget = () => {
 
       <Divider sx={{ my: 2 }} />
 
-      <Typography variant="h6">Latest Expenses</Typography>
+      <Typography variant="h6">
+        Latest {targetData?.type === 4 ? "Deposits" : "Expenses"}
+      </Typography>
 
       <Box sx={{ mb: 2 }}>
         {expenses.map((exp, idx) => (
           <Box
+            key={idx}
             sx={{
               mb: 2,
               display: "flex",
@@ -171,7 +237,6 @@ const Budget = () => {
             }}
           >
             <Typography
-              key={idx}
               sx={{
                 flexBasis: { xs: "30%", sm: "20%" },
                 flexShrink: 0,
@@ -180,7 +245,6 @@ const Budget = () => {
               {new Date(exp.date).toISOString().split("T")[0]}
             </Typography>
             <Typography
-              key={idx}
               sx={{
                 flexBasis: { xs: "50%", sm: "40%" },
                 flexShrink: 0,
@@ -189,7 +253,6 @@ const Budget = () => {
               {exp.name}
             </Typography>
             <Typography
-              key={idx}
               sx={{
                 flexBasis: { xs: "20%", sm: "20%" },
                 flexShrink: 0,
@@ -199,7 +262,6 @@ const Budget = () => {
             </Typography>
             {isMobile && (
               <Typography
-                key={idx}
                 sx={{
                   flexBasis: "20%",
                   flexShrink: 0,
@@ -217,7 +279,7 @@ const Budget = () => {
           Back
         </Button>
         <Button fullWidth variant="contained" onClick={handleAddExpense}>
-          Add new Expense
+          Add New {targetData?.type === 4 ? "deposit" : "expense"}
         </Button>
         <Button fullWidth variant="outlined" onClick={handleSeeAll}>
           See All

@@ -10,8 +10,18 @@ import {
   Paper,
   List,
   ListItem,
-  ListItemText,
 } from "@mui/material";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+
+// Function to generate colors for the pie chart
+const generateColors = (count) => {
+  const colors = [];
+  for (let i = 0; i < count; i++) {
+    const hue = (i * 360) / count;
+    colors.push(`hsl(${hue}, 70%, 50%)`);
+  }
+  return colors;
+};
 
 /** Category Dashboard component
  *
@@ -30,7 +40,7 @@ const CategoryDashboard = () => {
       setError(null);
       try {
         ExpenseerAPI.token = token;
-        const response = await ExpenseerAPI.getExpenseDashboard("category");
+        const response = await ExpenseerAPI.getSummaryDashboard("categories");
         if (!response) {
           throw new Error("Error retrieving dashboard");
         }
@@ -43,6 +53,8 @@ const CategoryDashboard = () => {
     };
     getCategoryDashboardData();
   }, [token]);
+
+  const colors = dashboardData ? generateColors(dashboardData.length) : [];
 
   return (
     <Paper elevation={2} sx={{ p: 2 }}>
@@ -60,34 +72,69 @@ const CategoryDashboard = () => {
         </Typography>
       )}
       {dashboardData && (
-        <List>
-          {dashboardData.map((category, idx) => (
-            <ListItem key={idx} disablePadding>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "100%",
-                  px: 2,
-                  py: 1,
-                }}
-              >
-                <Typography
+        <>
+          <Box sx={{ height: 300, mb: 2 }}>
+            <ResponsiveContainer>
+              <PieChart>
+                <Pie
+                  data={dashboardData}
+                  dataKey="total_amount"
+                  nameKey="category"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  fill="#8884d8"
+                >
+                  {dashboardData.map((_, index) => (
+                    <Cell key={`cell-${index}`} fill={colors[index]} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(value) => `$${value}`} />
+              </PieChart>
+            </ResponsiveContainer>
+          </Box>
+          <List>
+            {dashboardData.map((category, idx) => (
+              <ListItem key={idx} disablePadding>
+                <Box
                   component={Link}
                   to={`/categories/${category.category}`}
-                  variant="body1"
-                  sx={{ textDecoration: "none", color: "inherit" }}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    width: "100%",
+                    px: 2,
+                    py: 1,
+                    textDecoration: "none",
+                    color: "inherit",
+                  }}
                 >
-                  {category.category}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  $ {category.total_amount}
-                </Typography>
-              </Box>
-            </ListItem>
-          ))}
-        </List>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: 16,
+                        height: 16,
+                        backgroundColor: colors[idx],
+                        borderRadius: "4px",
+                        marginRight: 1,
+                      }}
+                    />
+                    <Typography variant="body1">{category.category}</Typography>
+                  </Box>
+                  <Typography variant="body2" color="text.secondary">
+                    $ {category.total_amount}
+                  </Typography>
+                </Box>
+              </ListItem>
+            ))}
+          </List>
+        </>
       )}
     </Paper>
   );

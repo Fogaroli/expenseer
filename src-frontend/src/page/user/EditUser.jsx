@@ -57,7 +57,7 @@ const EditUser = () => {
   // Handles save button click, send updated user information to store
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    const { username, last_logged, ...data } = formData;
+    const { username, last_logged, is_admin, ...data } = formData;
     const response = await dispatch(
       editUser({ token, username, data })
     ).unwrap();

@@ -9,9 +9,9 @@ import {
   Paper,
   List,
   ListItem,
-  LinearProgress,
   Box,
 } from "@mui/material";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 /** Budget Dashboard component
  *
@@ -30,7 +30,7 @@ const BudgetDashboard = () => {
       setError(null);
       try {
         ExpenseerAPI.token = token;
-        const response = await ExpenseerAPI.getExpenseDashboard("budget");
+        const response = await ExpenseerAPI.getSummaryDashboard("budgets");
         if (!response) {
           throw new Error("Error retrieving dashboard");
         }
@@ -43,6 +43,14 @@ const BudgetDashboard = () => {
     };
     getBudgetDashboardData();
   }, [token]);
+
+  // Budget types are defined by number, here they should be translated to show to the user.
+  const budgetTypeLabels = {
+    1: "Monthly",
+    2: "Yearly",
+    3: "Event",
+    4: "Savings",
+  };
 
   return (
     <Paper elevation={2} sx={{ p: 2 }}>
@@ -61,70 +69,91 @@ const BudgetDashboard = () => {
       )}
       {dashboardData && (
         <List>
-          {dashboardData && (
-            <List>
-              {dashboardData.map((budget, idx) => {
-                const percent = Math.min(Number(budget.percent_used || 0), 100);
-                const barColor = percent > 90 ? "#d32f2f" : "#1976d2"; // error or primary
+          {dashboardData.map((budget, idx) => {
+            const percent = Math.min(Number(budget.percent_used || 0), 100);
+            const isOverBudget = budget.percent_used > 100;
+            const barColor = isOverBudget
+              ? "#d32f2f"
+              : percent > 90
+              ? "#d32f2f"
+              : "#1976d2";
 
-                return (
-                  <ListItem
-                    key={idx}
-                    disablePadding
-                    sx={{
-                      flexDirection: "column",
-                      alignItems: "flex-start",
-                      px: 2,
-                      py: 1,
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
+            const pieData = isOverBudget
+              ? [{ value: 100, color: "#d32f2f" }]
+              : [
+                  { value: percent, color: barColor },
+                  { value: 100 - percent, color: "#e0e0e0" },
+                ];
+
+            return (
+              <ListItem
+                key={idx}
+                component={Link}
+                to={`/budgets/${budget.budget}`}
+                disablePadding
+                sx={{
+                  flexDirection: "column",
+                  alignItems: "center",
+                  px: 2,
+                  py: 1,
+                  textDecoration: "none",
+                  color: "inherit",
+                }}
+              >
+                <Typography variant="body1" sx={{ fontWeight: "bold", mb: 1 }}>
+                  {budget.budget}
+                </Typography>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Box sx={{ flex: 1, pr: 2, minWidth: "50%" }}>
+                    <Typography variant="body2" color="text.secondary">
+                      Type: {budgetTypeLabels[budget.type] || "Unknown"}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {+budget.percent_used}%{" "}
+                      {budget.type === 4 ? "achieved" : "used"}
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      sx={{ display: "block", mt: 1 }}
                     >
-                      <Typography
-                        component={Link}
-                        to={`/budgets/${budget.budget}`}
-                        variant="body1"
-                        sx={{ textDecoration: "none", color: "inherit" }}
-                      >
-                        {budget.budget}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ width: "100%", mt: 1 }}>
-                      <LinearProgress
-                        variant="determinate"
-                        value={+budget.percent_used}
-                        sx={{
-                          height: 8,
-                          borderRadius: 4,
-                          backgroundColor: "#e0e0e0",
-                          "& .MuiLinearProgress-bar": {
-                            backgroundColor: barColor,
-                          },
-                        }}
-                      />
-                      <Typography variant="caption" color="text.secondary">
-                        {+budget.percent_used}% used
-                      </Typography>
-                      <Typography
-                        variant="caption"
-                        color="text.secondary"
-                        sx={{ display: "block" }}
-                      >
-                        <strong>Spent:</strong> {budget.total_amount} /{" "}
-                        <strong>Budget:</strong> {budget.budget_amount || 0}
-                      </Typography>
-                    </Box>
-                  </ListItem>
-                );
-              })}
-            </List>
-          )}
+                      <strong>{budget.type === 4 ? "Goal" : "Budget"}:</strong>{" "}
+                      ${budget.budget_amount || 0}
+                    </Typography>
+                  </Box>
+
+                  <Box sx={{ width: 100, height: 100 }}>
+                    <ResponsiveContainer>
+                      <PieChart>
+                        <Pie
+                          data={pieData}
+                          dataKey="value"
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={20}
+                          outerRadius={40}
+                          startAngle={90}
+                          endAngle={-270}
+                          paddingAngle={2}
+                        >
+                          {pieData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </Box>
+                </Box>
+              </ListItem>
+            );
+          })}
         </List>
       )}
     </Paper>
