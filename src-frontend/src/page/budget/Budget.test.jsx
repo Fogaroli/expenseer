@@ -10,15 +10,19 @@ import Budget from "./Budget";
 vi.mock("../../customHook/useDashboard", () => ({
   __esModule: true,
   default: () => ({
+    targetData: {
+      item: "test-budget",
+      type: 1,
+      amount: 1000,
+    },
     currentMonth: {
-      budget_amount: 1000,
       total_amount: 500,
       percent_used: 50,
       month: "2024-05",
     },
     history: [
-      { month: "2024-01", budget_amount: 1000, total_amount: 800 },
-      { month: "2024-02", budget_amount: 1000, total_amount: 1200 },
+      { month: "2024-01", total_amount: 800, percent_used: 80 },
+      { month: "2024-02", total_amount: 1200, percent_used: 60 },
     ],
     expenses: [
       { date: "2024-05-01", name: "Groceries", amount: 100, category: "Food" },

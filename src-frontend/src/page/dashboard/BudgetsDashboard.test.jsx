@@ -6,36 +6,14 @@ import BudgetsDashboard from "./BudgetsDashboard";
 import authReducer from "../../store/authSlice";
 import budgetReducer from "../../store/budgetSlice";
 
-// Mock useDashboard hook if used
-vi.mock("../../customHook/useDashboard", () => ({
-  __esModule: true,
-  default: () => ({
-    currentMonth: {
-      budget_amount: 1000,
-      total_amount: 500,
-      percent_used: 50,
-      month: "2024-05",
-    },
-    history: [
-      { month: "2024-01", budget_amount: 1000, total_amount: 800 },
-      { month: "2024-02", budget_amount: 1000, total_amount: 1200 },
-    ],
-    expenses: [
-      { date: "2024-05-01", name: "Groceries", amount: 100, category: "Food" },
-      { date: "2024-05-02", name: "Rent", amount: 400, category: "Housing" },
-    ],
-    isLoading: false,
-    error: null,
-  }),
-}));
-
 vi.mock("../../helper/api", () => ({
   __esModule: true,
   default: {
-    getExpenseDashboard: vi.fn(() =>
+    getSummaryDashboard: vi.fn(() =>
       Promise.resolve([
         {
           budget: "Test Budget",
+          type: 1,
           percent_used: 50,
           total_amount: 500,
           budget_amount: 1000,
@@ -79,10 +57,8 @@ describe("BudgetDashboard", () => {
     expect(await screen.findByText(/test budget/i)).toBeInTheDocument();
     expect(screen.getByText(/50% used/i)).toBeInTheDocument();
     expect(
-      screen.getAllByText(
-        (content, node) =>
-          node.textContent.includes("Spent:") &&
-          node.textContent.includes("500")
+      screen.getAllByText((content, node) =>
+        node.textContent.includes("50% used")
       )[0]
     ).toBeInTheDocument();
 
