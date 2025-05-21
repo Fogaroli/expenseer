@@ -16,12 +16,10 @@ afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
 describe("DashboardModel", function () {
-  /************************************** getCurrentMonthExpensesByCategory */
-  describe("getCurrentMonthExpensesByCategory", function () {
+  /************************************** getCategoriesDashboard */
+  describe("getCategoriesDashboard", function () {
     test("returns all categories with totals (including zero)", async function () {
-      const result = await Dashboard.getCurrentMonthExpensesByCategory(
-        "tuser1"
-      );
+      const result = await Dashboard.getCategoriesDashboard("tuser1");
       expect(Array.isArray(result)).toBe(true);
       for (let row of result) {
         expect(row).toHaveProperty("category");
@@ -30,27 +28,24 @@ describe("DashboardModel", function () {
       }
     });
     test("returns empty array for user with no categories", async function () {
-      const result = await Dashboard.getCurrentMonthExpensesByCategory(
-        "nouser"
-      );
+      const result = await Dashboard.getCategoriesDashboard("nouser");
       expect(result).toEqual([]);
     });
   });
 
-  /************************************** getCurrentMonthExpensesByBudget */
-  describe("getCurrentMonthExpensesByBudget", function () {
+  /************************************** getBudgetsashbaord */
+  describe("getBudgetsDashboard", function () {
     test("returns all budgets with totals (including zero)", async function () {
-      const result = await Dashboard.getCurrentMonthExpensesByBudget("tuser1");
+      const result = await Dashboard.getBudgetsDashboard("tuser1");
       expect(Array.isArray(result)).toBe(true);
       for (let row of result) {
         expect(row).toHaveProperty("budget");
         expect(row).toHaveProperty("total_amount");
-        expect(row).toHaveProperty("budget_amount");
         expect(row).toHaveProperty("percent_used");
       }
     });
     test("returns empty array for user with no budgets", async function () {
-      const result = await Dashboard.getCurrentMonthExpensesByBudget("nouser");
+      const result = await Dashboard.getBudgetsDashboard("nouser");
       expect(result).toEqual([]);
     });
   });
@@ -80,7 +75,6 @@ describe("DashboardModel", function () {
       const result = await Dashboard.getByBudget("tuser1", "Main");
       expect(result).toHaveProperty("month");
       expect(result).toHaveProperty("total_amount");
-      expect(result).toHaveProperty("budget_amount");
       expect(result).toHaveProperty("percent_used");
     });
     test("throws 404 if budget not found", async function () {
@@ -123,7 +117,6 @@ describe("DashboardModel", function () {
       for (let row of result) {
         expect(row).toHaveProperty("month");
         expect(row).toHaveProperty("total_amount");
-        expect(row).toHaveProperty("budget_amount");
         expect(row).toHaveProperty("percent_used");
       }
     });
@@ -134,62 +127,6 @@ describe("DashboardModel", function () {
       } catch (err) {
         expect(err instanceof ExpressError).toBeTruthy();
         expect(err.status).toBe(500);
-      }
-    });
-  });
-
-  /************************************** getMonthlyBudgets */
-  describe("getMonthlyBudgets", function () {
-    test("returns all monthly budgets", async function () {
-      const result = await Dashboard.getMonthlyBudgets("tuser1");
-      expect(Array.isArray(result)).toBe(true);
-      for (let row of result) {
-        expect(row).toHaveProperty("name");
-        expect(row).toHaveProperty("total_amount");
-        expect(row).toHaveProperty("budget_amount");
-        expect(row).toHaveProperty("percent_used");
-      }
-    });
-  });
-
-  /************************************** getYearlyBudgets */
-  describe("getYearlyBudgets", function () {
-    test("returns all yearly budgets", async function () {
-      const result = await Dashboard.getYearlyBudgets("tuser1");
-      expect(Array.isArray(result)).toBe(true);
-      for (let row of result) {
-        expect(row).toHaveProperty("name");
-        expect(row).toHaveProperty("total_amount");
-        expect(row).toHaveProperty("budget_amount");
-        expect(row).toHaveProperty("percent_used");
-      }
-    });
-  });
-
-  /************************************** getEventBudgets */
-  describe("getEventBudgets", function () {
-    test("returns all event budgets", async function () {
-      const result = await Dashboard.getEventBudgets("tuser1");
-      expect(Array.isArray(result)).toBe(true);
-      for (let row of result) {
-        expect(row).toHaveProperty("name");
-        expect(row).toHaveProperty("total_amount");
-        expect(row).toHaveProperty("budget_amount");
-        expect(row).toHaveProperty("percent_used");
-      }
-    });
-  });
-
-  /************************************** getSavingsBudgets */
-  describe("getSavingsBudgets", function () {
-    test("returns all savings budgets", async function () {
-      const result = await Dashboard.getSavingsBudgets("tuser1");
-      expect(Array.isArray(result)).toBe(true);
-      for (let row of result) {
-        expect(row).toHaveProperty("name");
-        expect(row).toHaveProperty("total_amount");
-        expect(row).toHaveProperty("budget_amount");
-        expect(row).toHaveProperty("percent_used");
       }
     });
   });

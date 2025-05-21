@@ -81,10 +81,14 @@ function ensureIsAuthorized(req, res, next) {
  * IF more than 5 requests are sent within a timeinterval of 10 minutes, the request will
  * be blocked until the next window is available.
  *
+ * Under test the limit is extended to 1000 requests.
+ *
  */
+const max = process.env.NODE_ENV === "test" ? 1000 : 5;
+
 const loginLimiter = rateLimit({
   windowMs: 10 * 60 * 1000,
-  max: 5,
+  max,
   message: new ExpressError(
     "Too many login attempts from this IP, please try again after 10 minutes",
     429

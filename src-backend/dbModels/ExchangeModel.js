@@ -17,7 +17,6 @@ class Exchange {
     const lastUpdate = new Date(rate.last_update);
     const now = new Date();
     if (now - lastUpdate > 24 * 60 * 60 * 1000) {
-      console.log("Updating exchange rate for", rate.currency1, rate.currency2);
       const exchangeData = await getExchangeRate(
         rate.currency1,
         rate.currency2
@@ -33,11 +32,6 @@ class Exchange {
       );
       return result.rows[0];
     } else {
-      console.log(
-        "Exchange rate is up to date for",
-        rate.currency1,
-        rate.currency2
-      );
       return {
         currency1: rate.currency1,
         currency2: rate.currency2,
@@ -57,11 +51,6 @@ class Exchange {
    */
 
   static async createRate({ currency1, currency2 }) {
-    console.log(
-      "Adding exchange rate in the database for",
-      currency1,
-      currency2
-    );
     let rate = 0;
     let timestamp = `2020-01-01T00:00:00`;
     //Read the exchange rate first to make sure it is valid before saving to the database
@@ -83,7 +72,6 @@ class Exchange {
       const newRate = result.rows[0];
       return newRate;
     } catch (err) {
-      console.log("Error creating exchange rate in the database", err);
       throw new ExpressError("Error getting exchange rate", 500);
     }
   }
@@ -185,7 +173,6 @@ class Exchange {
       const updatedRate = await this.updateRate(readRate);
       return updatedRate;
     } catch (err) {
-      console.log("Error adding exchange rate to user", err);
       throw new ExpressError("Error adding exchange rate to user", 500);
     }
   }
