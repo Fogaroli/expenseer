@@ -1,25 +1,26 @@
 import "./App.css";
-import { Routes, Route, Navigate } from "react-router-dom";
-import Navbar from "./Navbar";
-import Homepage from "./Homepage";
-import Login from "./user/Login";
-import Register from "./user/Register";
-import EditUser from "./user/EditUser";
-import Categories from "./category/Categories";
-import Category from "./category/Category";
-import AddCategory from "./category/AddCategory";
-import EditCategory from "./category/EditCategory";
-import Budgets from "./budget/Budgets";
-import AddBudget from "./budget/AddBudget";
-import EditBudget from "./budget/EditBudget";
-import Budget from "./budget/Budget";
-import Expenses from "./expense/Expenses";
-import Expense from "./expense/Expense";
-import EditExpense from "./expense/EditExpense";
-import AddExpense from "./expense/AddExpense";
-import Dashboards from "./dashboard/Dashboards";
-import Indexes from "./Indexes/Indexes";
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./page/Navbar";
+import Homepage from "./page/Homepage";
+import Login from "./page/user/Login";
+import Register from "./page/user/Register";
+import EditUser from "./page/user/EditUser";
+import Categories from "./page/category/Categories";
+import Category from "./page/category/Category";
+import AddCategory from "./page/category/AddCategory";
+import EditCategory from "./page/category/EditCategory";
+import Budgets from "./page/budget/Budgets";
+import AddBudget from "./page/budget/AddBudget";
+import EditBudget from "./page/budget/EditBudget";
+import Budget from "./page/budget/Budget";
+import Expenses from "./page/expense/Expenses";
+import Expense from "./page/expense/Expense";
+import EditExpense from "./page/expense/EditExpense";
+import AddExpense from "./page/expense/AddExpense";
+import Dashboards from "./page/dashboard/Dashboards";
+import Indexes from "./page/Indexes/Indexes";
 import Layout from "./Layout";
+import Error from "./page/Error";
 
 /**Main component, holds the router logic for the multiple menus.
  * In case of no match the navigation should fall back to the homepage.
@@ -51,7 +52,7 @@ function App() {
           <Route path="/expenses/:id/edit" element={<EditExpense />} />
           <Route path="/dashboards" element={<Dashboards />} />
           <Route path="/indexes" element={<Indexes />} />
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="*" element={<Error code="404" />} />
         </Routes>
       </Layout>
     </>

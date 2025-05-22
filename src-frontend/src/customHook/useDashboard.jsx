@@ -9,6 +9,7 @@ import { selectToken } from "../store/authSlice";
  *
  */
 const useDashboard = (target = {}) => {
+  const [targetData, setTargetData] = useState(null);
   const [currentMonth, setCurrentMonth] = useState({});
   const [history, setHistory] = useState([]);
   const [expenses, setExpenses] = useState([]);
@@ -27,23 +28,32 @@ const useDashboard = (target = {}) => {
     setError(null);
     try {
       ExpenseerAPI.token = token;
-      let type, item;
+      let dashboardType, item;
       if ("category" in target) {
-        type = "category";
+        dashboardType = "category";
         item = target.category;
       } else if ("budget" in target) {
-        type = "budget";
+        dashboardType = "budget";
         item = target.budget;
       } else {
         setError("Invalid target");
         return;
       }
-      const response = await ExpenseerAPI.getDashboard(type, item);
+      const response = await ExpenseerAPI.getDashboard(dashboardType, item);
       if (!response) throw new Error("Error retrieving dashboard");
+      setTargetData({
+        item: response[dashboardType],
+        type: response.type || 0,
+        amount: response.amount || 0,
+      });
       setCurrentMonth(response.current_month);
-      setHistory(response.history);
+      const historyData = response.history.reverse() || [];
+      setHistory(historyData);
 
-      const expensesData = await ExpenseerAPI.getExpensesSummary(type, item);
+      const expensesData = await ExpenseerAPI.getExpensesSummary(
+        dashboardType,
+        item
+      );
       if (!expensesData) throw new Error("Error retrieving expenses");
       setExpenses(expensesData);
     } catch (error) {
@@ -59,6 +69,7 @@ const useDashboard = (target = {}) => {
   }, [getDashboard]);
 
   return {
+    targetData,
     currentMonth,
     history,
     expenses,
