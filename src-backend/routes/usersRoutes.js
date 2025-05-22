@@ -34,7 +34,7 @@ router.post("/", ensureIsAdmin, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body.data, newUserSchema);
     if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
+      const errs = validator.errors.map((e) => e.message);
       throw new ExpressError(errs, 400);
     }
 
@@ -95,7 +95,7 @@ router.patch("/:username", ensureIsAuthorized, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body.data, userUpdateSchema);
     if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
+      const errs = validator.errors.map((e) => e.message);
       throw new ExpressError(errs, 400);
     }
 

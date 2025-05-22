@@ -60,68 +60,24 @@ describe("GET /dashboards/budget", function () {
   });
 });
 
-describe("GET /dashboards/monthly", function () {
-  test("returns monthly budgets", async function () {
-    const resp = await request(app)
-      .get("/dashboards/monthly")
-      .set("authorization", userToken);
-    expect(resp.statusCode).toBe(200);
-    expect(resp.body.dashboard).toHaveProperty("monthly_budget");
-    expect(Array.isArray(resp.body.dashboard.monthly_budget)).toBe(true);
-  });
-});
-
-describe("GET /dashboards/yearly", function () {
-  test("returns yearly budgets", async function () {
-    const resp = await request(app)
-      .get("/dashboards/yearly")
-      .set("authorization", userToken);
-    expect(resp.statusCode).toBe(200);
-    expect(resp.body.dashboard).toHaveProperty("yearly_budget");
-    expect(Array.isArray(resp.body.dashboard.yearly_budget)).toBe(true);
-  });
-});
-
-describe("GET /dashboards/event", function () {
-  test("returns event budgets", async function () {
-    const resp = await request(app)
-      .get("/dashboards/event")
-      .set("authorization", userToken);
-    expect(resp.statusCode).toBe(200);
-    expect(resp.body.dashboard).toHaveProperty("event_budget");
-    expect(Array.isArray(resp.body.dashboard.event_budget)).toBe(true);
-  });
-});
-
-describe("GET /dashboards/savings", function () {
-  test("returns savings budgets", async function () {
-    const resp = await request(app)
-      .get("/dashboards/savings")
-      .set("authorization", userToken);
-    expect(resp.statusCode).toBe(200);
-    expect(resp.body.dashboard).toHaveProperty("saving_budget");
-    expect(Array.isArray(resp.body.dashboard.saving_budget)).toBe(true);
-  });
-});
-
-describe("GET /dashboards/expenses/category", function () {
+describe("GET /dashboards/categories", function () {
   test("returns expenses by category", async function () {
     const resp = await request(app)
-      .get("/dashboards/expenses/category")
+      .get("/dashboards/categories")
       .set("authorization", userToken);
     expect(resp.statusCode).toBe(200);
-    expect(resp.body.dashboard).toHaveProperty("category");
-    expect(Array.isArray(resp.body.dashboard.category)).toBe(true);
+    expect(resp.body.dashboard).toHaveProperty("categories");
+    expect(Array.isArray(resp.body.dashboard.categories)).toBe(true);
   });
 });
 
-describe("GET /dashboards/expenses/budget", function () {
+describe("GET /dashboards/budgets", function () {
   test("returns expenses by budget", async function () {
     const resp = await request(app)
-      .get("/dashboards/expenses/budget")
+      .get("/dashboards/budgets")
       .set("authorization", userToken);
     expect(resp.statusCode).toBe(200);
-    expect(resp.body.dashboard).toHaveProperty("budget");
-    expect(Array.isArray(resp.body.dashboard.budget)).toBe(true);
+    expect(resp.body.dashboard).toHaveProperty("budgets");
+    expect(Array.isArray(resp.body.dashboard.budgets)).toBe(true);
   });
 });

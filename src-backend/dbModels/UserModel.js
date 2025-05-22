@@ -14,10 +14,6 @@ class User {
         WHERE username = $1`,
       [user.username]
     );
-    console.assert(
-      !duplicateCheck.rows[0],
-      "Attempt to register already existing username"
-    );
 
     if (duplicateCheck.rows[0]) {
       throw new ExpressError(

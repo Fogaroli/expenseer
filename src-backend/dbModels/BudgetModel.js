@@ -18,10 +18,6 @@ class Budget {
             WHERE username = $1 AND name = $2`,
       [username, budget.name]
     );
-    console.assert(
-      !duplicateCheck.rows[0],
-      "Attempt to create already existing budget"
-    );
 
     if (duplicateCheck.rows[0]) {
       throw new ExpressError(`User already have a budget with this name`, 400);
@@ -105,10 +101,6 @@ class Budget {
             FROM budgets 
             WHERE username = $1 AND name = $2`,
       [username, data.name]
-    );
-    console.assert(
-      !duplicateCheck.rows[0],
-      "Attempt to create already existing budget"
     );
 
     if (duplicateCheck.rows[0]) {

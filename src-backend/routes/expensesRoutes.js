@@ -29,7 +29,7 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body.data, newExpenseSchema);
     if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
+      const errs = validator.errors.map((e) => e.message);
       throw new ExpressError(errs, 400);
     }
     const expense = await Expense.create(
@@ -62,7 +62,7 @@ router.get("/", ensureLoggedIn, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.query, expenseSearchSchema);
     if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
+      const errs = validator.errors.map((e) => e.message);
       throw new ExpressError(errs, 400);
     }
     const expenses = await Expense.getAll(
@@ -107,7 +107,7 @@ router.patch("/:expenseId", ensureLoggedIn, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body.data, expenseUpdateSchema);
     if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
+      const errs = validator.errors.map((e) => e.message);
       throw new ExpressError(errs, 400);
     }
 

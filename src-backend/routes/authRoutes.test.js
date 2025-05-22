@@ -73,7 +73,6 @@ describe("POST /auth/register", function () {
       last_name: "User",
       email: "tuser1@example.com",
     });
-    console.log(resp.body);
     expect(resp.statusCode).toBe(400);
     expect(resp.body.message).toBeDefined();
   });
