@@ -28,7 +28,7 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body.data, newCategorySchema);
     if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
+      const errs = validator.errors.map((e) => e.message);
       throw new ExpressError(errs, 400);
     }
     const category = await Category.create(
@@ -91,7 +91,7 @@ router.patch("/:category", ensureLoggedIn, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body.data, categoryUpdateSchema);
     if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
+      const errs = validator.errors.map((e) => e.message);
       throw new ExpressError(errs, 400);
     }
 

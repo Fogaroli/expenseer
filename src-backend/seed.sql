@@ -1,16 +1,17 @@
 -- Insert data into users table
--- INSERT INTO users (username, password, first_name, last_name, email, image_url, last_logged, is_admin) VALUES
--- ('demonstration', '$2b$12$RmJhXxgx/m690jVv3kG9.uIOaj9VnLA4wzuleaECefslUFI0tP9vG', 'John', 'Doe', 'John.Doe@sampleMail.com', 'https://cdn.pixabay.com/photo/2020/09/19/04/44/man-5583395_1280.jpg', '2025-01-01 12:00:00', FALSE),
--- ('admin', '$2b$12$IM5tCEup4jAt4CKpkyVb/e9Q.ttKlKLvWcmzzayI3PyMqaMQlmbFC', 'Admin', 'Admin', 'fogaroli@gmail.com', 'https://cdn.pixabay.com/photo/2013/07/12/14/48/key-148813_1280.png', '2025-01-01 12:00:00', TRUE);
+INSERT INTO users (username, password, first_name, last_name, email, image_url, last_logged, is_admin) VALUES
+('demonstration', '$2b$12$z.qNAanHovck/ga1meITden2UibzDuvs5z1Rab.cm4/h7l3MNvUJy', 'John', 'Doe', 'John.Doe@sampleMail.com', 'https://cdn.pixabay.com/photo/2020/09/19/04/44/man-5583395_1280.jpg', '2025-01-01 12:00:00', FALSE),
+('admin', '$2b$12$4i9le/iVyn5m5vJZSP/O/Oo1ARHeqigJ52OkG6w69EcVQpkSWReVC', 'Admin', 'Admin', 'fogaroli@gmail.com', 'https://cdn.pixabay.com/photo/2013/07/12/14/48/key-148813_1280.png', '2025-01-01 12:00:00', TRUE);
 
 -- Insert data into budgets table
 INSERT INTO budgets (name, type, amount, description, username) VALUES
 ('Groceries', 1, 600.00, 'Monthly groceries budget', 'demonstration'),
 ('Entertainment', 1, 300.00, 'Monthly entertainment budget', 'demonstration'),
-('Transport', 1, 250.00, 'Monthly transport budget', 'demonstration');
--- ('Vacation', 2, 2000.00, 'Annual vacation expenses', 'demonstration'),
--- ('Special Birthday', 3, 700.00, 'Planning for the special event', 'demonstration'),
--- ('Prepare for College', 4, 6500.00, 'Savings for College', 'demonstration');
+('Transport', 1, 250.00, 'Monthly transport budget', 'demonstration'),
+('Vacation', 2, 2000.00, 'Annual vacation expenses', 'demonstration'),
+('House Maintenance', 2, 3500.00, 'Annual expenses with home repairs and improvements', 'demonstration'),
+('Special Birthday', 3, 700.00, 'Planning for the special event', 'demonstration'),
+('Prepare for College', 4, 6500.00, 'Savings for College', 'demonstration');
 
 -- Insert data into categories table
 INSERT INTO categories (name, username) VALUES
@@ -231,6 +232,140 @@ INSERT INTO expenses (name, category_id, amount, description, date, budget_id, u
 -- ('Groceries Jul', 1, 90.00, 'Groceries for week', '2025-07-27', 1, 'demonstration'),
 -- ('Dinner Jul', 2, 55.00, 'Dinner out', '2025-07-28', 2, 'demonstration'),
 -- ('Bus Jul', 3, 31.00, 'Bus fare', '2025-07-29', 3, 'demonstration');
+
+
+-- Insert data into expenses table for Vacation (id4)
+INSERT INTO expenses (name, category_id, amount, description, date, budget_id, username) VALUES
+-- September 2024
+('Flight Tickets Sep', 4, 500.00, 'Flight tickets for vacation', '2024-09-05', 4, 'demonstration'),
+('Hotel Booking Sep', 4, 700.00, 'Hotel booking for vacation', '2024-09-10', 4, 'demonstration'),
+-- October 2024
+('Car Rental Oct', 4, 300.00, 'Car rental for vacation', '2024-10-05', 4, 'demonstration'),
+('Tour Package Oct', 4, 400.00, 'Tour package for vacation', '2024-10-15', 4, 'demonstration'),
+-- November 2024
+('Flight Tickets Nov', 4, 550.00, 'Flight tickets for vacation', '2024-11-05', 4, 'demonstration'),
+('Hotel Booking Nov', 4, 750.00, 'Hotel booking for vacation', '2024-11-10', 4, 'demonstration'),
+-- December 2024
+('Ski Pass Dec', 4, 300.00, 'Ski pass for vacation', '2024-12-05', 4, 'demonstration'),
+('Resort Stay Dec', 4, 800.00, 'Resort stay for vacation', '2024-12-15', 4, 'demonstration'),
+-- January 2025
+('Flight Tickets Jan', 4, 600.00, 'Flight tickets for vacation', '2025-01-05', 4, 'demonstration'),
+('Hotel Booking Jan', 4, 850.00, 'Hotel booking for vacation', '2025-01-10', 4, 'demonstration'),
+-- February 2025
+('Cruise Tickets Feb', 4, 700.00, 'Cruise tickets for vacation', '2025-02-05', 4, 'demonstration'),
+('Excursion Feb', 4, 400.00, 'Excursion during vacation', '2025-02-15', 4, 'demonstration'),
+-- March 2025
+('Flight Tickets Mar', 4, 650.00, 'Flight tickets for vacation', '2025-03-05', 4, 'demonstration'),
+('Hotel Booking Mar', 4, 900.00, 'Hotel booking for vacation', '2025-03-10', 4, 'demonstration'),
+-- April 2025
+('Tour Package Apr', 4, 450.00, 'Tour package for vacation', '2025-04-05', 4, 'demonstration'),
+('Car Rental Apr', 4, 350.00, 'Car rental for vacation', '2025-04-15', 4, 'demonstration'),
+-- May 2025
+('Flight Tickets May', 4, 700.00, 'Flight tickets for vacation', '2025-05-05', 4, 'demonstration'),
+('Hotel Booking May', 4, 950.00, 'Hotel booking for vacation', '2025-05-10', 4, 'demonstration'),
+-- June 2025
+('Cruise Tickets Jun', 4, 750.00, 'Cruise tickets for vacation', '2025-06-05', 4, 'demonstration'),
+('Excursion Jun', 4, 500.00, 'Excursion during vacation', '2025-06-15', 4, 'demonstration');
+
+-- Insert data into expenses table for House Maintenance (id5)
+INSERT INTO expenses (name, category_id, amount, description, date, budget_id, username) VALUES
+-- September 2024
+('Plumbing Repairs Sep', 5, 200.00, 'Plumbing repairs', '2024-09-07', 5, 'demonstration'),
+('Roof Maintenance Sep', 5, 300.00, 'Roof maintenance', '2024-09-20', 5, 'demonstration'),
+-- October 2024
+('Painting Oct', 5, 400.00, 'Painting the house', '2024-10-10', 5, 'demonstration'),
+('Electrical Repairs Oct', 5, 250.00, 'Electrical repairs', '2024-10-25', 5, 'demonstration'),
+-- November 2024
+('Garden Landscaping Nov', 5, 350.00, 'Garden landscaping', '2024-11-05', 5, 'demonstration'),
+('Window Replacement Nov', 5, 450.00, 'Window replacement', '2024-11-20', 5, 'demonstration'),
+-- December 2024
+('Heating System Repair Dec', 5, 500.00, 'Heating system repair', '2024-12-10', 5, 'demonstration'),
+('Plumbing Repairs Dec', 5, 300.00, 'Plumbing repairs', '2024-12-20', 5, 'demonstration'),
+-- January 2025
+('Roof Maintenance Jan', 5, 600.00, 'Roof maintenance', '2025-01-15', 5, 'demonstration'),
+('Electrical Repairs Jan', 5, 350.00, 'Electrical repairs', '2025-01-25', 5, 'demonstration'),
+-- February 2025
+('Painting Feb', 5, 450.00, 'Painting the house', '2025-02-10', 5, 'demonstration'),
+('Garden Landscaping Feb', 5, 400.00, 'Garden landscaping', '2025-02-20', 5, 'demonstration'),
+-- March 2025
+('Window Replacement Mar', 5, 500.00, 'Window replacement', '2025-03-05', 5, 'demonstration'),
+('Heating System Repair Mar', 5, 550.00, 'Heating system repair', '2025-03-15', 5, 'demonstration'),
+-- April 2025
+('Plumbing Repairs Apr', 5, 300.00, 'Plumbing repairs', '2025-04-10', 5, 'demonstration'),
+('Roof Maintenance Apr', 5, 650.00, 'Roof maintenance', '2025-04-20', 5, 'demonstration'),
+-- May 2025
+('Electrical Repairs May', 5, 400.00, 'Electrical repairs', '2025-05-10', 5, 'demonstration'),
+('Painting May', 5, 500.00, 'Painting the house', '2025-05-25', 5, 'demonstration'),
+-- June 2025
+('Garden Landscaping Jun', 5, 450.00, 'Garden landscaping', '2025-06-05', 5, 'demonstration'),
+('Window Replacement Jun', 5, 550.00, 'Window replacement', '2025-06-20', 5, 'demonstration');
+
+-- Insert data into expenses table for Special Birthday (id6)
+INSERT INTO expenses (name, category_id, amount, description, date, budget_id, username) VALUES
+-- September 2024
+('Venue Booking Sep', 5, 300.00, 'Venue booking for birthday', '2024-09-10', 6, 'demonstration'),
+('Catering Sep', 5, 400.00, 'Catering services', '2024-09-15', 6, 'demonstration'),
+-- October 2024
+('Decorations Oct', 5, 200.00, 'Birthday decorations', '2024-10-05', 6, 'demonstration'),
+('Entertainment Oct', 5, 300.00, 'Entertainment services', '2024-10-15', 6, 'demonstration'),
+-- November 2024
+('Gifts Nov', 5, 250.00, 'Birthday gifts', '2024-11-10', 6, 'demonstration'),
+('Photography Nov', 5, 350.00, 'Photography services', '2024-11-20', 6, 'demonstration'),
+-- December 2024
+('Venue Booking Dec', 5, 400.00, 'Venue booking for birthday', '2024-12-05', 6, 'demonstration'),
+('Catering Dec', 5, 500.00, 'Catering services', '2024-12-15', 6, 'demonstration'),
+-- January 2025
+('Decorations Jan', 5, 300.00, 'Birthday decorations', '2025-01-10', 6, 'demonstration'),
+('Entertainment Jan', 5, 400.00, 'Entertainment services', '2025-01-20', 6, 'demonstration'),
+-- February 2025
+('Gifts Feb', 5, 350.00, 'Birthday gifts', '2025-02-10', 6, 'demonstration'),
+('Photography Feb', 5, 450.00, 'Photography services', '2025-02-20', 6, 'demonstration'),
+-- March 2025
+('Venue Booking Mar', 5, 500.00, 'Venue booking for birthday', '2025-03-05', 6, 'demonstration'),
+('Catering Mar', 5, 600.00, 'Catering services', '2025-03-15', 6, 'demonstration'),
+-- April 2025
+('Decorations Apr', 5, 400.00, 'Birthday decorations', '2025-04-10', 6, 'demonstration'),
+('Entertainment Apr', 5, 500.00, 'Entertainment services', '2025-04-20', 6, 'demonstration'),
+-- May 2025
+('Gifts May', 5, 450.00, 'Birthday gifts', '2025-05-10', 6, 'demonstration'),
+('Photography May', 5, 550.00, 'Photography services', '2025-05-20', 6, 'demonstration'),
+-- June 2025
+('Venue Booking Jun', 5, 600.00, 'Venue booking for birthday', '2025-06-05', 6, 'demonstration'),
+('Catering Jun', 5, 700.00, 'Catering services', '2025-06-15', 6, 'demonstration');
+
+-- Insert data into expenses table for Prepare for College (id7)
+INSERT INTO expenses (name, category_id, amount, description, date, budget_id, username) VALUES
+-- September 2024
+('Monthly Deposit Sep', 6, 500.00, 'Deposit for college savings', '2024-09-01', 7, 'demonstration'),
+('Monthly Deposit Sep', 6, 300.00, 'Deposit for college savings', '2024-09-15', 7, 'demonstration'),
+-- October 2024
+('Monthly Deposit Oct', 6, 500.00, 'Deposit for college savings', '2024-10-01', 7, 'demonstration'),
+('Monthly Deposit Oct', 6, 200.00, 'Deposit for college savings', '2024-10-15', 7, 'demonstration'),
+-- November 2024
+('Monthly Deposit Nov', 6, 500.00, 'Deposit for college savings', '2024-11-01', 7, 'demonstration'),
+('Monthly Deposit Nov', 6, 400.00, 'Deposit for college savings', '2024-11-15', 7, 'demonstration'),
+-- December 2024
+('Monthly Deposit Dec', 6, 500.00, 'Deposit for college savings', '2024-12-01', 7, 'demonstration'),
+('Monthly Deposit Dec', 6, 150.00, 'Deposit for college savings', '2024-12-15', 7, 'demonstration'),
+-- January 2025
+('Monthly Deposit Jan', 6, 500.00, 'Deposit for college savings', '2025-01-01', 7, 'demonstration'),
+('Monthly Deposit Jan', 6, 50.00, 'Deposit for college savings', '2025-01-15', 7, 'demonstration'),
+-- February 2025
+('Monthly Deposit Feb', 6, 500.00, 'Deposit for college savings', '2025-02-01', 7, 'demonstration'),
+('Monthly Deposit Feb', 6, 220.00, 'Deposit for college savings', '2025-02-15', 7, 'demonstration'),
+-- March 2025
+('Monthly Deposit Mar', 6, 500.00, 'Deposit for college savings', '2025-03-01', 7, 'demonstration'),
+('Monthly Deposit Mar', 6, 350.00, 'Deposit for college savings', '2025-03-15', 7, 'demonstration'),
+-- April 2025
+('Monthly Deposit Apr', 6, 500.00, 'Deposit for college savings', '2025-04-01', 7, 'demonstration'),
+('Monthly Deposit Apr', 6, 100.00, 'Deposit for college savings', '2025-04-15', 7, 'demonstration'),
+-- May 2025
+('Monthly Deposit May', 6, 500.00, 'Deposit for college savings', '2025-05-01', 7, 'demonstration'),
+('Monthly Deposit May', 6, 600.00, 'Deposit for college savings', '2025-05-15', 7, 'demonstration'),
+-- June 2025
+('Monthly Deposit Jun', 6, 500.00, 'Deposit for college savings', '2025-06-01', 7, 'demonstration'),
+('Monthly Deposit Jun', 6, 400.00, 'Deposit for college savings', '2025-06-15', 7, 'demonstration');
+
 
 -- Insert data into exchanges table
 INSERT INTO exchanges (currency1, currency2, rate, last_update) VALUES

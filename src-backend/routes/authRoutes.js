@@ -10,6 +10,7 @@ const { createToken } = require("../helpers/tokens");
 const userAuthSchema = require("../schemas/userAuthenticationSchema.json");
 const userRegisterSchema = require("../schemas/userRegistrationSchema.json");
 const ExpressError = require("../helpers/expressError");
+const { loginLimiter } = require("../middleware/authMiddleware");
 
 /** POST /auth/login:  { username, password } => { token }
  *
@@ -17,11 +18,11 @@ const ExpressError = require("../helpers/expressError");
  * * Authorization required: none
  */
 
-router.post("/login", async function (req, res, next) {
+router.post("/login", loginLimiter, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, userAuthSchema);
     if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
+      const errs = validator.errors.map((e) => e.message);
       throw new ExpressError(errs, 400);
     }
 
@@ -45,19 +46,9 @@ router.post("/login", async function (req, res, next) {
 
 router.post("/register", async function (req, res, next) {
   try {
-    console.assert(
-      Object.keys(req.body).includes(
-        "username",
-        "password",
-        "first_name",
-        "last_name",
-        "email"
-      ),
-      "Missing required fields"
-    );
     const validator = jsonschema.validate(req.body, userRegisterSchema);
     if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
+      const errs = validator.errors.map((e) => e.message);
       throw new ExpressError(errs, 400);
     }
 

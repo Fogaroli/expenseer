@@ -26,7 +26,7 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body.data, exchangeSchema);
     if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
+      const errs = validator.errors.map((e) => e.message);
       throw new ExpressError(errs, 400);
     }
     const addedRate = await Exchange.addToUser(
@@ -59,7 +59,7 @@ router.get("/", ensureLoggedIn, async function (req, res, next) {
     if (Object.keys(givenData).length > 0) {
       const validator = jsonschema.validate(req.query, exchangeSchema);
       if (!validator.valid) {
-        const errs = validator.errors.map((e) => e.stack);
+        const errs = validator.errors.map((e) => e.message);
         throw new ExpressError(errs, 400);
       }
       const exchange_rate = await Exchange.get({
@@ -88,7 +88,7 @@ router.delete("/", ensureLoggedIn, async function (req, res, next) {
     if (givenData) {
       const validator = jsonschema.validate(req.body.data, exchangeSchema);
       if (!validator.valid) {
-        const errs = validator.errors.map((e) => e.stack);
+        const errs = validator.errors.map((e) => e.message);
         throw new ExpressError(errs, 400);
       }
       const deletedData = await Exchange.delete(

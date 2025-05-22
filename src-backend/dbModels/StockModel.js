@@ -17,7 +17,6 @@ class Stock {
     const lastUpdate = new Date(stock.last_update);
     const now = new Date();
     if (now - lastUpdate > 60 * 60 * 1000) {
-      console.log("Updating Stock rate for", stock.symbol);
       try {
         const stockData = await getStockPrice(stock.symbol);
         const newValue = stockData["Global Quote"]["05. price"];
@@ -25,13 +24,6 @@ class Stock {
           stockData["Global Quote"]["10. change percent"]
         );
         const lastUpdate = new Date();
-        console.log(
-          "Sending to Database",
-          stock.symbol,
-          newValue,
-          variation,
-          lastUpdate
-        );
         const result = await db.query(
           `UPDATE stocks 
             SET value = $1, variation = $2, last_update = $3
@@ -41,11 +33,9 @@ class Stock {
         );
         return result.rows[0];
       } catch (err) {
-        console.log("Error updating stock in the database", err);
         throw new ExpressError("Error updating stock in the database", 500);
       }
     } else {
-      console.log("Stock value is up to date for", stock.symbol);
       return {
         symbol: stock.symbol,
         value: stock.value,
@@ -65,7 +55,6 @@ class Stock {
    */
 
   static async createStock(symbol) {
-    console.log("Adding stock info in the database for", symbol);
     let value = 0;
     let timestamp = `2020-01-01T00:00:00`;
     //Read the exchange rate first to make sure it is valid before saving to the database
@@ -87,7 +76,6 @@ class Stock {
       const newStock = result.rows[0];
       return newStock;
     } catch (err) {
-      console.log("Error creating stock in the database", err);
       throw new ExpressError("Error creating stock", 500);
     }
   }
@@ -166,10 +154,6 @@ class Stock {
             WHERE us.username = $1 AND s.symbol = $2`,
       [username, symbol]
     );
-    console.assert(
-      !duplicateCheck.rows[0],
-      "Stock already assigned to this user"
-    );
     if (duplicateCheck.rows[0]) {
       throw new ExpressError(`User already have this stock assigned`, 400);
     }
@@ -189,7 +173,6 @@ class Stock {
       const updatedStock = await this.updateStock(readStock);
       return updatedStock;
     } catch (err) {
-      console.log("Error adding stock to user", err);
       throw new ExpressError("Error adding stock to user", 500);
     }
   }
@@ -235,7 +218,6 @@ class Stock {
       });
       return returnStocks;
     } catch (err) {
-      console.log("Error searching for stocks", err);
       throw new ExpressError("Error searching for stocks", 500);
     }
   }
